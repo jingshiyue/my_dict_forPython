@@ -1,0 +1,5 @@
+shein/www/testbaidu
+shein/www/testLogin1_my
+shein/www/testRegister_my
+#romwe/es/testLogin
+shein/www/testDemo1

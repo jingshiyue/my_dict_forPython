@@ -1,0 +1,118 @@
+2019-02-03 10:39:40,982 remote_connection.py[line:388] DEBUG: POST http://127.0.0.1:62618/session {"desiredCapabilities": {"platform": "ANY", "version": "", "goog:chromeOptions": {"args": [], "extensions": []}, "browserName": "chrome"}, "capabilities": {"firstMatch": [{}], "alwaysMatch": {"platformName": "any", "goog:chromeOptions": {"args": [], "extensions": []}, "browserName": "chrome"}}}
+2019-02-03 10:39:40,983 connectionpool.py[line:208] DEBUG: Starting new HTTP connection (1): 127.0.0.1
+2019-02-03 10:39:42,541 connectionpool.py[line:396] DEBUG: http://127.0.0.1:62618 "POST /session HTTP/1.1" 200 778
+2019-02-03 10:39:42,543 remote_connection.py[line:440] DEBUG: Finished Request
+2019-02-03 10:39:42,544 runSet.py[line:41] DEBUG: ['shein/www/testbaidu', 'shein/www/testLogin1_my', 'shein/www/testRegister_my', 'shein/www/testDemo1']
+2019-02-03 10:39:42,552 runSet.py[line:49] DEBUG: testbaidu
+2019-02-03 10:39:42,555 runSet.py[line:50] DEBUG: C:\Users\Mir-Z\Desktop\my\webTest\case\shein\www\testCase
+2019-02-03 10:39:42,576 runSet.py[line:52] DEBUG: <class 'unittest.suite.TestSuite'>
+2019-02-03 10:39:42,577 runSet.py[line:53] DEBUG: <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<testbaidu.Login testMethod=testSearch>]>]>]>
+2019-02-03 10:39:42,579 runSet.py[line:49] DEBUG: testLogin1_my
+2019-02-03 10:39:42,582 runSet.py[line:50] DEBUG: C:\Users\Mir-Z\Desktop\my\webTest\case\shein\www\testCase
+2019-02-03 10:39:42,599 runSet.py[line:52] DEBUG: <class 'unittest.suite.TestSuite'>
+2019-02-03 10:39:42,599 runSet.py[line:53] DEBUG: <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testLogin1_my>]>]>
+2019-02-03 10:39:42,601 runSet.py[line:49] DEBUG: testRegister_my
+2019-02-03 10:39:42,608 runSet.py[line:50] DEBUG: C:\Users\Mir-Z\Desktop\my\webTest\case\shein\www\testCase
+2019-02-03 10:39:42,612 runSet.py[line:52] DEBUG: <class 'unittest.suite.TestSuite'>
+2019-02-03 10:39:42,612 runSet.py[line:53] DEBUG: <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testRegister_my>]>]>
+2019-02-03 10:39:42,613 runSet.py[line:49] DEBUG: testDemo1
+2019-02-03 10:39:42,616 runSet.py[line:50] DEBUG: C:\Users\Mir-Z\Desktop\my\webTest\case\shein\www\testCase
+2019-02-03 10:39:42,618 runSet.py[line:52] DEBUG: <class 'unittest.suite.TestSuite'>
+2019-02-03 10:39:42,618 runSet.py[line:53] DEBUG: <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<testDemo1.Login testMethod=testLogin_demo2>]>]>]>
+2019-02-03 10:39:42,620 runSet.py[line:61] DEBUG: <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<testbaidu.Login testMethod=testSearch>]>]>]>
+2019-02-03 10:39:42,624 runSet.py[line:61] DEBUG: <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<testbaidu.Login testMethod=testSearch>]>]>, <unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testLogin1_my>]>]>
+2019-02-03 10:39:42,626 runSet.py[line:61] DEBUG: <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<testbaidu.Login testMethod=testSearch>]>]>, <unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testLogin1_my>]>, <unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testRegister_my>]>]>
+2019-02-03 10:39:42,627 runSet.py[line:61] DEBUG: <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<testbaidu.Login testMethod=testSearch>]>]>, <unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testLogin1_my>]>, <unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testRegister_my>]>, <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<testDemo1.Login testMethod=testLogin_demo2>]>]>]>
+2019-02-03 10:39:42,627 runSet.py[line:64] DEBUG: <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<testbaidu.Login testMethod=testSearch>]>]>, <unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testLogin1_my>]>, <unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testRegister_my>]>, <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<testDemo1.Login testMethod=testLogin_demo2>]>]>]>
+2019-02-03 10:39:42,628 runSet.py[line:41] DEBUG: ['shein/www/testbaidu', 'shein/www/testLogin1_my', 'shein/www/testRegister_my', 'shein/www/testDemo1']
+2019-02-03 10:39:42,631 runSet.py[line:49] DEBUG: testbaidu
+2019-02-03 10:39:42,632 runSet.py[line:50] DEBUG: C:\Users\Mir-Z\Desktop\my\webTest\case\shein\www\testCase
+2019-02-03 10:39:42,634 runSet.py[line:52] DEBUG: <class 'unittest.suite.TestSuite'>
+2019-02-03 10:39:42,634 runSet.py[line:53] DEBUG: <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<testbaidu.Login testMethod=testSearch>]>]>]>
+2019-02-03 10:39:42,635 runSet.py[line:49] DEBUG: testLogin1_my
+2019-02-03 10:39:42,635 runSet.py[line:50] DEBUG: C:\Users\Mir-Z\Desktop\my\webTest\case\shein\www\testCase
+2019-02-03 10:39:42,641 runSet.py[line:52] DEBUG: <class 'unittest.suite.TestSuite'>
+2019-02-03 10:39:42,642 runSet.py[line:53] DEBUG: <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testLogin1_my>]>]>
+2019-02-03 10:39:42,642 runSet.py[line:49] DEBUG: testRegister_my
+2019-02-03 10:39:42,645 runSet.py[line:50] DEBUG: C:\Users\Mir-Z\Desktop\my\webTest\case\shein\www\testCase
+2019-02-03 10:39:42,648 runSet.py[line:52] DEBUG: <class 'unittest.suite.TestSuite'>
+2019-02-03 10:39:42,648 runSet.py[line:53] DEBUG: <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testRegister_my>]>]>
+2019-02-03 10:39:42,649 runSet.py[line:49] DEBUG: testDemo1
+2019-02-03 10:39:42,649 runSet.py[line:50] DEBUG: C:\Users\Mir-Z\Desktop\my\webTest\case\shein\www\testCase
+2019-02-03 10:39:42,651 runSet.py[line:52] DEBUG: <class 'unittest.suite.TestSuite'>
+2019-02-03 10:39:42,652 runSet.py[line:53] DEBUG: <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<testDemo1.Login testMethod=testLogin_demo2>]>]>]>
+2019-02-03 10:39:42,653 runSet.py[line:61] DEBUG: <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<testbaidu.Login testMethod=testSearch>]>]>]>
+2019-02-03 10:39:42,656 runSet.py[line:61] DEBUG: <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<testbaidu.Login testMethod=testSearch>]>]>, <unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testLogin1_my>]>]>
+2019-02-03 10:39:42,658 runSet.py[line:61] DEBUG: <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<testbaidu.Login testMethod=testSearch>]>]>, <unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testLogin1_my>]>, <unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testRegister_my>]>]>
+2019-02-03 10:39:42,659 runSet.py[line:61] DEBUG: <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<testbaidu.Login testMethod=testSearch>]>]>, <unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testLogin1_my>]>, <unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testRegister_my>]>, <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<testDemo1.Login testMethod=testLogin_demo2>]>]>]>
+2019-02-03 10:39:42,659 runSet.py[line:64] DEBUG: <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<testbaidu.Login testMethod=testSearch>]>]>, <unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testLogin1_my>]>, <unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testRegister_my>]>, <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<testDemo1.Login testMethod=testLogin_demo2>]>]>]>
+2019-02-03 10:39:42,660 runAll.py[line:26] INFO: ************ TEST START ************
+2019-02-03 10:39:44,661 webDriver.py[line:25] INFO: Open browser
+2019-02-03 10:39:44,663 remote_connection.py[line:388] DEBUG: POST http://127.0.0.1:62618/session/b81fa668ed56b61644c4b930754ba199/window/current/maximize {"sessionId": "b81fa668ed56b61644c4b930754ba199", "windowHandle": "current"}
+2019-02-03 10:39:44,668 connectionpool.py[line:243] DEBUG: Resetting dropped connection: 127.0.0.1
+2019-02-03 10:39:45,880 connectionpool.py[line:396] DEBUG: http://127.0.0.1:62618 "POST /session/b81fa668ed56b61644c4b930754ba199/window/current/maximize HTTP/1.1" 200 72
+2019-02-03 10:39:45,881 remote_connection.py[line:440] DEBUG: Finished Request
+2019-02-03 10:39:45,886 webDriver.py[line:32] INFO: url:http://www.shein.com
+2019-02-03 10:39:45,897 remote_connection.py[line:388] DEBUG: POST http://127.0.0.1:62618/session/b81fa668ed56b61644c4b930754ba199/url {"sessionId": "b81fa668ed56b61644c4b930754ba199", "url": "http://www.shein.com"}
+2019-02-03 10:39:45,899 connectionpool.py[line:243] DEBUG: Resetting dropped connection: 127.0.0.1
+2019-02-03 10:40:11,668 connectionpool.py[line:396] DEBUG: http://127.0.0.1:62618 "POST /session/b81fa668ed56b61644c4b930754ba199/url HTTP/1.1" 200 72
+2019-02-03 10:40:11,670 remote_connection.py[line:440] DEBUG: Finished Request
+2019-02-03 10:40:11,674 runAll.py[line:32] DEBUG: C:\Users\Mir-Z\Desktop\my\webTest\result\20190203103937\report.html
+2019-02-03 10:40:11,675 Log.py[line:53] INFO: ************baidu_search START************
+2019-02-03 10:40:14,726 remote_connection.py[line:388] DEBUG: POST http://127.0.0.1:62711/session {"desiredCapabilities": {"platform": "ANY", "version": "", "goog:chromeOptions": {"args": [], "extensions": []}, "browserName": "chrome"}, "capabilities": {"firstMatch": [{}], "alwaysMatch": {"platformName": "any", "goog:chromeOptions": {"args": [], "extensions": []}, "browserName": "chrome"}}}
+2019-02-03 10:40:14,728 connectionpool.py[line:208] DEBUG: Starting new HTTP connection (1): 127.0.0.1
+2019-02-03 10:40:16,285 connectionpool.py[line:396] DEBUG: http://127.0.0.1:62711 "POST /session HTTP/1.1" 200 779
+2019-02-03 10:40:16,287 remote_connection.py[line:440] DEBUG: Finished Request
+2019-02-03 10:40:16,289 remote_connection.py[line:388] DEBUG: POST http://127.0.0.1:62711/session/1da2010d3582e1e04a9e6921efa57f50/window/current/maximize {"sessionId": "1da2010d3582e1e04a9e6921efa57f50", "windowHandle": "current"}
+2019-02-03 10:40:16,292 connectionpool.py[line:243] DEBUG: Resetting dropped connection: 127.0.0.1
+2019-02-03 10:40:17,513 connectionpool.py[line:396] DEBUG: http://127.0.0.1:62711 "POST /session/1da2010d3582e1e04a9e6921efa57f50/window/current/maximize HTTP/1.1" 200 72
+2019-02-03 10:40:17,515 remote_connection.py[line:440] DEBUG: Finished Request
+2019-02-03 10:40:17,521 testbaidu.py[line:29] DEBUG: daxigua
+2019-02-03 10:40:17,521 remote_connection.py[line:388] DEBUG: POST http://127.0.0.1:62711/session/1da2010d3582e1e04a9e6921efa57f50/url {"sessionId": "1da2010d3582e1e04a9e6921efa57f50", "url": "http://www.baidu.com"}
+2019-02-03 10:40:17,525 connectionpool.py[line:243] DEBUG: Resetting dropped connection: 127.0.0.1
+2019-02-03 10:40:18,519 connectionpool.py[line:396] DEBUG: http://127.0.0.1:62711 "POST /session/1da2010d3582e1e04a9e6921efa57f50/url HTTP/1.1" 200 72
+2019-02-03 10:40:18,521 remote_connection.py[line:440] DEBUG: Finished Request
+2019-02-03 10:40:21,524 remote_connection.py[line:388] DEBUG: POST http://127.0.0.1:62711/session/1da2010d3582e1e04a9e6921efa57f50/element {"using": "id", "value": "kw", "sessionId": "1da2010d3582e1e04a9e6921efa57f50"}
+2019-02-03 10:40:21,526 connectionpool.py[line:243] DEBUG: Resetting dropped connection: 127.0.0.1
+2019-02-03 10:40:21,588 connectionpool.py[line:396] DEBUG: http://127.0.0.1:62711 "POST /session/1da2010d3582e1e04a9e6921efa57f50/element HTTP/1.1" 200 103
+2019-02-03 10:40:21,589 remote_connection.py[line:440] DEBUG: Finished Request
+2019-02-03 10:40:21,591 remote_connection.py[line:388] DEBUG: POST http://127.0.0.1:62711/session/1da2010d3582e1e04a9e6921efa57f50/element/0.19956387055774405-1/click {"id": "0.19956387055774405-1", "sessionId": "1da2010d3582e1e04a9e6921efa57f50"}
+2019-02-03 10:40:21,595 connectionpool.py[line:243] DEBUG: Resetting dropped connection: 127.0.0.1
+2019-02-03 10:40:21,668 connectionpool.py[line:396] DEBUG: http://127.0.0.1:62711 "POST /session/1da2010d3582e1e04a9e6921efa57f50/element/0.19956387055774405-1/click HTTP/1.1" 200 72
+2019-02-03 10:40:21,668 remote_connection.py[line:440] DEBUG: Finished Request
+2019-02-03 10:40:22,671 remote_connection.py[line:388] DEBUG: POST http://127.0.0.1:62711/session/1da2010d3582e1e04a9e6921efa57f50/element {"using": "id", "value": "kw", "sessionId": "1da2010d3582e1e04a9e6921efa57f50"}
+2019-02-03 10:40:22,673 connectionpool.py[line:243] DEBUG: Resetting dropped connection: 127.0.0.1
+2019-02-03 10:40:22,706 connectionpool.py[line:396] DEBUG: http://127.0.0.1:62711 "POST /session/1da2010d3582e1e04a9e6921efa57f50/element HTTP/1.1" 200 103
+2019-02-03 10:40:22,707 remote_connection.py[line:440] DEBUG: Finished Request
+2019-02-03 10:40:22,710 remote_connection.py[line:388] DEBUG: POST http://127.0.0.1:62711/session/1da2010d3582e1e04a9e6921efa57f50/element/0.19956387055774405-1/value {"text": "\u5927\u897f\u74dc", "value": ["\u5927", "\u897f", "\u74dc"], "id": "0.19956387055774405-1", "sessionId": "1da2010d3582e1e04a9e6921efa57f50"}
+2019-02-03 10:40:22,713 connectionpool.py[line:243] DEBUG: Resetting dropped connection: 127.0.0.1
+2019-02-03 10:40:22,855 connectionpool.py[line:396] DEBUG: http://127.0.0.1:62711 "POST /session/1da2010d3582e1e04a9e6921efa57f50/element/0.19956387055774405-1/value HTTP/1.1" 200 72
+2019-02-03 10:40:22,856 remote_connection.py[line:440] DEBUG: Finished Request
+2019-02-03 10:40:23,857 remote_connection.py[line:388] DEBUG: POST http://127.0.0.1:62711/session/1da2010d3582e1e04a9e6921efa57f50/element {"using": "id", "value": "su", "sessionId": "1da2010d3582e1e04a9e6921efa57f50"}
+2019-02-03 10:40:23,860 connectionpool.py[line:243] DEBUG: Resetting dropped connection: 127.0.0.1
+2019-02-03 10:40:23,935 connectionpool.py[line:396] DEBUG: http://127.0.0.1:62711 "POST /session/1da2010d3582e1e04a9e6921efa57f50/element HTTP/1.1" 200 103
+2019-02-03 10:40:23,936 remote_connection.py[line:440] DEBUG: Finished Request
+2019-02-03 10:40:23,938 remote_connection.py[line:388] DEBUG: POST http://127.0.0.1:62711/session/1da2010d3582e1e04a9e6921efa57f50/element/0.19956387055774405-2/click {"id": "0.19956387055774405-2", "sessionId": "1da2010d3582e1e04a9e6921efa57f50"}
+2019-02-03 10:40:23,943 connectionpool.py[line:243] DEBUG: Resetting dropped connection: 127.0.0.1
+2019-02-03 10:40:24,026 connectionpool.py[line:396] DEBUG: http://127.0.0.1:62711 "POST /session/1da2010d3582e1e04a9e6921efa57f50/element/0.19956387055774405-2/click HTTP/1.1" 200 72
+2019-02-03 10:40:24,027 remote_connection.py[line:440] DEBUG: Finished Request
+2019-02-03 10:40:25,031 remote_connection.py[line:388] DEBUG: DELETE http://127.0.0.1:62711/session/1da2010d3582e1e04a9e6921efa57f50/window {"sessionId": "1da2010d3582e1e04a9e6921efa57f50"}
+2019-02-03 10:40:25,034 connectionpool.py[line:243] DEBUG: Resetting dropped connection: 127.0.0.1
+2019-02-03 10:40:25,217 connectionpool.py[line:396] DEBUG: http://127.0.0.1:62711 "DELETE /session/1da2010d3582e1e04a9e6921efa57f50/window HTTP/1.1" 200 72
+2019-02-03 10:40:25,218 remote_connection.py[line:440] DEBUG: Finished Request
+2019-02-03 10:40:28,305 remote_connection.py[line:388] DEBUG: POST http://127.0.0.1:62762/session {"desiredCapabilities": {"platform": "ANY", "version": "", "goog:chromeOptions": {"args": [], "extensions": []}, "browserName": "chrome"}, "capabilities": {"firstMatch": [{}], "alwaysMatch": {"platformName": "any", "goog:chromeOptions": {"args": [], "extensions": []}, "browserName": "chrome"}}}
+2019-02-03 10:40:28,307 connectionpool.py[line:208] DEBUG: Starting new HTTP connection (1): 127.0.0.1
+2019-02-03 10:40:29,891 connectionpool.py[line:396] DEBUG: http://127.0.0.1:62762 "POST /session HTTP/1.1" 200 779
+2019-02-03 10:40:29,892 remote_connection.py[line:440] DEBUG: Finished Request
+2019-02-03 10:40:29,895 remote_connection.py[line:388] DEBUG: POST http://127.0.0.1:62762/session/8361deda84a46d4f3ebc796ed0c75a9b/window/current/maximize {"sessionId": "8361deda84a46d4f3ebc796ed0c75a9b", "windowHandle": "current"}
+2019-02-03 10:40:29,898 connectionpool.py[line:243] DEBUG: Resetting dropped connection: 127.0.0.1
+2019-02-03 10:40:31,106 connectionpool.py[line:396] DEBUG: http://127.0.0.1:62762 "POST /session/8361deda84a46d4f3ebc796ed0c75a9b/window/current/maximize HTTP/1.1" 200 72
+2019-02-03 10:40:31,107 remote_connection.py[line:440] DEBUG: Finished Request
+2019-02-03 10:40:31,109 remote_connection.py[line:388] DEBUG: POST http://127.0.0.1:62762/session/8361deda84a46d4f3ebc796ed0c75a9b/url {"sessionId": "8361deda84a46d4f3ebc796ed0c75a9b", "url": "https://www.shein.com"}
+2019-02-03 10:40:31,119 connectionpool.py[line:243] DEBUG: Resetting dropped connection: 127.0.0.1
+2019-02-03 10:40:57,751 connectionpool.py[line:396] DEBUG: http://127.0.0.1:62762 "POST /session/8361deda84a46d4f3ebc796ed0c75a9b/url HTTP/1.1" 200 72
+2019-02-03 10:40:57,752 remote_connection.py[line:440] DEBUG: Finished Request
+2019-02-03 10:40:57,755 remote_connection.py[line:388] DEBUG: DELETE http://127.0.0.1:62762/session/8361deda84a46d4f3ebc796ed0c75a9b/window {"sessionId": "8361deda84a46d4f3ebc796ed0c75a9b"}
+2019-02-03 10:40:57,756 connectionpool.py[line:243] DEBUG: Resetting dropped connection: 127.0.0.1
+2019-02-03 10:40:59,885 connectionpool.py[line:396] DEBUG: http://127.0.0.1:62762 "DELETE /session/8361deda84a46d4f3ebc796ed0c75a9b/window HTTP/1.1" 200 72
+2019-02-03 10:40:59,886 remote_connection.py[line:440] DEBUG: Finished Request

@@ -1,0 +1,8 @@
+2019-01-31 19:39:46,589 remote_connection.py[line:388] DEBUG: POST http://127.0.0.1:63951/session {"capabilities": {"firstMatch": [{}], "alwaysMatch": {"browserName": "chrome", "goog:chromeOptions": {"args": [], "extensions": []}, "platformName": "any"}}, "desiredCapabilities": {"browserName": "chrome", "goog:chromeOptions": {"extensions": [], "args": []}, "version": "", "platform": "ANY"}}
+2019-01-31 19:39:46,593 connectionpool.py[line:208] DEBUG: Starting new HTTP connection (1): 127.0.0.1
+2019-01-31 19:39:49,134 connectionpool.py[line:396] DEBUG: http://127.0.0.1:63951 "POST /session HTTP/1.1" 200 779
+2019-01-31 19:39:49,135 remote_connection.py[line:440] DEBUG: Finished Request
+2019-01-31 19:39:49,171 runSet.py[line:41] DEBUG: ['shein/www/testLogin', 'shein/www/testRegister']
+2019-01-31 19:39:49,172 runSet.py[line:49] DEBUG: testLogin
+2019-01-31 19:39:49,183 runSet.py[line:52] DEBUG: <class 'unittest.suite.TestSuite'>
+2019-01-31 19:39:49,183 runSet.py[line:53] DEBUG: <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testLogin>]>]>

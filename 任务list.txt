@@ -1,0 +1,445 @@
+
+    
+    添加cookie有2种方式：
+        一个是把cookie先写成字典形式，然后把字典转换为cookiejar
+            s = requests.Session()  # 开启一个会话Session
+            cookie_dict={'49BAC005-7D5B-4231-8CEA-16939BEACD67': 'cktest001',   # 从chrome浏览器中取到的cookie值
+                         'JSESSIONID':'F4FFF69B8XXXXXXC8DCB4C061C0',
+                         'JSESSIONIDSSO':'9D49C76FD6XXXXXF294242B44A'
+                         }
+            s.cookies = requests.utils.cookiejar_from_dict(cookie_dict, cookiejar=None, overwrite=True)  # 把cookie值转换为cookiejar类型，然后传给Session
+            注意：这个方法会替换掉原有的cookies
+
+        二是追加cookies
+            s = requests.Session()  # 开启一个会话Session
+            jar = requests.cookies.RequestsCookieJar()   # 创建一个Cookie Jar对象
+            jar.set('49BAC005-7D5B-4231-8CEA-1XXXXBEACD67','cktXXXX001')  # 向Cookie Jar对象中添加cookie值
+            jar.set('JSESSIONID','F4FFF69B8CXXXX80F0C8DCB4C061C0')
+            jar.set('JSESSIONIDSSO','9D49C7XXXX448FDF5B0F294242B44A')
+            s.cookies.update(jar)  # 把cookies追加到Session中
+    
+
+说明：
+    cookie是存储key-value对的一个文件，务必记住，它是由服务器将cookie添加到response里一并返回给客户端，然后客户端会自动把response里的cookie接收下来，并且保存到本地，下次发出请求的时候，就会把cookie附加在request里，服务器在根据request里的cookie遍历搜索是否有与之符合的信息 **
+
+    httpsession对象可以保存跨同一个客户多个请求的会话状态。
+
+    CookieJar和HTTPCookieProcessor
+    我们在使用爬虫的时候，经常会用到cookie进行模拟登陆和访问。在使用urllib库做爬虫，我们需要借助http.cookiejar库中的CookieJar来实现。
+    CookieJar类有一些子类，分别是FileCookieJar，MozillaCookieJar，LWPCookieJar。
+    CookieJar：管理HTTP cookie值、存储HTTP请求生成的cookie、向传出的HTTP请求添加cookie的对象。整个cookie都存储在内存中，对CookieJar实例进行垃圾回收后cookie也将丢失。
+
+FileCookieJar (filename,delayload=None,policy=None)：从CookieJar派生而来，用来创建FileCookieJar实例，检索cookie信息并将cookie存储到文件中。filename是存储cookie的文件名。delayload为True时支持延迟访问访问文件，即只有在需要时才读取文件或在文件中存储数据。
+
+MozillaCookieJar (filename,delayload=None,policy=None)：从FileCookieJar派生而来，创建与Mozilla浏览器 cookies.txt兼容的FileCookieJar实例。
+
+LWPCookieJar (filename,delayload=None,policy=None)：从FileCookieJar派生而来，创建与libwww-perl标准的 Set-Cookie3 文件格式兼容的FileCookieJar实例。
+
+
+火狐浏览器使用的证书管理也是独立的一套系统，而chrome和ie使用的是系统的证书代理，所以我们如果想要使用fiddler抓取火狐浏览器的https的数据包，则需要将fiddler的根证书导出到桌面，然后再导入到firefox的证书中。而我们使用chrome和ie的时候是不需要将证书导入导出的，因为fiddler的证书就安装在系统的证书管理中。  
+    
+浏览器F12【网络】也可以抓包，浏览器能编辑get url请求，不能编辑post 请求，不能编辑post参数。
+
+    
+if isinstance(dict_one,str):
+    dict_one = json.loads(dict_one)
+    
+		if isinstance(str_one,unicode):
+			str_one = str_one.encode('unicode-escape').decode('string_escape')
+            
+	def __init__(self):
+		self.conn = MySQLdb.connect(
+			host='localhost',
+			port=3306,
+			user='root',
+			passwd='zzz123456',
+			db='le_study',
+			charset='utf8',
+			cursorclass=MySQLdb.cursors.DictCursor
+			)
+		self.cur = self.conn.cursor()
+
+	#查询一条数据
+	def search_one(self,sql):
+		self.cur.execute(sql)
+		result = self.cur.fetchone()
+		result = json.dumps(result)
+		return result
+        
+res = requests.get(url=url,data=data,headers=header,verify=False)  #verify=False
+
+
+headers = {
+    'headers': ua.random,
+}
+
+
+def get_captcha_image():
+    content = session.get('http://www.yundama.com/index/captcha', headers=headers).content
+    with open('captcha.jpg', 'wb') as f:
+        f.write(content)
+
+===============================================================================
+id定位：
+    from  appium import webdriver
+
+    desired_caps={}
+    desired_caps['platformName']='Android'
+    desired_caps['deviceName']='127.0.0.1:62025'
+    desired_caps['platforVersion']='5.1.1'
+
+
+
+    desired_caps['app']=r'C:\Users\Shuqing\Desktop\kaoyan3.1.0.apk'
+    desired_caps['appPackage']='com.tal.kaoyan'
+    desired_caps['appActivity']='com.tal.kaoyan.ui.activity.SplashActivity'
+
+    driver=webdriver.Remote('http://localhost:4723/wd/hub',desired_caps)
+    driver.implicitly_wait(5)
+
+ 1.5开始废弃了该方法。）
+    from find_element.capability import *
+    driver.find_element_by_name('请输入用户名').send_keys('自学网2017')
+    driver.find_element_by_name('登录').click()
+    
+classname定位：
+    from find_element.capability import driver
+    driver.find_element_by_class_name('android.widget.EditText').send_keys('自学网2018')
+
+    
+
+
+    
+    
+#####################################requests##########################################
+
+-----------自己写的代码-------------------------------------
+url = "http://www.baidu.com/"
+import requests
+
+res = requests.get(url)
+cookies = requests.utils.dict_from_cookiejar(res.cookies)
+print(type(cookies))
+print(res.headers)
+print(cookies) 
+print(res.headers['Set-Cookie'])
+------------------------------------------------
+
+首先需要安装：pip install requests
+
+get请求:
+    requests.get('http://github.com', timeout=0.001)
+
+    # -*- coding: utf-8 -*-
+    import requests
+    kw = {'wd':'秦时明月'}
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36"}
+        # params 接收一个字典或者字符串的查询参数，字典类型自动转换为url编码，不需要urlencode()
+    response = requests.get("http://www.baidu.com/s?", params = kw, headers = headers)
+    print response.text      # 查看响应内容，response.text 返回的是Unicode格式的数据
+    print respones.content   # 查看响应内容，response.content返回的字节流数据
+    print response.url       # 查看响应头部字符编码
+    print response.encoding    # 查看响应码
+    print response.status_code
+    print response.encoding
+    print response.raw.read(10)
+    print response.json()
+    print response.url 
+
+百度首页如果用r.text会发现获取到的内容有乱码，因为百度首页响应内容是gzip压缩的（非text文本）    
+如果是在fiddler工具乱码，是可以点击后解码的，在代码里面可以用r.content这个方法，content会自动解码 gzip 和deflate压缩   
+    
+    
+    
+post请求,传入查询参数：
+    "Content-Type": "application/json;
+                     application/x-www-form-urlencoded
+    # -*- coding: utf-8 -*-
+    import requests
+
+    formdata = {
+        "i":" python",
+        "from":"AUTO",
+    　　 "to":"AUTO",
+        "smartresult":" dict",
+    　　 "client":" fanyideskweb",
+    　　 "salt":" 15082966550971",
+    　　 "sign":" 2a6d78290492d163dbd6803b29e2489c",
+        "doctype":"json",
+        "version":"2.1",
+        "keyfrom":"fanyi.web",
+        "action":"FY_BY_ENTER",
+        "typoResult":"true"
+    }
+
+    url = "http://fanyi.youdao.com/translate?smartresult=dict&smartresult=rule"
+
+    headers={ "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36"}
+    response = requests.post(url, data = formdata, headers = headers)
+    print response.text
+    print response.json()# 如果是json文件可以直接显示
+
+    
+    
+设置代理:
+    # -*- coding: utf-8 -*-
+    import requests
+
+    # 根据协议类型，选择不同的代理
+    proxies = {
+      "http": "http://12.34.56.79:9527",
+      "https": "http://12.34.56.79:9527",
+    }
+    # 私密代理
+    # proxy = { "http": "账户:密码@61.158.163.130:16816" } 
+    response = requests.get("http://www.baidu.com", proxies = proxies)
+    print response.text
+
+     
+
+web客户端验证:
+    # -*- coding: utf-8 -*-
+    import requests
+
+    auth=('账户', '密码')
+    response = requests.get('http://192.168.23.19', auth = auth)
+    print response.text
+
+    
+    
+cookie:如果一个响应中包含了cookie，那么我们可以利用 cookies参数拿到：
+
+    # -*- coding: utf-8 -*-
+    import requests
+    response = requests.get("http://www.baidu.com/")
+    cookiejar = response.cookies#  返回CookieJar对象:
+    cookiedict = requests.utils.dict_from_cookiejar(cookiejar)#  将CookieJar转为字典：
+    print cookiejar
+    print cookiedict
+
+    
+处理SSL验证:
+    response = requests.get("https://www.12306.cn/mormhweb/", verify = False)
+    print response.text
+
+     
+用cookies登陆：
+    jar = requests.cookies.RequestsCookieJar()
+    jar.set('tasty_cookie', 'yum', domain='httpbin.org', path='/cookies')
+    jar.set('gross_cookie', 'blech', domain='httpbin.org', path='/elsewhere')
+    url = 'http://httpbin.org/cookies'
+    r = requests.get(url, cookies=jar)
+    r.text
+
+    s = requests.Session()  # 开启一个会话Session
+    cookie_dict={'49BAC005-7D5B-4231-8CEA-16XXXXEACD67': 'ckXeXX001',
+                 'JSESSIONID':'F4FFF69B8XXXX0F0C8DCB4C061C0',
+                 'JSESSIONIDSSO':'9D49XXXX448FDF5B0F294242B44A'
+                 }
+    s.cookies = requests.utils.cookiejar_from_dict(cookie_dict, cookiejar=None, overwrite=True)
+    print(s.cookies)
+    jar = requests.cookies.RequestsCookieJar()   # 创建一个Cookie Jar对象
+    jar.set('49BAC005-7D5B-4231-8CEA-1XXX39XEACD67','ckXXXX001')  # 向Cookie Jar对象中添加cookie值
+    jar.set('JSESSIONID','F4FFF69BXXXX0F0C8DCB4C061C0')
+    jar.set('JSESSIONIDSSO','9D49C76FDXXXXF5B0F294242B44A')
+    s.cookies.update(jar)  # 把cookies追加到Session中
+    r1 = s.get(url,  headers=header, verify=False)   # 使用session发送登录请求
+
+post（Content-Type：text/xml）数据：    
+    body = '<?xml version="1.0" encoding = "UTF-8"?>' \
+           '<COM>' \
+           '<REQ name="上海-悠悠">' \
+           '<USER_ID>yoyoketang</USER_ID>' \
+           '<COMMODITY_ID>123456</COMMODITY_ID>' \
+           '<SESSION_ID>absbnmasbnfmasbm1213</SESSION_ID>' \
+           '</REQ>' \
+           '</COM>'
+    # 遇到编码报错时候，对body进行encode
+    r = requests.post(url, data=body.encode("utf-8"))
+    
+    
+ui测试：
+@paramunittest.parametrized(*login_xls)
+
+
+==============================web+selenium+python==============================
+ActionChains类与输入事件
+from selenium.webdriver.common.action_chains import ActionChains
+ActionChains(driver)：用于生成模拟用户行为
+perform()：执行存储行为
+
+鼠标事件：	
+    context_click	右击事件
+    double_click	双击事件
+    drag_and_drop	拖动
+    move_to_element()	鼠标停在一个元素上
+    click_and_hold	按下鼠标左键在一个元素上
+
+键盘事件：	send_keys()
+    from selenium.webdriver.common.keys import Keys
+    send_kyes(Kyes.BACK_SPACE)	退格键
+    send_kyes(Kyes.CONTRL, 'a')	全选
+    send_kyes(Kyes.CONTRL, 'v')	粘贴
+    send_kyes(Kyes.CONTRL, 'c')	复制
+    send_kyes(Kyes.CONTRL, 'x')	剪切
+    send_kyes(Kyes.ENTER)	回车
+
+
+driver.find_element_by_id("kw").send_keys(Keys.CONTROL,'x')
+driver.find_element_by_id("su").send_keys(Keys.ENTER)
+
+send_keys(Keys.BACK_SPACE) 删除键（BackSpace）
+send_keys(Keys.SPACE) 空格键(Space)
+send_keys(Keys.TAB) 制表键(Tab)
+send_keys(Keys.ESCAPE) 回退键（Esc）
+send_keys(Keys.ENTER) 回车键（Enter）
+send_keys(Keys.CONTROL,'a') 全选（Ctrl+A）
+send_keys(Keys.CONTROL,'c') 复制（Ctrl+C）
+
+driver.title
+driver.current_url
+一般测试重定向的方法是访问这个 URL，然后等待页面重定向
+完毕之后，获取当前页面的 URL，判断该 URL 是否符合预期
+
+#先找到到 ifrome1（id = f1）
+driver.switch_to_frame("f1")
+#再找到其下面的 ifrome2(id =f2)
+师
+http://fnng.cnblogs.com 67
+driver.switch_to_frame("f2")
+
+层级定位：
+    driver.find_element_by_class_name("tang-content").find_element_by_name("userName")
+    
+#获得当前窗口
+nowhandle=driver.current_window_handle
+allhandles=driver.window_handles    
+for handle in allhandles:
+    if handle != nowhandle:
+    driver.switch_to_window(handle)
+    
+用于处理多窗口操作的方法，与我们前面学过的 switch_to_frame() 是类似，switch_to_window()用于
+处理多窗口之前切换，switch_to_frame() 用于处理多框架的切换。
+    
+close()用于关闭当前
+窗口，quit()用于退出驱动程序并关闭所有相关窗口   
+dirver.quit() 
+alert.accept()    
+
+webdriver 中处理 JavaScript 所生成的 alert、confirm 以及 prompt 是很简单的。具体思路是使用
+switch_to_alert()方法定位到 alert/confirm/prompt。然后使用 text/accept/dismiss/send_keys 按需进行操做    
+alert=driver.switch_to_alert()
+   text 返回 alert/confirm/prompt 中的文字信息。
+ accept 点击确认按钮。
+ dismiss 点击取消按钮，如果有的话。
+ send_keys 输入值，这个 alert\confirm 没有对话框就不能用了，不然会报错    
+    
+    
+move_to_element()     
+        
+window.scrollTo(100,400)  # 参数1：x  参数2： y
+
+
+
+#####################requests.session()###############################################
+session保存会话
+
+模拟登录：
+    # -*- coding: utf-8 -*-
+    import requests
+    ssion = requests.session()  # 创建session对象，可以保存Cookie值
+    data = {"email":"账户", "password":"密码"}  # 需要登录的用户名和密码
+    ssion.post("http://www.renren.com/PLogin.do", data = data)   # 发送附带用户名和密码的请求，并获取登录后的Cookie值，保存在ssion里
+    response = ssion.get("http://www.renren.com/410046543/profile")   # ssion包含用户登录后的Cookie值，可以直接访问那些登录后才可以访问的页面
+    print response.text
+
+cookie:
+    r = requests.get(url, cookies=cookies)
+    
+    import http.cookiejar as HC
+    session = requests.session()
+    session.cookies = HC.LWPCookieJar(filename="BaiDuCookies")  #try except处理，没有cookies，代码生成cookies
+    session.cookies.load(ignore_discard=True) # 加d载cookies文件
+    re = session.get(home_url, headers=headers,verify = False)
+    session.cookies.save()
+    print(re.status_code)
+    
+
+##########################cookies小结###############################################
+cookies总结：    
+    driver.delete_all_cookies()
+    time.sleep(3)
+    driver.get(url)
+    # 打开浏览器后添加访问地址后，添加cookie
+    driver.add_cookie(cookie1)
+    driver.add_cookie(cookie2)
+    driver.add_cookie(cookie3)
+    driver.add_cookie(cookie4)
+    print("cookies")
+    # 打印一下cookie,与上面正常登录的cookie对比一下
+    print(driver.get_cookies())
+    time.sleep(5)
+    # 刷新页面，可以看到已经是登录状态了，至此完成的使用cookie 的登录。
+    driver.refresh()
+        
+    a、先首次使用验证码正确登录并保存登录前、后的cookie,对比分析cookie,筛选有用的cookie
+　　b、将cookie 写到yaml 文件中，方便后续使用cookie登录时直接使用，而不需像上面介绍的那样，每次都需要先正常登录一样。
+　　c、使用cookie登录时，从yaml文件中读取对应cookie即可
+    
+    Python - Cookie绕过验证码登录  使用fiddler，查看cookie
+      
+    # 手动输入验证码
+    security_code = input()
+    time.sleep(1)
+    driver.find_element_by_id("security_code").send_keys(security_code)
+    time.sleep(1)
+    driver.find_element_by_id('sign_btn').click()
+    driver.implicitly_wait(5)
+    # 加一个休眠，这样得到的cookie 才是登录后的cookie,否则可能打印的还是登录前的cookie
+    time.sleep(5)
+    cookiesAfter = driver.get_cookies()
+    len1 = len(cookiesAfter)
+    # 已经知道需要第几个cookie，这里需要第3个cookie，所以选择cookie下标为2
+    cookie1 = cookiesAfter[2]
+    # 获取当前文件所在路径
+    fileNamePath = os.path.split(os.path.realpath(__file__))[0]
+    # 拼接config.yaml文件绝对路径
+    yamlPath = os.path.join(fileNamePath,'config.yaml')
+    # 以覆盖写入打开文件
+    fw = open(yamlPath,'w',encoding='utf-8')
+    # 构建数据
+    data = {"cookie1":cookie1}
+    # 装载写入yaml文件。
+    yaml.dump(data,fw)
+    conf = yaml.load(cont)
+    # 读取cookie值
+    cookie1 = conf.get("cookie1")
+    # 添加cookie
+    driver.add_cookie(cookie1)
+    print("cookies")
+    print(driver.get_cookies())
+    time.sleep(5)
+    # 这里重新获取地址，因为有些系统，未登录状态，链接会跳转，这里就是，登录状态后，才能正确打开指定网址，所以这里要再次指定网址。
+    driver.get(url)
+    # 刷新查看登录状态
+    driver.refresh()
+    1、直接将Cookie写在header头部
+        wbdata = requests.get(url,headers=header).text
+    2、使用requests插入Cookie
+        wbdata = requests.get(url,cookies=cookie).text
+    
+    Cookie操作
+         
+    webdriver 操作 cookie 的方法有：
+        get_cookies() 获得所有 cookie 信息
+        get_cookie(name) 返回特定 name 有 cookie 信息
+        add_cookie(cookie_dict) 添加 cookie，必须有 name 和 value 值
+        delete_cookie(name) 删除特定(部分)的 cookie 信息    
+        delete_all_cookies() 删除所有 cookie 信息
+    
+
+
+
+
+
+

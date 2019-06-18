@@ -1,0 +1,12 @@
+2019-01-31 13:16:23,537 remote_connection.py[line:388] DEBUG: POST http://127.0.0.1:52251/session {"desiredCapabilities": {"goog:chromeOptions": {"args": [], "extensions": []}, "browserName": "chrome", "version": "", "platform": "ANY"}, "capabilities": {"firstMatch": [{}], "alwaysMatch": {"goog:chromeOptions": {"args": [], "extensions": []}, "platformName": "any", "browserName": "chrome"}}}
+2019-01-31 13:16:23,537 remote_connection.py[line:388] DEBUG: POST http://127.0.0.1:52251/session {"desiredCapabilities": {"goog:chromeOptions": {"args": [], "extensions": []}, "browserName": "chrome", "version": "", "platform": "ANY"}, "capabilities": {"firstMatch": [{}], "alwaysMatch": {"goog:chromeOptions": {"args": [], "extensions": []}, "platformName": "any", "browserName": "chrome"}}}
+2019-01-31 13:16:23,546 connectionpool.py[line:208] DEBUG: Starting new HTTP connection (1): 127.0.0.1
+2019-01-31 13:16:23,546 connectionpool.py[line:208] DEBUG: Starting new HTTP connection (1): 127.0.0.1
+2019-01-31 13:16:25,165 connectionpool.py[line:396] DEBUG: http://127.0.0.1:52251 "POST /session HTTP/1.1" 200 779
+2019-01-31 13:16:25,165 connectionpool.py[line:396] DEBUG: http://127.0.0.1:52251 "POST /session HTTP/1.1" 200 779
+2019-01-31 13:16:25,169 remote_connection.py[line:440] DEBUG: Finished Request
+2019-01-31 13:16:25,169 remote_connection.py[line:440] DEBUG: Finished Request
+2019-01-31 13:16:25,184 runSet.py[line:53] INFO: [<unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testLogin>]>]>]
+2019-01-31 13:16:25,184 runSet.py[line:53] INFO: [<unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testLogin>]>]>]
+2019-01-31 13:16:25,193 runSet.py[line:53] INFO: [<unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testLogin>]>]>, <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testRegister>]>]>]
+2019-01-31 13:16:25,193 runSet.py[line:53] INFO: [<unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testLogin>]>]>, <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testRegister>]>]>]

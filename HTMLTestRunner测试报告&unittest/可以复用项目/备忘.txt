@@ -1,0 +1,2 @@
+MyGitHub-master： 
+    models和page两个文件夹，很多东西可以拿来自己用。 里面有生成html报告，发邮件，log模块。这两个文件夹里东西还不错

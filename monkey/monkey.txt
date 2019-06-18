@@ -1,0 +1,46 @@
+adb shell monkey -p com.tal.kaoyan  （注意不要换行符，参数用空格隔开）
+--pct-touch 40 --pct-motion 25 
+--pct-appswitch 10
+--pct-rotation 5
+-s 1666 --throttle 400
+--ignore-crashes
+--ignore-timeouts
+-v -v  200
+
+
+
+F:\python笔记字典_20190131\monkey>adb push monkeyTest.txt /data   #push脚本(monkeyTest.txt)到/data（手机的data文件夹下）
+    monkeyTest.txt: 1 file pushed. 0.0 MB/s (513 bytes in 0.104s)
+F:\python笔记字典_20190131\monkey>adb shell monkey -f /data/monkeyTest.txt -v 1   #执行脚本，没保存日志
+
+F:\python笔记字典_20190131\monkey>adb shell monkey -f /data/monkeyTest.txt -v 1 1>d:\monkey.log  2>d:\error.log（标志日志和错误日志分开保存，等级1 2分开）
+================monkeyTest.txt内容==========================
+#头文件信息
+
+type = raw events 
+
+count = 1
+
+speed = 1.0
+
+#启动测试
+start data >>
+
+LaunchActivity(com.tal.kaoyan,com.tal.kaoyan.ui.activity.SplashActivity)
+UserWait(2000)
+
+Tap(624,900,1000) #点击取消升级
+UserWait(2000)
+
+Tap(806,64,1000) #点击跳过
+UserWait(2000)
+
+Tap(217,378,1000) #点击用户名输入框
+DispatchString(zxw1234)
+UserWait(2000)
+Tap(197,461,1000) #点击密码输入框
+DispatchString(zxw123456)
+UserWait(2000)
+
+Tap(343,637,1000) #点击登录按钮
+================monkeyTest.txt==========================

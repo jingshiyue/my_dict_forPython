@@ -1,0 +1,15 @@
+2019-02-01 19:24:35,638 remote_connection.py[line:388] DEBUG: POST http://127.0.0.1:55598/session {"desiredCapabilities": {"goog:chromeOptions": {"extensions": [], "args": []}, "version": "", "platform": "ANY", "browserName": "chrome"}, "capabilities": {"alwaysMatch": {"platformName": "any", "goog:chromeOptions": {"extensions": [], "args": []}, "browserName": "chrome"}, "firstMatch": [{}]}}
+2019-02-01 19:24:35,640 connectionpool.py[line:208] DEBUG: Starting new HTTP connection (1): 127.0.0.1
+2019-02-01 19:24:37,261 connectionpool.py[line:396] DEBUG: http://127.0.0.1:55598 "POST /session HTTP/1.1" 200 780
+2019-02-01 19:24:37,262 remote_connection.py[line:440] DEBUG: Finished Request
+2019-02-01 19:24:37,264 runSet.py[line:41] DEBUG: ['shein/www/testLogin', 'shein/www/testRegister', 'romwe/es/testLogin', 'shein/www/testDemo1']
+2019-02-01 19:24:37,272 runSet.py[line:49] DEBUG: testLogin
+2019-02-01 19:24:37,274 runSet.py[line:50] DEBUG: C:\Users\Mir-Z\Desktop\my\webTest\case\shein\www\testCase
+2019-02-01 19:24:37,280 runSet.py[line:52] DEBUG: <class 'unittest.suite.TestSuite'>
+2019-02-01 19:24:37,280 runSet.py[line:53] DEBUG: <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testLogin>]>]>
+2019-02-01 19:24:37,281 runSet.py[line:49] DEBUG: testRegister
+2019-02-01 19:24:37,282 runSet.py[line:50] DEBUG: C:\Users\Mir-Z\Desktop\my\webTest\case\shein\www\testCase
+2019-02-01 19:24:37,290 runSet.py[line:52] DEBUG: <class 'unittest.suite.TestSuite'>
+2019-02-01 19:24:37,290 runSet.py[line:53] DEBUG: <unittest.suite.TestSuite tests=[<unittest.suite.TestSuite tests=[<unittest.loader._FailedTest testMethod=testRegister>]>]>
+2019-02-01 19:24:37,290 runSet.py[line:49] DEBUG: testLogin
+2019-02-01 19:24:37,291 runSet.py[line:50] DEBUG: C:\Users\Mir-Z\Desktop\my\webTest\case\romwe\es\testCase
