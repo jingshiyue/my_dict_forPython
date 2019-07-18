@@ -1,0 +1,14 @@
+UUID:
+	str(uuid.uuid1())
+timestamp:
+md5加密：
+	def to_md5_str(str_code):
+    """
+    将字符串转换成md5加密字符串
+    :param str_code: 待加密的对象    sign+timestamp+self.apiKey
+    :return:
+    """
+    m = hashlib.md5()
+    m.update(str_code.encode(encoding="utf-8"))
+    str_encoding = m.hexdigest()
+    return str_encoding

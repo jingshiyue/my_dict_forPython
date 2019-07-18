@@ -364,6 +364,9 @@ for sym, w, h in (('*', 4, 4), ('O', 20, 5), ('x', 1, 3), ('ZZ', 3, 3)):
         boxPrint(sym, w, h)
     except Exception as err:     #err 代表上述raise抛出的错误
         print('An exception happened: ' + str(err))
+
+if not os.path.exists(self.conf_path):
+    raise FileNotFoundError("请确保配置文件存在！")
 ========
 一个例子：
 try:
@@ -2242,18 +2245,6 @@ class pkt_3762_0310dl(pkt_3762):  #继承父类pkt_3762
         self.wait_time = 0x0
         self.err_code = 0        # 1 byte
 
----------------------------------pytest----------------------------------------------------------------------------------------------
-py.test -v test_pyt.py
-py.test -s test_pyt.py
-py.test -v test_pyt.py --junitxml=path/log.xml #生成xml文件，xml文件在path目录下
-py.test -v test_pyt.py --html=log.html   #将结果生成html文件
-py.test -v test_pyt.py --resultlog=log22222.txt #结果生成txt文档
-py.test -v test_pyt.py --pastebin=all   #将测试报告发送到pastebin服务器，执行下面的命令会生成报告的网址
-
-py.test -s test_pyt.py --junitxml=resultlog.xml
-
-test_xx.py 文件中，函数外的代码会执行，不是以test_ 开头的函数，不会执行。
-
 --------------------makedirs区别mkdir---------------------------------------------------------------------------------------------------------
   os.makedirs(path)
   os.mkdir(path)    上一级目录必须要存在
@@ -3507,19 +3498,221 @@ yz_test(1,2,3)
     (1, 2, 3)
     3
 
-
 -------------------------------------------------------------------------------------------------------------------------------
-
-
+										以下为中科院工作学习笔记
 -------------------------------------------------------------------------------------------------------------------------------
+uuid.uuid1()　　基于MAC地址，时间戳，随机数来生成唯一的uuid
+
+file0_path = os.path.realpath(__file__)                          #'D:\\myfile\\workfile\\TestCaseManagement\\测试脚本\\Airport\\new_method.py'
+current_path = os.path.dirname(os.path.realpath(__file__)) #'D:\\myfile\\workfile\\TestCaseManagement\\测试脚本\\Airport'
+file_path = os.path.join(current_path, "aj系统xml文件")    #'D:\\myfile\\workfile\\TestCaseManagement\\测试脚本\\Airport\\aj系统xml文件'
+
+datetime.now()  #2019-07-10 15:01:08.630814
+
+time.time()            #1562742144.2637115
+time.localtime()    #time.struct_time(tm_year=2019, tm_mon=7, tm_mday=10, tm_hour=15, tm_min=2, tm_sec=24, tm_wday=2, tm_yday=191, tm_isdst=0)
+str(time.strftime('%Y%m%d%H%M%S', time.localtime(time.time())))  #20190710150328
+from datetime import datetime
+next_time = (datetime.now() - timedelta(days=20)).strftime("%Y%m%d%H%M%S")  #20天前的时间
+datetime.datetime.strptime(id18[6:14], "%Y%m%d")  #将时间为%Y%m%d格式的，统一转化成规定的格式
+
+int(time.strftime("%Y"))  #2019
+year = strftime("%Y", localtime())
+mon = strftime("%m", localtime())
+day = strftime("%d", localtime())
+hour = strftime("%H", localtime())
+min = strftime("%M", localtime())
+sec = strftime("%S", localtime())
+
+chars=string.ascii_letters + string.digits
+random.choice(chars)
+random.randint(100, 999)
+
+def __init__(self, host="https://192.168.5.15:4433/"):
+
+__new__方法是传入类(cls)，而__init__方法传入类的实例化对象(self)
+__new__方法返回的值就是一个实例化对象（ps:如果__new__方法返回None，则__init__方法不会被执行，并且返回值只能调用父类中的__new__方法，而不能调用毫无关系的类的__new__方法
+
+Python 3中字符串不可被改变，如果使用str.replace方法改变字符串，则原字符串不变，新建一个改变后的字符串。
+
+new()方法会返回cls（cls指代当前类）的实例，然后该类的init()方法作为构造方法会接收这个实例（即self）作为自己的第一个参数，然后依次传入new ()方法中接收的位置参数和命名参数。
+如果new()没有返回cls（即当前类）的实例，那么当前类的init()方法是不会被调用的。
 
 
--------------------------------------------------------------------------------------------------------------------------------
+
+def to_md5_str(str_code):
+    """
+    将字符串转换成md5加密字符串
+    :param str_code: 待加密的对象
+    :return:
+    """
+    m = hashlib.md5()
+    m.update(str_code.encode(encoding="utf-8"))
+    str_encoding = m.hexdigest()
+    return str_encoding
+	
+	
+        res = requests.post(url=self.black_list_delete, headers=self.get_headers(this_sign),
+                            json=body,
+                            verify=self.certificate)
+							
+							
 
 
--------------------------------------------------------------------------------------------------------------------------------
+https://192.168.5.15:4433/data-platform-server/api/v1/face/backlist/save   url
+{'apiId': '123456', 'sign': '60d03d433134a4a84d442f4fe65432ca', 'timestamp': '1562814975930'}   headers
+body  {'reqId': '2e8fc47ea38a11e9a8349c305b5da1fa', 'id': '', 'certificateNumber': '', 'peopleName': '', 'focusType': 0, 'img': '', 
+	  'focusTime': '', 'cancelTime': '', 'sex': 0, 'focusReason': '布控原因', 'note': '备注'}
+	  
+res = requests.post(url=self.black_list_save, headers=self.get_headers(this_sign),
+                            json=body,
+                            verify=self.certificate)
+
+res.close()
+print(res.text)
+print(res.status_code)
 
 
+1. application/x-www-form-urlencoded
+这应该是最常见的 POST 提交数据的方式了。浏览器的原生 表单，如果不设置 enctype 属性那么最终就会以 application/x-www-form-urlencoded
+multipart/form-data
+这又是一个常见的 POST 数据提交的方式。我们使用表单上传文件时
+application/json
+用来告诉服务端消息主体是序列化后的 JSON 字符串
+text/xml
+
+
+--------------------------------------pycharm的使用-----------------------------------------------------------------------------------------
+pycharm集成pytest测试框架： File -> Settings... -> Tools -> Python Integrated Tools 
+回到文件顶端：ctrl+Home
+回到文件底部：ctrl+End
+从函数定义处跳至调用处：ctrl+alt+左键
+ctrl+n 搜索文件名
+ctrl+shift+F[G]  在整個項目中搜索字符串
+
+---------------------------------pytest----文件夹（pytest框架总结）------------------------------------------------------------------------------------------
+py.test -v test_pyt.py
+py.test -s test_pyt.py
+py.test -v test_pyt.py --junitxml=path/log.xml #生成xml文件，xml文件在path目录下
+py.test -v test_pyt.py --html=log.html   #将结果生成html文件
+py.test -v test_pyt.py --resultlog=log22222.txt #结果生成txt文档
+py.test -v test_pyt.py --pastebin=all   #将测试报告发送到pastebin服务器，执行下面的命令会生成报告的网址
+pytest -v -s test_pytest.py
+py.test -s test_pyt.py --junitxml=resultlog.xml
+pytest -v --count 10 test_pytest.py   运行10次 {执行test1 10次，再执行test2 10次}
+pytest -v -s --count 10 --repeat-scope session test_pytest.py  {执行test1 1次，再执行test2 1次，交替10轮}
+
+pytest -v -s -q --alluredir result test_pytest.py   #用allure生成报告，第一步先生成xml结果
+allure generate result -o report                    #第二步，用xml数据 生成html报告
+
+test_xx.py 文件中，函数外的代码会执行，不是以test_ 开头的函数，不会执行。
+pytest test_mod.py::test_func  要在模块中运行特定测试
+pytest test_mod.py::TestClass::test_method 
+
+pytest -v -s -q --reruns 10 test_pytest.py  #失败的case重跑。【reruns】
+pytest --pyargs pkg.testing   从包中运行测试
+1、在文件夹里运行cmd,输入pytest，会将文件里所以的test开头的py文件里的test开头的函数都执行
+
+****************************************
+###conftest.py文件内容####
+
+	import pytest
+
+	@pytest.fixture()
+	def myfixture():
+		print("执行myfixture")
+****************************************
+####conftest.py文件内容###
+	import pytest
+	pytestmark=pytest.mark.usefixtures("myfixture")  #在每个测试用例执行前运行
+
+	class Test_firstFile():
+
+		def test_one(self,myfixture):  #参数方式调用前置函数
+			print("执行test_one")
+			assert 1+2==3
+
+		@pytest.mark.usefixtures("myfixture")   #装饰器方式调用
+		def test_two(self):
+			print("执行test_two")
+			assert 1==1
+
+		def test_three(self):
+			print("执行test_three")
+			assert 1+1==2
+
+		def test_four(self):
+			print("执行test_four")
+			assert 1+1==2
+****************************************
+conftest.py说明：
+	补充说明一下conftest.py文件的作用域是当前包内（包括子包）；如果函数调用固件优先从当前测试类中寻找，然后是模块（.py文件）中，
+	接着是当前包中寻找（conftest.py中），如果没有再找父包直至根目录；如果我们要声明全局的conftest.py文件，我们可以将其放在根目录下。
+
+@pytest.fixture(autouse=False/True) #自动打开/关闭
+def myfixture():
+    print("执行myfixture")
+
+@pytest.fixture(scope="class")  #每个类执行一次
+def myfixture():
+    print("执行myfixture")
+	
+@pytest.mark.repeat(10) 装饰符，重复10次	
+	
+@pytest.fixture 的作用域scope：
+	scope参数有四种选择：function（测试函数级别），class（测试类级别），module（测试模块“.py”级别），session（多个文件级别）。默认是function级别。
+	function级别：也就是默认级别，在测试用例之前执行一次。我们的第一个小例子就是这种级别，便不再举例子。
+	class级别：我们在使用标签的时候将scope设置为class，之后再每个测试方法中都将前置函数名传入。
+	session级别：设置方式和module级别的设置方式一样，需要注意的是session级别一般都是多个.py文件共用，
+				 所以要前置函数的声明一般在conftest.py中。其作用在多个测试模块（.py文件）中只执行一次，
+				 并且是在传入函数名的测试用例中的第一个执行的测试用例之前执行
+
+
+@pytest.fixture(params=["参数1","参数2"])   #for循环变量参数列表，执行多次前置函数
+def preMethod(request):   #参数必须是request?
+    print ("执行testPytest里的前置函数，%s" % request.param)
+	
+	
+@pytest.fixture小结：
+		参数有：params、scope、autouse。用在前置函数定义处，可同时传入多个参数
+		它的装饰标签有：
+			@pytest.mark.usefixtures("myfixture")   #装饰器方式调用
+			pytestmark=pytest.mark.usefixtures("myfixture")  #在每个测试用例执行前运行
+			
+			
+@pytest.mark.parametrize("test_input,expected", [
+    ("3+5", 8),
+    ("2+4", 6),
+    pytest.param("6 * 9", 53, marks=pytest.mark.skip),
+    ("2*4", 8),
+])	
+def test_eval(test_input, expected):
+    print("-------开始用例------")
+    assert eval(test_input) == expected
+			
+			
+@pytest.mark.parametrize("x", [0, 1])   #组合参数
+@pytest.mark.parametrize("y", [2, 3])
+def test_foo(x, y):     
+    print("测试数据组合：x->%s, y->%s" % (x, y))
+	
+	
+@pytest.mark.usefixtures("myfixture1")
+@pytest.mark.usefixtures("myfixture2")
+def test_foo():    #先执行myfixture2，再执行myfixture1，最后执行test_foo
+    print("test_foo")
+	
+	
+@pytest.mark.skip(reason="no way of currently testing this")
+def test_function():
+    if not valid_config():
+        pytest.skip("unsupported configuration")
+		
+@pytest.mark.hello   -m=hello  【分类，运行参数里加-m=hello ，只执行mark为hello的用例】
+--------------------------------------------代码中加入断点-----------------------------------------------------------------------------------
+
+pdb.set_trace()  代码中加入断点
+breakpoint()     代码中加入断点
 -------------------------------------------------------------------------------------------------------------------------------
 
 
