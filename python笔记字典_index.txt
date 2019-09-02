@@ -3479,11 +3479,11 @@ import module，不会执行module里的if __name__ =="__main__": ，只会执�
     
 drop table if exists students    
 insert into students values(*,*,*)
-delete from students where id:2
-update students set name="**" where id:2
+delete from students where id=2
+update students set name="**" where id=2
 select s.name,s.age from students as s
-select name,age from students where id:2
-select * from students where sex="女" and age:20
+select name,age from students where id=2
+select * from students where sex="女" and age=20
 select avg(age) from students where sex="女"
 select age,count(*) from students group by age
 select distinc sex,age from students  
