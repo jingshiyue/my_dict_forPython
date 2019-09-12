@@ -1,0 +1,8 @@
+chmod 777 a.txt
+sudo
+sudo -i  切换到root用户
+ls |grep XXX
+ll |grep XXX
+yum install xxx
+rpm -qa  查看所有安装的服务
+netstat -antp|grep sshd  查看sshd服务端口
