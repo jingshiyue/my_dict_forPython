@@ -3,6 +3,39 @@ sudo
 sudo -i  切换到root用户
 ls |grep XXX
 ll |grep XXX
-yum install xxx
-rpm -qa  查看所有安装的服务
-netstat -antp|grep sshd  查看sshd服务端口
+reboot
+ifconfig
+ip address
+vim:
+	esc
+	:setnumber
+	:wq!
+	:q
+
+
+centos：
+	yum install xxx
+	rpm -qa  查看所有安装的服务  是Red-Hat Package Manager（RPM软件包管理器）
+	netstat -antp|grep sshd  查看sshd服务端口
+	:set nonumber    vim显示行号
+
+	vim /etc/gitlab/gitlab.rb
+	gitlab-ctl reconfigure
+	gitlab-ctl restart
+	关闭gitlab： # gitlab-ctl stop
+	启动gitlab： # gitlab-ctl start
+	重启gitlab： # gitlab-ctl restart
+	http://175.168.1.115/users/sign_in
+
+
+	netstat -tlunp  查看程序的端口，显示出当前主机打开的所有端口
+	iptables-save     查看防火墙开放端口的命令是
+	firewall-cmd --zone=public --add-port=80/tcp --permanent   防火墙开放80端口
+	firewall-cmd --reload   重新加载防火墙
+	
+ubuntu：
+	sudo apt-get update 更新源列表
+	sudo apt-get install openssh-server 安装ssh
+	sudo ps -e |grep ssh  查看ssh服务是否启动   有sshd,说明ssh服务已经启动
+	sudo service ssh start   ssh服务就会启动
+	apt-get install vim 安装vim
