@@ -1,3 +1,15 @@
+使用命令添加路由：“route add 要访问的主机ip 你本机默认的网关 -p”
+例如：route add 10.16.1.89 10.131.196.254 -p
+用which查看可执行程序位置：
+	pip路径：/usr/bin
+	python路径：/usr/bin/
+find / -name test.bat   从根目录查找 test.bat文件
+
+
+
+用whereis 查看位置
+安装pip3：sudo apt-get install python3-pip 默认自带python2的pip，不带python3的pip
+
 chmod 777 a.txt
 sudo
 sudo -i  切换到root用户
@@ -11,6 +23,9 @@ vim:
 	:setnumber
 	:wq!
 	:q
+	
+whereis python：查看python安装位置
+
 
 
 centos：
@@ -39,3 +54,8 @@ ubuntu：
 	sudo ps -e |grep ssh  查看ssh服务是否启动   有sshd,说明ssh服务已经启动
 	sudo service ssh start   ssh服务就会启动
 	apt-get install vim 安装vim
+	apt-get install lrzsz 安装rz sz插件
+	sudo apt-get install vsftpd 安装ftp服务
+	sudo service vsftpd restart 重启fpt服务
+	
+
