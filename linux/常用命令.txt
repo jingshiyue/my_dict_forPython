@@ -18,6 +18,7 @@ ll |grep XXX
 reboot
 ifconfig
 ip address
+uname -a 查看系统版本
 vim:
 	esc
 	:setnumber
