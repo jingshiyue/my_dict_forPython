@@ -1717,7 +1717,7 @@ if dict1.has_key("Age"):
 print str(dict1)
 =======================
 import collections
-dic : collections.OrderedDict()
+dic = collections.OrderedDict()
 dic['a'] : 'A'    #有序插入7
 dic['b'] : 'B'
 dic['c'] : 'C'
@@ -3523,7 +3523,7 @@ def yz_test(*arg):
     print arg[2]
     
 
-kw_Test(a:1,b:2,c:3)    
+kw_Test(a=1,b=2,c=3)    
 yz_test(1,2,3)
 
 输出：
