@@ -26,8 +26,10 @@ vim:
 	:q
 	
 whereis python：查看python安装位置
-
-
+find / -name test.py  查找根目录下 test.py文件
+tar -zxvf opencv-2.4.9.tar.gz 解压tar.gz压缩文件
+unzip opencv-2.4.9.zip 解压zip压缩文件
+mkdir release  创建文件夹
 
 centos：
 	yum install xxx
@@ -52,7 +54,7 @@ centos：
 
 
 ubuntu：
-	sudo apt-get update 更新源列表
+	
 	sudo apt-get install openssh-server 安装ssh
 	sudo ps -e |grep ssh  查看ssh服务是否启动   有sshd,说明ssh服务已经启动
 	sudo service ssh start   ssh服务就会启动
@@ -61,4 +63,6 @@ ubuntu：
 	sudo apt-get install vsftpd 安装ftp服务
 	sudo service vsftpd restart 重启fpt服务
 	
-
+	sudo add-apt-repository 【ppa:ubuntu-toolchain-r/test】   添加软件源
+	sudo apt-get update 更新源列表
+	
