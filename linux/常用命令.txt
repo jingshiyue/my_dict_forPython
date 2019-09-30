@@ -1,5 +1,8 @@
+netstat -antp|grep sshd  查看sshd服务端口，pid、进程名，端口被占用没
+ps -ef |egrep 45617 查看pid45617被哪个程序调用？
+
 使用命令添加路由：“route add 要访问的主机ip 你本机默认的网关 -p”
-例如：route add 10.16.1.89 10.131.196.254 -p
+例如：route add 175.168.1.152 175.168.1.1 -p
 用which查看可执行程序位置：
 	pip路径：/usr/bin
 	python路径：/usr/bin/
@@ -34,7 +37,7 @@ mkdir release  创建文件夹
 centos：
 	yum install xxx
 	rpm -qa  查看所有安装的服务  是Red-Hat Package Manager（RPM软件包管理器）
-	netstat -antp|grep sshd  查看sshd服务端口
+	netstat -antp|grep sshd  查看sshd服务端口，pid、进程名，端口被占用没
 	:set nonumber    vim显示行号
 
 	vim /etc/gitlab/gitlab.rb
@@ -56,13 +59,72 @@ centos：
 ubuntu：
 	
 	sudo apt-get install openssh-server 安装ssh
-	sudo ps -e |grep ssh  查看ssh服务是否启动   有sshd,说明ssh服务已经启动
+	sudo ps -e |grep ssh  查看ssh服务是否启动   有sshd,说明ssh服务已经启动  ps是进程查看命令，netstat是端口查看命令，在Linux系统中，服务一定是有进程的，所以使用ps命令可以查看服务运行情况，另外，Linux服务多数是网络服务，所以通过netstat命令也可以查看服务运行状态。
 	sudo service ssh start   ssh服务就会启动
 	apt-get install vim 安装vim
 	apt-get install lrzsz 安装rz sz插件
 	sudo apt-get install vsftpd 安装ftp服务
 	sudo service vsftpd restart 重启fpt服务
-	
+	service network-manager restart 重启网络服务
 	sudo add-apt-repository 【ppa:ubuntu-toolchain-r/test】   添加软件源
 	sudo apt-get update 更新源列表
+	sudo ufw status命令查看当前防火墙状态;inactive状态是防火墙关闭状态 active是开启状态
+	sudo ufw enable命令来开发防火墙
+	sudo ufw disable命令来关闭防火墙
+	dpkg --list ,按下Enter键，终端输出以下内容，显示的是你电脑上安装的所有软件
+	apt-get --purge remove postfix  删除postfix安装包，
 	
+	sudo uname -m 查看系统版本
+	將卡住的套件檔案刪掉即可
+		apt-get autoclean
+		apt-get autoremove
+		apt-get update
+		apt-get upgrade
+	
+	设置DNS:
+		 sudo vi /etc/resolv.conf
+		 (添加以下内容,有可以不操作)
+		 nameserver 114.114.114.114
+	
+
+	
+	sudo gedit /etc/apt/sources.list
+	sudo apt-get update
+	sudo apt-get upgrade
+	
+gitlab： 端口、虚拟机配置
+	gitlab-ctl restart
+	gitlab-ctl start
+	gitlab-ctl tail 查看日志
+	gitlab-ctl reconfigure
+
+直接打开  /etc/network/interfaces 文件
+auto lo
+iface lo inet loopback
+
+auto eth0 （网卡名）
+iface eth0 inet static
+address 175.168.1.152
+netmask 255.255.254.0
+gateway 175.168.1.1
+dns-nameservers 114.114.114.114
+
+
+ps –aux     //查看进程号
+ps –aux | more //全部查看
+ps -aux|grep firefox
+ps –ef | grep mysql //查看mysql的进程
+kill -9 3306 //强制杀掉进程号3306
+
+
+
+windows：
+	检测tcp的这个端口打开了没
+		telnet 175.168.1.152 8081
+			如果端口关闭或者无法连接，则显示不能打开到主机的链接，链接失败；端口打开的情况下，链接成功，则进入telnet页面（全黑的），证明端口可用。
+		tcping.exe 175.168.1.152 8081
+
+
+
+
+
