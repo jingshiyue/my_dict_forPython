@@ -7,7 +7,7 @@ ps -ef |egrep 45617 查看pid45617被哪个程序调用？
 	pip路径：/usr/bin
 	python路径：/usr/bin/
 find / -name test.bat   从根目录查找 test.bat文件
-
+mv file1 file2  #把当前目录下的file1文件名改成file2，如果该目录下有file2，则覆盖以前的file2文件
 
 
 用whereis 查看位置
@@ -31,6 +31,8 @@ vim:
 whereis python：查看python安装位置
 find / -name test.py  查找根目录下 test.py文件
 tar -zxvf opencv-2.4.9.tar.gz 解压tar.gz压缩文件
+tar -zxvf jdk-linux-x64.tar.gz -C /usr/java/ #-C 路径
+
 unzip opencv-2.4.9.zip 解压zip压缩文件
 mkdir release  创建文件夹
 
@@ -71,6 +73,7 @@ ubuntu：
 	sudo ufw status命令查看当前防火墙状态;inactive状态是防火墙关闭状态 active是开启状态
 	sudo ufw enable命令来开发防火墙
 	sudo ufw disable命令来关闭防火墙
+	sudo ufw status 防火墙状态
 	dpkg --list ,按下Enter键，终端输出以下内容，显示的是你电脑上安装的所有软件
 	apt-get --purge remove postfix  删除postfix安装包，
 	
@@ -79,7 +82,7 @@ ubuntu：
 		apt-get autoclean
 		apt-get autoremove
 		apt-get update
-		apt-get upgrade
+		apt-get upgrade        update是更新了软件列表，upgrade是更新软件。
 	
 	设置DNS:
 		 sudo vi /etc/resolv.conf
@@ -102,9 +105,9 @@ gitlab： 端口、虚拟机配置
 auto lo
 iface lo inet loopback
 
-auto eth0 （网卡名）
+auto eth0
 iface eth0 inet static
-address 175.168.1.152
+address 175.168.1.147
 netmask 255.255.254.0
 gateway 175.168.1.1
 dns-nameservers 114.114.114.114
@@ -113,7 +116,7 @@ dns-nameservers 114.114.114.114
 ps –aux     //查看进程号
 ps –aux | more //全部查看
 ps -aux|grep firefox
-ps –ef | grep mysql //查看mysql的进程
+ps –ef|grep mysql //查看mysql的进程
 kill -9 3306 //强制杀掉进程号3306
 
 
@@ -126,5 +129,48 @@ windows：
 
 
 
+
+old_f = sys.stdout
+class F:
+    def write(self, x):
+        old_f.write(x.replace("\n", " [%s]\n" % str(datetime.now())))
+sys.stdout = F()
+
+ubuntu里用firefox打开jlnp文件， 进去firefox设置里，选择打开文件类型，进入文件夹里选择相应程序
+xhost [ + | - ] [ Name ]  "+"表示增加，"-"表示去除
+1、解决 给尝试访问图形程序的用户主机赋予xhost权限： Shell代码 xhost +$HOSTNAME xhost +$HOSTNAME 本机的话使用$HOSTNAME，远程访问需要替换为该主机的IP，即可运行。 2、网络搜索“Linux下解决cannot connect to X server :0.0 问题 - - ITe...
+
+root@server:~# adduser yangxg
+# 为新用户设置密码
+# 注意在输密码的时候不会有字符显示，不要以为键盘坏了，正常输入即可
+root@server:~# passwd yangxg
+# 把新创建的用户加入超级权限组
+root@server:~# usermod -aG wheel yangxg
+# 切换到创建的新用户
+root@server:~# su - yangxg
+
+按照端口进行查询：
+
+lsof -i :8002
+可以查出：
+COMMAND  PID USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+uwsgi   2208   tu    4u  IPv4 0x53492abadb5c9659      0t0  TCP *:teradataordbms (LISTEN)
+uwsgi   2209   tu    4u  IPv4 0x53492abadb5c9659      0t0  TCP *:teradataordbms (LISTEN)
+这时根据 PID 可以用下面的命令 kill 掉相关程序：
+sudo kill -9 2208 2209
+按照程序名称查询：
+ps aux | grep uwsgi
+																	  
+netstat -an|grep 80   查看端口情况
+																	  
+curl localhost/static/test.png
+vim /var/log/nginx/error.log
+tail -f /var/log/nginx/error.log
+mv blog/static/* static/
+rm -rf blog/static/
+cp -r static/* blog/
+
+root0@root0:~/sites/myblog.com/blogproject/collectstatic$ ls
+root0@root0:~/sites/myblog.com/blogproject/collectstatic$ ls static/
 
 

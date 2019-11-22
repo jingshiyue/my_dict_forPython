@@ -423,7 +423,7 @@ searchEXCE : re.compile(r"exception",re.I) #大小写不敏感
 while(conent):
     if searchEXCE.search(conent):
         print searchEXCE.search(conent).group()
-    conent : f.readline()
+    conent = f.readline()
 ########
 ---正则查找关键字之前或者之后的字符串-----------------------------------------------------------------------------------------------------
 searchObj : re.search( r'(.*) are (.*), line, re.M|re.I)
@@ -966,7 +966,7 @@ t1.start()
 t2 : threading.Thread(target : print2,)
 t2.start()
 
-query_topo_timer : threading.Timer(int(query_topo_timer_interval), check_if_networking_done)     #定时，延迟间隔时间启动一个线程，该线程存活时间由调用的函数决定。开启的线程与主线程不干扰
+query_topo_timer = threading.Timer(int(query_topo_timer_interval), check_if_networking_done)     #定时，延迟间隔时间启动一个线程，该线程存活时间由调用的函数决定。开启的线程与主线程不干扰
 
 import threading
 import time
@@ -986,7 +986,7 @@ import threading
 def func():
     print 'hello timer!'
 
-timer : threading.Timer(5, func)     #只调用一次，开启一次定时线程
+timer = threading.Timer(5, func)     #只调用一次，开启一次定时线程
 timer.start()
 ==============
 import threading
@@ -994,11 +994,22 @@ import threading
 def func():
     print 'hello timer!'
     if network:    #加了判断能终止递归
-        timer : threading.Timer(2, func)   #递归调用，之后间隔2秒开启线程。递归循环开启定时线程. 
+        timer = threading.Timer(2, func)   #递归调用，之后间隔2秒开启线程。递归循环开启定时线程. 
         timer.start()    
 
-timer : threading.Timer(5, func)    #第一次看起定时线程是5s
+timer = threading.Timer(5, func)    #第一次看起定时线程是5s
 timer.start()
+
+def check_if_networking_done():
+    global is_networking_done
+    global query_topo_timer
+
+    if(is_networking_done == False):
+        query_topo_timer = threading.Timer(int(query_topo_timer_interval_2), check_if_networking_done)
+        query_topo_timer.start()
+        query_topo()
+query_topo_timer = threading.Timer(int(query_topo_timer_interval_1), check_if_networking_done)
+query_topo_timer.start()
 ==============
 
 
@@ -3785,24 +3796,29 @@ fixture 返回值
 	def test_data(request):
 		return request.param
 
-	def test_not_2(test_data):
+	def test_not_2(test_data):  #前置函数用request接受参数，测试函数以parametrize接受参数。 参数传递过程：parametrize->前置函数名->request
 		print('test_data: %s' % test_data)
 		assert test_data != 2
 		
 注意：这个参数indirect=True，一定不能少，要不就会直接把 fixture_param当成测试函数的一个参数来用，加上indirect=True这个参数，才会在fixture的函数中查找
 
+====================
 @pytest.fixture(params=[1,2,3])
 def fixture_param(request):
     request.param
     print("\033[31;1m我是fixture_param，这是第%s次打印\033[0m"%request.param)
     return request.param
 
-
 @pytest.mark.parametrize("a,b",[(1,6),(2,7),(3,8),(4,9)])
 @pytest.mark.parametrize("fixture_param", ["a", "b"], indirect=True)
 def test_fixture_param_and_parametrize(a,b,fixture_param):
     print("我是测试函数test_fixture_param_and_parametrize，参数a是%s，b是%s"%(a,b))
-	
+    
+以上小结:前置函数用request接受参数，测试函数以parametrize接受参数。 参数传递过程：parametrize->前置函数名->request
+=================================
+    
+    
+    
 parametrize参数化，越远的装饰器，越早遍历完
 
 传多个参数： [将字典加入到列表中，然后遍历列表]
@@ -3832,12 +3848,52 @@ parametrize参数化，越远的装饰器，越早遍历完
 
 pdb.set_trace()  代码中加入断点
 breakpoint()     代码中加入断点
+--------------------------------------图像可视化--数据分析----画图-----------------------------------------------------------------------------------
+import numpy as np
+import matplotlib.pyplot as plt
+
+colors = {
+        1: 'red',
+        2: 'green',
+        3: 'blue',
+        4: 'brown',
+        5: 'cyan',
+        6: 'orange',
+        7: 'pink',
+        8: 'purple',
+        9: 'royalblue',
+        10: 'yellow',
+        11: 'darkgray',
+        12: 'gold',
+        13: 'gray',
+        14: 'navy',
+        15: 'violet'}
+
+x = np.linspace(2.0, 3.0, num=5)  #2-3.0之间等间隔取5个点
+plt.figure(dpi=128, figsize=(5, 10))  #设置画布大小
+plt.plot(x,x,label="x",color="red",alpha=0.5,linestyle='-') #画线条1 ,alpha指颜色深浅，实参alpha 指定颜色的透明度。 Alpha 值为0表示完全透明， 1（ 默认设置） 表示完全不透明
+plt.plot(x,x**2,label="pingfang") #画线条2
+plt.plot(x,x**3,label="lifang")
+plt.xlabel("x label")
+plt.ylabel("y label")
+plt.title("Simple Title")
+plt.legend()
+plt.show()
+plt.grid()
+plt.savefig(subfolder+"\\sta_cnt.png")
+
+
+
+plt.plot(dates, highs, c='red', alpha=0.5)    
+plt.plot(dates, lows, c='black', alpha:0.5)
+plt.fill_between(dates, highs, lows, facecolor='blue', alpha:0.1)   #填充之间
 -------------------------------------------------------------------------------------------------------------------------------
-
-
--------------------------------------------------------------------------------------------------------------------------------
-
-
+import numpy as np
+import matplotlib.pyplot as plt
+plt.text(start, 0, 'upgrade_start')
+plt.grid()
+fig = plt.figure(num=3, figsize=(20, 20), dpi=200)
+plt.savefig(subfolder+"\\sta_cnt.png")
 -------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -7260,30 +7316,23 @@ import Queue
 
 wait_timeout : 10
 complete : False    
-event : threading.Event()
-log_path : os.getcwd()
-log_file_name : str(time.time())
-#logging.basicConfig(level:logging.DEBUG,
-                    #format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-                    #datefmt='%a, %d %b %Y %H:%M:%S',
-    #filename : log_path + '\\' + log_file_name,
-    #filemode='a')
-#console : logging.StreamHandler()
-#console.setLevel(logging.DEBUG)
-#formatter : logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
-#console.setFormatter(formatter)
-#logging.getLogger('').addHandler(console)
-
-logging.basicConfig(level:logging.DEBUG,
-                    format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-                    filename : log_path + '\\' + log_file_name,
-                    filemode='a')
-console : logging.StreamHandler()
+event = threading.Event()
+log_path = os.getcwd()
+log_file_name = str(time.time())
+========================================================
+    wuqi应用
+logging.basicConfig(level=logging.DEBUG,
+    format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
+    filename = automation_log_path,
+    filemode='a'
+    )
+console = logging.StreamHandler()
 console.setLevel(logging.DEBUG)
-formatter : logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+formatter = logging.Formatter("%(asctime)s %(levelname)s: %(message)s")
 console.setFormatter(formatter)
-logging.getLogger().addHandler(console)
-
+logger = logging.getLogger()
+logger.addHandler(console)
+========================================================
 #===============================================================
 def open_serial(port, rat : 2400):
     if port[0 : 3] == 'com':
@@ -7435,7 +7484,7 @@ with open(filename) as f:
 # print dates
 # Plot data.
 fig : plt.figure(dpi:128, figsize=(10, 6))    #创建图像
-plt.plot(dates, highs, c='red', alpha:0.5)     #alpha指颜色深浅，实参alpha 指定颜色的透明度。 Alpha 值为0表示完全透明， 1（ 默认设置） 表示完全不透明
+plt.plot(dates, highs, c='red', alpha=0.5)     #alpha指颜色深浅，实参alpha 指定颜色的透明度。 Alpha 值为0表示完全透明， 1（ 默认设置） 表示完全不透明
 plt.plot(dates, lows, c='black', alpha:0.5)
 plt.fill_between(dates, highs, lows, facecolor='blue', alpha:0.1)   #填充之间
 
