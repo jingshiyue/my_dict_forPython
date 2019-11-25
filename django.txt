@@ -205,7 +205,7 @@ pip install markdown
 pip install Pygments
 pip install pytz
 
-
+{{ var | filter: arg }}
 {% get_categories as category_list %}
 	{% for category in category_list %}
 	<li>
@@ -375,5 +375,95 @@ sudo nginx -s reload #要检查配置文件是否错误，建议用这个替换
     sudo apt-get purge nginx nginx-common # 卸载所有东东，包括删除配置文件。
     sudo apt-get autoremove # 在上面命令结束后执行，主要是卸载删除Nginx的不再被使用的依赖包。
     sudo apt-get remove nginx-full nginx-common #卸载删除两个主要的包。
+
+项目总结：
+	post_list = Post.objects.all().order_by('-created_time')
+	return render(request, 'blog/index.html', context={'post_list': post_list})
+	def __str__(self):
+			return self.title
+	class Meta:
+			ordering = ['-created_time']
+	title = models.CharField(max_length=70)
+	body = models.TextField() #大段文本
+	created_time = models.DateTimeField()
+	modified_time = models.DateTimeField()
+	
+    excerpt = models.CharField(max_length=200, blank=True) # 指定 CharField 的 blank=True 参数值后就可以允许空值了。
+	category = models.ForeignKey(Category,on_delete=models.CASCADE)
+    tags = models.ManyToManyField(Tag, blank=True)
+	views = models.PositiveIntegerField(default=0)  #PositiveIntegerField？
+	return reverse('blog:detail', kwargs={'pk': self.pk})
+	
+	def increase_views(self):
+        self.views += 1
+        self.save(update_fields=['views'])
+	from django.shortcuts import render, get_object_or_404
+	import markdown
+	return render(request, 'blog/index.html', context={'post_list': post_list})
+	
+	post.body = markdown.markdown(post.body,
+                                  extensions=[
+                                      'markdown.extensions.extra',
+                                      'markdown.extensions.codehilite',
+                                      'markdown.extensions.toc',
+                                  ])
+								  
+	comment_list = post.comment_set.all()  #帅选出comment
+	post_list = Post.objects.filter(created_time__year=year,
+                                    created_time__month=month
+                                    ).order_by('-created_time')
+
+	cate = get_object_or_404(Category, pk=pk)
+	url = models.URLField(blank=True)
+	email = models.EmailField(max_length=255)
+	created_time = models.DateTimeField(auto_now_add=True)  #时间自动生成
+	url(r'^archives/(?P<year>[0-9]{4})/(?P<month>[0-9]{1,2})/$', views.archives, name='archives'),
+	
+	class PostAdmin(admin.ModelAdmin):
+    list_display = ['title', 'created_time', 'modified_time', 'category', 'author']
+	admin.site.register(Post)
+	admin.site.register(Category)
+	admin.site.register(Tag)
+
+	urlpatterns = [
+    url(r'^admin/', admin.site.urls),
+    url(r'', include('blog.urls')),
+    url(r'', include('comments.urls')),
+]
+	if request.method == 'POST':
+	if form.is_valid():
+	
+	# 将评论和被评论的文章关联起来。
+    comment.post = post  ????
+	
+	{% extends 'base.html' %}
+	{% block main %} #main是block名字，可替换成任意名字
+	{% endblock main %}
+	<form action="{% url 'comments:post_comment' post.pk %}" method="post" class="comment-form">
+	{% for post in post_list %}
+	{% empty %}
+	{% endfor %}
+	{% load staticfiles %}
+	<script src="{% static 'blog/js/jquery-2.1.3.min.js' %}"></script>
+    <script src="{% static 'blog/js/bootstrap.min.js' %}"></script>
+	models.Model 自带save方法吗？super(Post, self).save(*args, **kwargs)
+	url(r'^$', views.IndexView.as_view(), name='index'),
+	return super(CategoryView, self).get_queryset().filter(category=cate)
+	from django.views.generic import ListView, DetailView
+	from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
