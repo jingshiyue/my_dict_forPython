@@ -73,7 +73,6 @@ ubuntu：
 	sudo ufw status命令查看当前防火墙状态;inactive状态是防火墙关闭状态 active是开启状态
 	sudo ufw enable命令来开发防火墙
 	sudo ufw disable命令来关闭防火墙
-	sudo ufw status 防火墙状态
 	dpkg --list ,按下Enter键，终端输出以下内容，显示的是你电脑上安装的所有软件
 	apt-get --purge remove postfix  删除postfix安装包，
 	
@@ -107,7 +106,7 @@ iface lo inet loopback
 
 auto eth0
 iface eth0 inet static
-address 175.168.1.147
+address 175.168.1.125
 netmask 255.255.254.0
 gateway 175.168.1.1
 dns-nameservers 114.114.114.114
