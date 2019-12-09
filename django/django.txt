@@ -4,8 +4,7 @@ django-admin startproject mysite
 python manage.py runserver     127.0.0.1:8000
 python manage.py startapp polls
 
-from django.http import HttpResponse
-from django.urls import path,include
+from django.http import HttpResponsefrom django.urls import path,include
 
 python manage.py migrate    一旦更改了模型，就需要迁移数据库，如加了字段
     migrate命令将遍历INSTALLED_APPS设置中的所有项目，在数据库中创建对应的表，并打印出每一条动作信息。如果你感兴趣，可以在你的数据库命令行下输入：\dt (PostgreSQL)、 SHOW TABLES;(MySQL)或 .schema(SQLite) 来列出 Django 所创建的表。
@@ -519,6 +518,84 @@ sudo nginx -s reload #要检查配置文件是否错误，建议用这个替换
         question = Question.objects.get(pk=question_id)
     except Question.DoesNotExist:
         raise Http404("Question does not exist")
+
+
+xamdin替换掉原生的admin步骤：
+	0、安装xadmin依赖包，pip uninstall xadmin 卸掉库里的包，因为项目中用的是xadmin源码；
+	1、将xadmin源码包加入到项目中；
+	2、setting.py中的app中注册；
+	3、setting.py中加入 AUTH_USER_MODEL = 'users.UserProfile'；
+	4、项目的urls.py中改成 urlpatterns = [path('xadmin/', xadmin.site.urls),]，替换以前的admin路由；
+
+四个app下面都新建文件adminx.py，然后分别注册到后台
+xadmin添加富文本插件
+xadmin/plugins文件夹下新建文件ueditor.py
+把插件添加到__init__.py里面
+	# xadmin/plugins/__init__.py
+
+	PLUGINS = (
+		'ueditor',
+	)
+MxShop/urls.py配置xadmin和ueditor的路由
+注册app到xadmin后台
+	a.app下面都新建文件adminx.py
+	b.# users/apps.py修改app名字为中文
+	c.users/__init__.py中 default_app_config = 'users.apps.UsersConfig'
+from django.forms.models import model_to_dict 与 from django.core import serializers
+
+pip install coreapi                         drf的文档支持
+pip install django-guardian           drf对象级别的权限支持
+在app目录下新建一个 adminx.py 文件 xadmin会自动查找到adminx.py这个文件
+模块若定义了__all__属性，则只有__all__内指定的属性、方法、类可被导入；若没定义，则导入模块内的所有公有属性，方法和类。
+
+序列化问题：
+	方式一、手动加。如：json_dict = {}，json_dict['name'] = good.name；
+	
+	方式二、model_to_dict，可以将model整个转化为dict，ImageFieldFile 和add_time字段不能序列化，遇到这种字段会报错；
+		from django.forms.models import model_to_dict
+        for good in goods:
+            json_dict = model_to_dict(good)
+            json_list.append(json_dict)
+
+        from django.http import HttpResponse
+        import json
+        #返回json，一定要指定类型content_type='application/json'
+        return HttpResponse(json.dumps(json_list),content_type='application/json')
+		
+	方式三、django的serializers，字段序列化定死的，要想重组的话非常麻烦；
+		json_data = serializers.serialize('json',goods)
+        json_data = json.loads(json_data)
+        #In order to allow non-dict objects to be serialized set the safe parameter to False.
+        return JsonResponse(json_data,safe=False)
+		
+		a.结合drf重组（需要自己手动添加字段序列化）：
+			goods/serializers.py：
+				class GoodsSerializer(serializers.Serializer):
+				name = serializers.CharField(required=True,max_length=100)
+				click_num = serializers.IntegerField(default=0)
+				goods_front_image = serializers.ImageField()   #会自动得到从项目更目录开始的全路径
+			goods/views.py：
+				from rest_framework.views import APIView
+				from goods.serializers import GoodsSerializer
+
+				class GoodsListView(APIView):
+					'''
+					商品列表
+					'''
+					def get(self,request,format=None):
+						goods = Goods.objects.all()
+						goods_serialzer = GoodsSerializer(goods,many=True)
+						return Response(goods_serialzer.data)
+						
+		b.Modelserializer，会更加的方便，直接用__all__就可以全部序列化:
+			goods/serializers.py:
+				from rest_framework import serializers
+				#ModelSerializer实现商品列表页
+				class GoodsSerializer(serializers.ModelSerializer):
+					class Meta:
+						model = Goods
+						fields = '__all__'   #model中的类全部序列化
+
 
 
 
