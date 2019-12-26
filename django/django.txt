@@ -1,7 +1,7 @@
 http://www.liujiangblog.com/course/django/89
 
 django-admin startproject mysite
-python manage.py runserver     127.0.0.1:8000
+python manage.py runserver 127.0.0.1:8000
 python manage.py startapp polls
 
 from django.http import HttpResponsefrom django.urls import path,include
@@ -597,6 +597,239 @@ pip install django-guardian           drf对象级别的权限支持
 						fields = '__all__'   #model中的类全部序列化
 
 
+npm与cnpm：npm是国外的，他的的国内镜像是cnpm，下载包更快。
+vue-cli
+	1、安装node.js，安装node.js会附带安装npm工具
+		查看版本：
+			C:\Users\Administrator\Desktop\demo\mxshop\online-store>node -v
+			v12.13.1
+
+			C:\Users\Administrator\Desktop\demo\mxshop\online-store>npm -v
+			6.12.1
+	2、cd 到项目，安装项目依赖：npm install，安装成功后你会发现项目里多了个node_modules文件夹；
+	3、运行项目：C:\Users\Administrator\Desktop\demo\mxshop\firstvue>npm run dev (package.json中scripts是否定义dev)
+	4、打包:C:\Users\Administrator\Desktop\demo\mxshop\firstvue>npm run build，会多出dist文件夹，用于生成环境；
 
 
+ViewSet 类只是一种基于类的 View，它不提供任何处理方法，如 .get() 或 .post()，而是提供诸如  .list() 和 .create() 之类的操作。
+ViewSet 只在用 .as_view() 方法绑定到最终化视图时做一些相应操作
+user_list = UserViewSet.as_view({'get': 'list'})
+user_detail = UserViewSet.as_view({'get': 'retrieve'})
 
+
+GenericViewSet(ViewSetMixin, generics.GenericAPIView)       ---DRF
+    GenericAPIView(views.APIView)                           ---DRF
+        APIView(View)                                       ---DRF 重写as_view()、permission_denied()、get_authenticate_header()
+            View                                            ---Django as_view()、dispatch()
+
+cbv:（from django.views.generic import Vie）class-based-view（以下简称cbv）
+	Django的url是将一个请求分配给可调用的函数的，而不是一个class。针对这个问题，
+	class-based view提供了一个as_view()静态方法（也就是类方法），调用这个方法，
+	会创建一个类的实例，然后通过实例调用dispatch()方法，dispatch()方法会根据
+	request的method的不同调用相应的方法来处理request（如get() , post()等）
+	dispatch:派遣
+	
+一个View Class可以继承多个Mixin，但是只能继承一个View（包括View的子类），推荐把View写在最右边，多个Mixin写在左边。
+
+as_view： as_view执行完，返回是view（函数名）
+  调用
+  view： view函数的返回值，return self.dispatch(request, *args, **kwargs)
+  调用
+ dispatch：函数体有get、post等方法，return handler(request, *args, **kwargs)，判断请求方式是否在这个请求方式列表中，self.http_method_names：['get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace']
+  调用
+ handler ：handler就是反射得到的实例方法，如get
+ 
+ 
+ 1.APIView:
+可以使用drf的request对象。
+可以用drf中的reponse对象。
+完善的异常处理功能。
+验证功能：身份验证，权限验证，访问次数验证
+
+2.GenericAPIView视图类：（继承自APIView
+GenericAPIView.generic和ListModelAPIView等等的封装了数据库操作方法的类 一起使用，需要定义get,post,put…的方法
+属性queryset================ >指定查询集
+属性serializer_class ======== >指定序列化器类型
+方法get_queryset() ========== >获取查询集，默认是通过属性获取，可重写
+方法get_serializer_class() ============ >获取序列化器类型，默认是通过属性获取，可重写
+方法get_serializer() ======== >获取序列化器对象，调用上面的方法
+方法get_object()============>根据主键在集集上获取对象，可重写
+
+注意，在提供序列化器对象的时候，REST framework会向对象的context属性补充三个数据：request、format、view，这三个数据对象可以在定义序列化器时使用。
+比如在序列化其中通过 self.context.get(“request”).user 来获取当前登录的用户对象
+3.generic.+合成的数据库操作类（需要指定查询集和序列化类，省去了写方法）
+generic.ListCreateAPIView
+generic.RetrieveAPIView
+generic.UpdateAPIView
+generic.DestroyAPIView
+generic.RetrieveUpdateAPIView
+generic.RetrieveDestroyAPIView
+generic.RetrieveUpdateDestroyAPIView
+
+4.viewsets.ModelViewSet() 视图集 （需要指定查询集和序列化类，省去了写方法，需要根据DefaultRouter创建路由）
+作用：将所有关于数据操作的方法，定义在同一个类中
+实现思路：重写as_view()、dispatch()方法，接收字典作为参数，将请求方式小写作为键，在字典中查找方法名称，再执行
+1.常用的类：
+ModelViewSet，包含了增加、修改、删除、查询多个、查询一个的功能
+ReadOnlyModelViewSet，包含了查询多个、查询一个的功能
+2.以上两个类，继承自GenericAPIView，在使用时，可以通过属性或方法指定查询集、序列化器
+3.扩展
+装饰器action可以扩展方法
+属性action可以获取当前执行方法的名称
+注册路由规则：使用DefaultRouter类配合
+Router中定义了mapping={
+                'get': 'list',
+                'post': 'create'
+            }
+			mapping={
+                'get': 'retrieve',
+                'put': 'update',
+                'patch': 'partial_update',
+                'delete': 'destroy'
+            }，mapping传入到as_view中，用DefaultRouter默认url，不写as_view中的匹配字典了
+
+
+class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet)
+class SmsCodeViewset(CreateModelMixin,viewsets.GenericViewSet):
+class UserViewset(CreateModelMixin,viewsets.GenericViewSet):
+class CategoryViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet): 
+在试图类里指定序列化类：
+	serializer_class = UserRegSerializer
+	
+serializers.Serializer):   #注意此处不是继承ModelSerializer，与serializers.ModelSerializer不同，不存在model与serial绑定。通过serializer_class，sercial与view绑定
+    class Meta:
+        model = User  # model与serial绑定
+
+使用序列化器进行反序列化时，需要对数据进行验证后，才能获取验证成功的数据或者保存成模型类对象。
+在获取反序列化数据前，必须调用is_valid()方法进行验证，验证成功返回True，否则返回False。
+验证失败，可以通过序列化器对象的errors属性获取错误信息，返回内容为字典，包含字段和字段的错误。如果是非字段错误，可以通过修改REST framework配置中的NON_FIELD_ERRORS_KEY来控制错误字典中的键名。
+验证成功，可以通过序列化器对象的validated_data属性获取数据。
+serializer.save()如果创建序列化器对象的时候，没有传递instance实例，则调用save()方法的时候，create()被调用，相反，如果传递了instance实例，则调用save()方法的时候，update()被调用
+
+类视图生成的api，参数传递的字段 是根据序列化类中的字段
+
+-validate(self,attrs)
+	-attrs所有校验通过的数据，是个字典
+前端使用的数据都是序列化后的数据；后端使用的都是反序列化的数据
+
+payload = jwt_payload_handler(user)  #dict类型
+re_dict["token"] = jwt_encode_handler(payload)  #str类型，将dict各个字段加密后，拼接成一长串字符串，放到token里，返回给前端
+
+权限检查总是在视图的最开始处运行，在任何其他代码被允许进行之前。权限检查通常会使用 request.user 和 request.auth 属性中的认证信息来确定是否允许传入请求
+成功身份验证的第一个类的返回值赋值给request.user request.auth
+
+如果前台携带了认证信息并认证通过，定位为登录用户，将登录的用户user对象保存在 requset.user 中，先认证，再权限
+
+试图类函数中看api传参，看request.data ，dict类型
+
+序列化类中验证的字段，必须包含在fields里，传递给post试图类中，如create，request.data
+def create(self, request, *args, **kwargs):
+    print(request.data)
+    serializer = self.get_serializer(data=request.data)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)  #post中序列化的是request.data
+        serializer.is_valid(raise_exception=True)
+        user = self.perform_create(serializer)
+        re_dict = serializer.data
+        payload = jwt_payload_handler(user)
+        re_dict["token"] = jwt_encode_handler(payload)
+        re_dict["name"] = user.name if user.name else user.username
+        headers = self.get_success_headers(serializer.data)
+        return Response(re_dict, status=status.HTTP_201_CREATED, headers=headers)
+		
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())    #序列化的是queryset集合
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+		
+^ ^userfavs/(?P<goods_id>[^/.]+)/$ [name='userfavs-detail']
+	# http://127.0.0.1:8000/userfavs/?goods_id=1/ GET
+	# http://127.0.0.1:8000/userfavs/?goods_id=1/15ede GET 可以访问 [^/.]+ 表示这部分可选，任意多个字符
+
+drf
+	[View(django)-->ApiView(drf)-->GengricApiView]
+	GengricApiView -->GenericViewSet
+	(GenericAPIView、ViewSetMixin)-->GenericViewSet
+	
+	在Mixin中一共有5个分别是
+		CreateModelMixin(post，增)，
+		ListModelMixin(get，查),
+		RetrieveModelMixin(get，附带参数)
+		UpdateModelMixin(put/patch,改)
+		DestroyModelMixin(delete,删)
+类方式定义视图：
+	path('getmydata/',mydata.as_view()),
+	
+	from rest_framework.views import APIView
+	from rest_framework.response import Response
+	from django.views.generic import View  #django 原生view
+	from django.http import HttpResponse #django 原生HttpResponse
+	class mydata(APIView):  #
+		def get(self, request, format11=None):  #此处get请求中，request没有传递内容，可以不写request，但不建议这么做
+			return HttpResponse("HELLO")  #没有网页渲染效果，尽量view和response配套使用
+			return Response("HELLO")  #有网页渲染效果，尽量view和response配套使用
+			return "hello000000000"  #这种会报错，因为试图类中，此处搭配as_view()函数，不接受str类型
+			return render(request,"blog/blog_list.html", context=context)  #from django.shortcuts import render
+函数方式定义视图：		
+	path('getmydata/',gettt),
+	
+	from django.http import HttpResponse	
+	def gettt(request):  # 此处get请求中，必须要有request参数
+		return HttpResponse("HELLO")  #
+		
+	
+第一类：原始继承APIView
+        # http://127.0.0.1:8000/api/v1/auth/
+        url(r'^auth/$', views.AuthView.as_view()),
+
+        # http://127.0.0.1:8000/api/v1/auth.json # 想要让页面显示json格式
+        url(r'^auth\.(?P<format>[a-z0-9]+)$', views.AuthView.as_view()),
+
+        # http://127.0.0.1:8000/api/v1/auth/1/
+        url(r'^auth/(?P<pk>\d+)/$', views.AuthView.as_view()),
+
+        # http://127.0.0.1:8000/api/v1/auth/1.json
+        url(r'^auth/(?P<pk>\d+)\.(?P<format>[a-z0-9]+)$', views.AuthView.as_view()),
+
+ser = serializer.save()
+print("type",type(ser))
+print(ser.__dict__)
+ser = serializer.save() 是对应app中的models实例，
+#<class 'user_operation.models.UserAddress'>  是user_operation app中的UserAddress models类。是这个类的实例，有具体的字段（数据）
+用docs api里测试接口，添加models在数据库表里的id，就算添加了models实例了 ？
+
+总结::::::::::::::::::::::
+	ser = serializer.save() #<class 'user_operation.models.UserAddress'>  是user_operation app中的UserAddress models类。是这个类的实例，有具体的字段（数据）
+
+	django.db.models.query.QuerySet 查询数据库返回的集合
+	django.db.models.Model
+	existed = ShoppingCart.objects.filter(user=user, goods=goods) #QuerySet类型
+	existed[0] #迭代转换成trade.models.ShoppingCart类型，这种类型才可以.字段
+	existed.nums += nums   #.字段
+	existed.save()     #trade.models.ShoppingCart类型才有save方法
+
+	serializers.ModelSerializer中有create、update方法，serializers.Serializer没有这两个方法
+
+	user = self.context["request"].user  ????
+
+	def get_serializer_class(self):
+		print(self) #trade.views.ShoppingCartViewset类型
+		print(self.action) #trade.views.ShoppingCartViewset类型有action属性
+		
+	shop_cart = serializer.save()   # shop_cart类型:<class 'trade.models.ShoppingCart'>
+	goods = shop_cart.goods   # 经过serializer.save() 后，才能.字段。此处goods字段是models.ShoppingCart的外键，通过外键"点"出来实例【<class 'goods.models.Goods'>】来。                                       #instance的goods字段，
+
+	视图类：class ShoppingCartViewset(viewsets.ModelViewSet): #因为继承ModelViewSet，ModelViewSet又继承了ListModelMixin，所以必须在视图类里指定queryset对象
+				def get_queryset(self):
+					return ShoppingCart.objects.filter(user=self.request.user)
+	序列化类：class ShopCartSerializer(serializers.Serializer) 
+	write_only=True,单方向校验，没有默认是双方向，过不了校验
+	序列化，先校验后保存:   serializer.is_valid(raise_exception=True) ,serializer.save()
+	
+	视图类中 def perform_create(self, serializer): #self:<trade.views.ShoppingCartViewset  serializer:<class 'trade.serializers.ShopCartSerializer'> 
