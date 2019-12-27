@@ -833,3 +833,64 @@ ser = serializer.save() 是对应app中的models实例，
 	序列化，先校验后保存:   serializer.is_valid(raise_exception=True) ,serializer.save()
 	
 	视图类中 def perform_create(self, serializer): #self:<trade.views.ShoppingCartViewset  serializer:<class 'trade.serializers.ShopCartSerializer'> 
+	serializer.data
+	goods.__dict__
+	view中:self.request.user；serizlizer中:self.context["request"].user
+	goods = serializers.PrimaryKeyRelatedField(required=True, queryset=Goods.objects.all()) ???????
+	
+	class ShopCartSerializer(serializers.Serializer):
+	    test = serializers.CharField(required=True, label="测试，备注",write_only=True)# write_only 只能前端到后台，没有将test字段绑定在models里，所以后面的save，不用把test字段删除
+																						
+		def create(self, validated_data):
+			user = self.context["request"].user
+			nums = validated_data["nums"]
+			goods = validated_data["goods"]
+
+			existed = ShoppingCart.objects.filter(user=user, goods=goods)  #<QuerySet []>
+			if existed:
+				existed = existed[0] #<class 'trade.models.ShoppingCart'>
+				existed.nums += nums
+				existed.save()  #不会把之前创建的test字段删除，因为test ShoppingCart
+			else:
+				existed = ShoppingCart.objects.create(**validated_data)
+			return existed
+
+		def update(self, instance, validated_data):
+			instance.nums = validated_data["nums"]
+			instance.save()
+			return instance
+		
+	不管继承serializers.ModelSerializer 还是继承serializers.Serializer，ModelSerializer默认会绑定models，
+	添加非models字段，要加write_only,表明是反序列化，要存入数据库的。在调用serial的save前，
+	只要绑定到models里了的字段都要删除非models字段，否则不能save
+	
+	当用serializers.ModelSerializer序列化models时，默认的字段用于读写(get、post)，当models里字段没有默认值，同时又是post的字段，则该字段是必须字段，必须填写字段值，才能post
+
+	alipay_url = serializers.SerializerMethodField(read_only=True)  #非models字段，只读，不会保存至数据库，所以不用删除该字段
+
+	vue项目中api.js里面local_host改为服务器ip
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
