@@ -172,4 +172,20 @@ cp -r static/* blog/
 root0@root0:~/sites/myblog.com/blogproject/collectstatic$ ls
 root0@root0:~/sites/myblog.com/blogproject/collectstatic$ ls static/
 
+*************ubuntu添加新用户*******************
+useradd xxx -m  执行后，会在/home目录下生成xxx文件夹 
+cat /etc/passwd 查看，这步可以不执行
+passwd xxx 给xxx用户创建密码
+su xxx 切换到xxx用户
+********************************
+
+
+
+
+
+
+
+
+
+
 

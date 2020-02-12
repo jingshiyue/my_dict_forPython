@@ -1,5 +1,5 @@
 http://www.liujiangblog.com/course/django/89
-
+https://djangopackages.org/ 
 django-admin startproject mysite
 python manage.py runserver 127.0.0.1:8000
 python manage.py startapp polls
@@ -179,6 +179,7 @@ class Meta:
 
 (blogproject_env) C:\Users\yangxg\Workspace\blogproject>
 pip freeze > requirements.txt
+pip install -r requirements.txt
 这时项目根目录下会生成了一个 requirements.txt 的文本文件，其内容记录了项目的全部依赖。
 
 
@@ -254,27 +255,28 @@ virtualenv --python=python3.7 env
 
 
 sudo service nginx start
-conda create --name nlp python=3.6
-# 进入conda创建的环境nlp
-source activate nlp  #linux系统里激活
-activate nlp  #windows系统里激活
-# 退出conda创建的环境nlp
-source deactivate
 
-conda install tensorflow-gpu
-conda uninstall numpy
-
+###################conda###虚拟环境#######################################
+1.查看现有的虚拟环境列表
+	conda info -e
+2.创建虚拟环境nlp，nlp为虚拟环境名字
+	conda create --name nlp python=3.6
+3.进入conda创建的环境nlp
+	source activate nlp  #linux系统里激活
+	activate nlp  #windows系统里激活
+4.退出conda创建的环境nlp
+	source deactivate
 5.安装/删除包
-
-conda install tensorflow-gpu
-conda uninstall numpy
-
-6.查看现有的虚拟环境列表
-
-conda info -e
-# 查看当前环境的详情
-conda info
-
+	conda install tensorflow-gpu
+	conda uninstall numpy
+	pip install xxx (windows)
+	
+pip install django==2.2
+pycharm里创建django项目，会自动下载安装与python版本匹配的最新版的django包，如果不需要这版本的django包，可以手动更改其版本
+建议先用终端命令行创建好虚拟环境，然后用pycharm创建项目时候，选择对应虚拟环境里的解释器
+pycharm设置默认浏览器为cherom
+在Pycharm中，没有可以创建app的图形化按钮，需要在下方的Terminal终端中输入命令：python manage.py startapp polls
+#############################################################
 
 
 
@@ -870,27 +872,139 @@ ser = serializer.save() 是对应app中的models实例，
 
 	vue项目中api.js里面local_host改为服务器ip
 
+	0 是 0.0.0.0 的简写，Django将运行在0.0.0.0:8000上，整个局域网内都将可以访问站点，而不只是是本机。
 
 
+python manage.py shell DJANGO_SETTINGS_MODULE环境变量导入，它将自动按照mysite/settings.py中的设置，配置好你的python shell环境，这样，你就可以导入和调用任何你项目内的模块了。
+或者
+	>>> import django
+	>>> django.setup()
+在实际环境中，为了站点的安全性，我们一般不能将管理后台的url随便暴露给他人，不能用/admin/这么简单的路径
+
+path('<int:question_id>/results/', views.results, name='results'),  question_id必须与试图函数里的参数名一致，否则会报错
+项目的 TEMPLATES配置项描述了 Django 如何载入和渲染模板。默认的设置文件设置了 DjangoTemplates 后端，并将 APP_DIRS设置成了 True。这一选项将会让 DjangoTemplates 在每个 INSTALLED_APPS 文件夹中寻找 "templates" 子目录。
+
+为什么要在template文件夹里创建个子文件夹：
+	项目的 TEMPLATES配置项描述了 Django 如何载入和渲染模板。默认的设置文件设置了 DjangoTemplates 后端，并将 APP_DIRS设置成了 True。这一选项将会让 DjangoTemplates 在每个 INSTALLED_APPS 文件夹中寻找 "templates" 子目录。这就是为什么尽管我们没有像在第二部分中那样修改 DIRS 设置，Django 也能正确找到 polls 的模板位置的原因。
+	在templates目录中，再创建一个新的子目录名叫polls，进入该子目录，创建一个新的html文件index.html。换句话说，你的模板文件应该是polls/templates/polls/index.html。因为 Django 会寻找到对应的app_directories ，所以你只需要使用polls/index.html就可以引用到这一模板了。
+	你也许会想，为什么不把模板文件直接放在polls/templates目录下，而是费劲的再建个子目录polls呢?设想这么个情况，有另外一个app，它也有一个名叫index.html的文件，当Django在搜索模板时，有可能就找到它，然后退出搜索，这就命中了错误的目标，不是我们想要的结果。解决这个问题的最好办法就是在templates目录下再建立一个与app同名的子目录，
+	将自己所属的模板都放到里面，从而达到独立命名空间的作用，不会再出现引用错误。
+
+模板中硬编码：
+	<li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
+模板中软编码：
+	<li><a href="{% url 'detail' question.id %}">{{ question.question_text }}</a></li>
+	Django会在polls.urls文件中查找name='detail'的url，具体的就是下面这行：
+	path('<int:question_id>/', views.detail, name='detail'),
+URLconf的命名空间。
+	各自的app的urls.py里添加一个app_name的变量来指定该应用的命名空间
+	如：app_name = 'polls'  #urlconf 命名空间，结合<li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>使用
+
+由于我们发送了一个POST请求，就必须考虑一个跨站请求伪造的安全问题，简称CSRF（具体含义请百度）。Django为你提供了一个简单的方法来避免这个困扰，那就是在form表单内添加一条{% csrf_token %}标签，
 
 
+字段命名约束：
+	Django不允许下面两种字段名：
+	与Python关键字冲突。这会导致语法错误。例如：
+	class Example(models.Model): pass = models.IntegerField() # 'pass'是Python保留字！
+	字段名中不能有两个以上下划线在一起，因为两个下划线是Django的查询语法。例如：
+	class Example(models.Model): foo__bar = models.IntegerField() # 'foo__bar' 有两个下划线在一起!
 
 
+这里有如何上传文件和图片的方法：
+	1.FileField：
+	class FileField(upload_to=None, max_length=100, **options)[source]
+	上传文件字段（不能设置为主键）。默认情况下，该字段在HTML中表现为一个ClearableFileInput标签。
+	在数据库内，我们实际保存的是一个字符串类型，默认最大长度100，
+	可以通过max_length参数自定义。真实的文件是保存在服务器的文件系统内的。
+	2. ImageField
+	class ImageField(upload_to=None, height_field=None, width_field=None, max_length=100, **options)[source]
+	用于保存图像文件的字段。其基本用法和特性与FileField一样，只不过多了两个属性height和width。默认情况下，
+	该字段在HTML中表现为一个ClearableFileInput标签。在数据库内，我们实际保存的是一个字符串类型，
+	默认最大长度100，可以通过max_length参数自定义。真实的图片是保存在服务器的文件系统内的。
+	在settings文件中，配置MEDIA_ROOT，作为你上传文件在服务器中的基本路径（为了性能考虑，这些文件不会被储存在数据库中）。
+	再配置个MEDIA_URL，作为公用URL，指向上传文件的基本路径。请确保Web服务器的用户账号对该目录具有写的权限。
+	添加FileField或者ImageField字段到你的模型中，定义好upload_to参数，文件最终会放在MEDIA_ROOT目录的“upload_to”子目录中。
+	所有真正被保存在数据库中的，只是指向你上传文件路径的字符串而已。可以通过url属性，在Django的模板中方便的访问这些文件。
+	例如，假设你有一个ImageField字段，名叫mug_shot，那么在Django模板的HTML文件中，可以使用{{ object.mug_shot.url }}来获取该文件。
+	其中的object用你具体的对象名称代替。可以通过name和size属性，获取文件的名称和大小信息。
+	--务必对所有的上传文件进行安全检查
+	
+如果要创建一个递归的外键，也就是自己关联自己的的外键，使用下面的方法：
+	models.ForeignKey('self', on_delete=models.CASCADE)
 
+related_name
+	用于关联对象反向引用模型的名称。以前面车和工厂的例子解释，就是从工厂反向关联到车的关系名称。
+	通常情况下，这个参数我们可以不设置，Django会默认以模型的小写加上_set作为反向关联名，比如对于工厂就是car_set，如果你觉得car_set还不够直观，可以如下定义：
+	class Car(models.Model):
+		manufacturer = models.ForeignKey(
+			'production.Manufacturer',      
+			on_delete=models.CASCADE,
+			related_name='car_producted_by_this_manufacturer',  # 看这里！！
+		)
+	也许我定义了一个蹩脚的词，但表达的意思很清楚。以后从工厂对象反向关联到它所生产的汽车，就可以使用maufacturer.car_producted_by_this_manufacturer了。
+	如果你不想为外键设置一个反向关联名称，可以将这个参数设置为“+”或者以“+”结尾，如下所示：
+	user = models.ForeignKey(
+		User,
+		on_delete=models.CASCADE,
+		related_name='+',
+	)
 
+	class Base(models.Model):
+		m2m = models.ManyToManyField(
+		OtherModel,
+		related_name="%(app_label)s_%(class)s_related",
+		related_query_name="%(app_label)s_%(class)ss",
+		)
 
+一对一（OneToOneField）
+	一对一关系类型的定义如下：
+	class OneToOneField(to, on_delete, parent_link=False, **options)[source]
+	从概念上讲，一对一关系非常类似具有unique=True属性的外键关系，但是反向关联对象只有一个。这种关系类型多数用于当一个模型需要从别的模型扩展而来的情况。
+	比如，Django自带auth模块的User用户表，如果你想在自己的项目里创建用户模型，
+	又想方便的使用Django的认证功能，那么一个比较好的方案就是在你的用户模型里，使用一对一关系，添加一个与auth模块User模型的关联字段。
+	该关系的第一位置参数为关联的模型，其用法和前面的多对一外键一样。
+	**如果你没有给一对一关系设置related_name参数，Django将使用当前模型的小写名作为默认值。
+	from django.conf import settings
+	from django.db import models
 
+	# 两个字段都使用一对一关联到了Django内置的auth模块中的User模型
+	class MySpecialUser(models.Model):
+		user = models.OneToOneField(
+			settings.AUTH_USER_MODEL,
+			on_delete=models.CASCADE,
+		)
+		supervisor = models.OneToOneField(
+			settings.AUTH_USER_MODEL,
+			on_delete=models.CASCADE,
+			related_name='supervisor_of',
+		)
+		
+choices
+	用于页面上的选择框标签，需要先提供一个二维的二元元组，第一个元素表示存在数据库内真实的值，
+	第二个表示页面上显示的具体内容。在浏览器页面上将显示第二个元素的值。例如：
 
+		YEAR_IN_SCHOOL_CHOICES = (
+			('FR', 'Freshman'),
+			('SO', 'Sophomore'),
+			('JR', 'Junior'),
+			('SR', 'Senior'),
+			('GR', 'Graduate'),
+		)
+		
+自定义中间表
+	使用自定义中间表的多对多不能使用add(), create(),remove(),和set()方法来创建、删除关系，
+	唯一的办法只能是通过创建中间模型的实例来创建这种类型的多对多关联
+	
+def hash_code(s, salt='mysite'):
+    h = hashlib.sha256()
+    s += salt
+    h.update(s.encode())
+    return h.hexdigest()
 
-
-
-
-
-
-
-
-
-
-
-
-
+***************安装代码审查模块************************************************
+pip install pylint
+pip install yapf
+pip install pylint_django
+***************************************************************
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple  django==2.2 从国内镜像安装

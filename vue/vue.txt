@@ -1,0 +1,28 @@
+假设你的机子上已经有了最新的node和npm了
+$ npm install -g vue-cli
+$ vue init webpack myProject  #init的过程中会问你给项目定义一些描述，版本之类的信息#webpack自动打包，比如将js文件统一合成一个文件，将CSS文件统一合并压缩等
+cd myProject
+npm install #安装项目所需要的依赖
+npm run dev #执行项目
+npm run build #开发完成后执行npm run build会编译我们的源代码生成最终的发布代码，在dist目录下。项目上线时，只需要将 dist 文件夹放到服务器就行了。
+
+package.json保存一些依赖信息，config保存一些项目初始化配置，build里面保存一些webpack的初始化配置，
+index.html是我们的首页，除了这些，最关键的代码都在src目录中，index在很多服务器语言中都是预设为首页，
+像index.htm，index.php等；打开build目录中的webpack.base.conf.js，会看到这样的代码
+
+build/webpack.base.conf.js -[app: './src/main.js']-》
+main.js/main.js
+	import Vue from 'vue'  #vue就是jquery-min.js
+	import App from './App' #引入src/App.vue
+	import router from './router' #引入路由
+	
+	new Vue({
+	  el: '#app', #index.html中 <div id="app"></div>
+	  router,
+	  components: { App }, #使用App这个组件
+	  template: '<App/>'   #/*告知页面这个组件用这样的标签来包裹着,并且使用它*/
+	})
+
+
+App.vue这个文件，这是一个视图（或者说组件和页面），想象一下我们的index.html中什么也没有，只有一个视图，这个视图相当于一个容器，
+然后我们往这个容器中放各种各样的积木（其他组件或者其他页面）
