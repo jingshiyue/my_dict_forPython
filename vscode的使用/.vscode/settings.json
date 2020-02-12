@@ -1,0 +1,14 @@
+{
+    "python.pythonPath": "D:\\ProgramData\\Miniconda3\\envs\\cmdb\\python.exe",
+    "python.formatting.provider": "yapf",
+    "python.linting.pylintArgs": [
+      "--load-plugins",
+      "pylint_django",
+    ],
+    
+    "python.venvPath": " D:\\ProgramData\\Miniconda3\\envs",
+    "python.venvFolders": [
+      "cmdb",
+    ],
+    "python.terminal.activateEnvironment":true
+}

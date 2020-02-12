@@ -1,0 +1,19 @@
+// {
+//     "workbench.colorTheme": "One Dark Pro Vivid",
+//     "workbench.iconTheme": "material-icon-theme",
+//     "vsicons.dontShowNewVersionMessage": true,
+//     "files.autoSave": "afterDelay",
+//     "window.zoomLevel": 1
+// }
+
+{
+    "editor.fontSize": 20,
+    "explorer.confirmDragAndDrop": false,
+    "extensions.autoUpdate": false,
+    "editor.fontFamily": "Consolas, Dengxian",
+    "workbench.sideBar.location": "left",
+    "workbench.startupEditor": "newUntitledFile",
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.colorTheme": "One Dark Pro",
+    "window.zoomLevel": 0,
+  }
