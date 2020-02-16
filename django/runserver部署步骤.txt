@@ -1,0 +1,58 @@
+&&&&&&&&&&&&&ubuntu部署项目流程&&&&&&&&&&&&&&&&&&&&&
+一、******ubuntu安装conda*********
+	wget https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/Anaconda3-5.3.1-Linux-x86_64.sh 下载conda
+	bash  Anaconda3-5.3.1-Linux-x86_64.sh  #bash程序在bin/bash中，与./运行效果一样，./会调用bash来执行
+	vim  ~/.bashrc
+	export PATH=/home/user/anaconda3/bin:$PATH   #把anaconda3的目录加入环境变量
+	source ~/.bashrc
+	conda添加镜像:
+		conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+		conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+		conda config --set show_channel_urls yes
+	pip install -i http://mirrors.aliyun.com/pypi/simple/ xxx 安装单个包
+二、**************使用conda创建虚拟环境******************
+	1.查看现有的虚拟环境列表
+		conda info -e
+	2.创建虚拟环境nlp，nlp为虚拟环境名字
+		conda create --name nlp python=3.6
+	3.进入conda创建的环境nlp
+		source activate nlp  #linux系统里激活
+		activate nlp  #windows系统里激活
+	4.退出conda创建的环境nlp
+		source deactivate
+	5.安装/删除包
+		conda install tensorflow-gpu
+		conda uninstall numpy
+		pip install xxx (windows)	
+		pip install django==2.2
+		
+三、**********上传项目文件**********************
+		 /home/user/下创建sites文件夹
+		 sites下创建www.daxigua.asia文件夹  以域名作为文件夹名字，当服务器有多个项目，便于管理
+		 git clone https://github.com/zmrenwu/django-blog-tutorial.git 项目上传
+
+四、**************安装项目依赖******************
+	pip freeze > requirements.txt
+	pip install -r requirements.txt	
+
+
+五、**************创建数据库文件**************
+	python manage.py migrate 命令创建数据库文件
+	python manage.py createsuperuser
+	
+六、**************收集静态文件，配置 Nginx**************
+	python manage.py collectstatic 命令收集静态文件到 根目录的static 目录下
+	
+
+七、**************运行项目******************	
+	nohup python manage.py runserver 0.0.0.0:8000 > nohup.log 2>&1 &
+	nohup 一直循环
+	& 最后一个&，表示后台执行
+	> nohup.log 2>&1 表示错误输出，标准输出重定向到nohup.log 里
+	运行状态可以用 “jobs -l” 来查看，感觉jobs没多少用，退出shell后就不能查看了，只能看当时shell里的
+	也可用ps -aux 查看，能看到如:/home/user/anaconda3/envs/cmdb/bin/python manage.py runserver 0.0.0.0:8000
+	可以kill -9 pid 杀掉进程
+	netstat -an  查看程序的端口
+	
+	uwsgi遵循wisgi协议
+	pip install uwsgi 如果安装失败，考虑更改gcc版本后在pip安装
