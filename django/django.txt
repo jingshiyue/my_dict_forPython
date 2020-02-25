@@ -1,3 +1,19 @@
+---------------------------
+华为
+	root
+	zzz123456/
+天翼云
+	173302591@qq.com
+	zzz123456/
+	内蒙4 root 123456.
+阿里云
+	静173302591
+	zzz123456/
+	daxigua.asia
+---------------------------
+
+	
+	
 http://www.liujiangblog.com/course/django/89
 https://djangopackages.org/ 
 django-admin startproject mysite
@@ -151,7 +167,6 @@ safe 过滤器，{{ post.body|safe }}
 
 
 有时候按 F5 刷新后页面还是很乱，这可能是因为浏览器缓存了之前的结果。按 Shift + F5（有些浏览器可能是 Ctrl + F5）强制刷新浏览器页面即可。
-为了能在模板中使用 {% static %} 模板标签，别忘了在最顶部 {% load staticfiles %} 。static 模板标签位于 staticfiles 模块中，只有通过 load 模板标签将该模块引入后，才能在模板中使用 {% static %} 标签。
 而 /static/ 前缀是我们在 settings.py 文件中通过 STATIC_URL = '/static/' 指定的
 {% empty %} 的作用是当 post_list 为空，即数据库里没有文章时显示 {% empty %} 下面的内容，最后我们用 {% endfor %} 告诉 Django 循环在这里结束了
 例如这里的 {{ post.pk }}（pk 是 primary key 的缩写
@@ -176,11 +191,6 @@ redirect 既可以接收一个 URL 作为参数，也可以接收一个模型的
 Django 允许我们在 models.Model 的子类里定义一个 Meta 的内部类，这个内部类通过指定一些属性来规定这个类该有的一些特性 比如 
 class Meta:
 	ordering = ['-created_time', 'title'] ，那么首先依据 created_time 排序，如果 created_time 相同，则再依据 title 排序
-
-(blogproject_env) C:\Users\yangxg\Workspace\blogproject>
-pip freeze > requirements.txt
-pip install -r requirements.txt
-这时项目根目录下会生成了一个 requirements.txt 的文本文件，其内容记录了项目的全部依赖。
 
 
 
@@ -247,77 +257,209 @@ pip install pytz
 			},
 		]
 
-yangxg@localhost:~/sites/demo.zmrenwu.com$ ls
-django-blog-tutorial（项目）  env（在com里面创建虚拟环境）
-
-yangxg@localhost:~/sites/demo.zmrenwu.com$ virtualenv --python=python3 env
-virtualenv --python=python3.7 env
-
-
-sudo service nginx start
-
-###################conda###虚拟环境#######################################
-1.查看现有的虚拟环境列表
-	conda info -e
-2.创建虚拟环境nlp，nlp为虚拟环境名字
-	conda create --name nlp python=3.6
-3.进入conda创建的环境nlp
-	source activate nlp  #linux系统里激活
-	activate nlp  #windows系统里激活
-4.退出conda创建的环境nlp
-	source deactivate
-5.安装/删除包
-	conda install tensorflow-gpu
-	conda uninstall numpy
-	pip install xxx (windows)
+————————————————————————————————————
+ ———静态文件——templates——static————
+	templates:根目录下有templates文件夹，各自app下也有templates文件夹。根目录下是app公用的模板文件。
+			  如:assets app下:assets\templates\assets\dashboard.html
 	
-pip install django==2.2
-pycharm里创建django项目，会自动下载安装与python版本匹配的最新版的django包，如果不需要这版本的django包，可以手动更改其版本
-建议先用终端命令行创建好虚拟环境，然后用pycharm创建项目时候，选择对应虚拟环境里的解释器
-pycharm设置默认浏览器为cherom
-在Pycharm中，没有可以创建app的图形化按钮，需要在下方的Terminal终端中输入命令：python manage.py startapp polls
+	static:与templates一样，对应setting.py中os.path.join(BASE_DIR, "static"),
+	{% load static %}:
+		static 模板标签位于 staticfiles 模块中
+		
+	模板文件中static:	
+		/static/ 前缀是我们在 settings.py 文件中通过 STATIC_URL = '/static/' 指定，模板渲染时 url静态文件路径的前缀
+	
+	母模板: 
+		{% load static %}
+		{% block title %}base{% endblock %}
+		把模板标签潜在html标签里
+		
+	子模板:
+		{% extends 'base.html' %}
+		{% load static %}
+		{% block title %}仪表盘{% endblock %}
+		模板标签组成，模板标签里可嵌html标签，如：
+			{% load static %}
+			<!DOCTYPE html>
+			<html>
+			<head>
+			<title>{% block title %}base{% endblock %}</title>
+			</head>
+			</body>
+				{% block css %}{% endblock %}
+				{% block content %}{% endblock %}
+				{% block script %}{% endblock %}
+			</body>
+			</html>
+		
+		
+	调试html:
+		不能直接在浏览器里打开html文件，因为浏览器不认识模板标签，如static 标签，会被错误渲染，导致找不到引用文件
+		正确调试方式: 运行django项目后，在http://127.0.0.1:8000/assets/dashboard/里去调试 dashboard.html，
+					  在ide里右键选择在浏览器里打开
+————————————————————————————————————	
+
+
+
+
+
+
+
+
+&&&&&&&&&&&&&ubuntu部署项目流程&&&&&&&&&&&&&&&&&&&&&
+一、******ubuntu安装conda*********
+	wget https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/Anaconda3-5.3.1-Linux-x86_64.sh 下载conda
+	bash  Anaconda3-5.3.1-Linux-x86_64.sh  #bash程序在bin/bash中，与./运行效果一样，./会调用bash来执行
+	vim  ~/.bashrc
+	export PATH=/home/user/anaconda3/bin:$PATH   #把anaconda3的目录加入环境变量
+	source ~/.bashrc
+	conda添加镜像:
+		conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+		conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+		conda config --set show_channel_urls yes
+	pip install -i http://mirrors.aliyun.com/pypi/simple/ xxx 安装单个包
+二、**************使用conda创建虚拟环境******************
+	1.查看现有的虚拟环境列表
+		conda info -e
+	2.创建虚拟环境nlp，nlp为虚拟环境名字
+		conda create --name nlp python=3.6
+	3.进入conda创建的环境nlp
+		source activate nlp  #linux系统里激活
+		activate nlp  #windows系统里激活
+	4.退出conda创建的环境nlp
+		source deactivate
+	5.安装/删除包
+		conda install tensorflow-gpu
+		conda uninstall numpy
+		pip install xxx (windows)	
+		pip install django==2.2
+		
+三、**********上传项目文件**********************
+		 /home/user/下创建sites文件夹
+		 sites下创建www.daxigua.asia文件夹  以域名作为文件夹名字，当服务器有多个项目，便于管理
+		 git clone https://github.com/zmrenwu/django-blog-tutorial.git 项目上传
+
+四、**************安装项目依赖******************
+	pip freeze > requirements.txt
+	pip install -r requirements.txt	
+
+
+五、**************创建数据库文件**************
+	python manage.py migrate 命令创建数据库文件
+	python manage.py createsuperuser
+	
+六、**************收集静态文件，配置 Nginx**************
+	python manage.py collectstatic 命令收集静态文件到 根目录的static 目录下
+	
+
+七、**************运行项目******************	
+	nohup python manage.py runserver 0.0.0.0:8000 > nohup.log 2>&1 &
+	nohup 一直循环
+	& 最后一个&，表示后台执行
+	> nohup.log 2>&1 表示错误输出，标准输出重定向到nohup.log 里
+	运行状态可以用 “jobs -l” 来查看，感觉jobs没多少用，退出shell后就不能查看了，只能看当时shell里的
+	也可用ps -aux 查看，能看到如:/home/user/anaconda3/envs/cmdb/bin/python manage.py runserver 0.0.0.0:8000
+	可以kill -9 pid 杀掉进程
+	netstat -an  查看程序的端口
+	
+	uwsgi遵循wisgi协议
+	pip install uwsgi 如果安装失败，考虑更改gcc版本后在pip安装
+
 #############################################################
+1.Ubuntu下安装Nginx比较简单
+    sudo apt-get update
+    sudo apt-get install nginx
+ 
+2.Ubuntu下卸载，稍不注意就会入坑
+	sudo service nginx stop  #先停掉nginx
+    sudo apt-get remove nginx nginx-common # 卸载删除除了配置文件以外的所有文件。
+    sudo apt-get purge nginx nginx-common # 卸载所有东东，包括删除配置文件。
+    sudo apt-get autoremove # 在上面命令结束后执行，主要是卸载删除Nginx的不再被使用的依赖包。
+    sudo apt-get remove nginx-full nginx-common #卸载删除两个主要的包。
+3.常用命令
+	service nginx start
+	service nginx stop
+	service nginx restart
+	service nginx status 状态
+	######在Nginx服务启动的状态下，重新加载nginx.conf这个配置文件
+	[root@typecodes ~]# service nginx reload #不检查配置文件是否错误
+	sudo nginx -s reload #要检查配置文件是否错误，建议用这个替换
+4.nginx相关知识
+	/etc/init.d/nginx configtest 检查配置，不报错
+	/etc/init.d/nginx restart 重启nginx
+	sudo tree /etc/nginx
+	/etc/nginx				  #nginx的配置文件主目录
+	/etc/nginx/nginx.conf		#nginx的主配置文件，全局配置.
+
+	/etc/nginx/conf.d		  #附加配置文件目录
+	/etc/nginx/conf.d/default.conf  #nginx初始提供的默认子配置文件
+
+	/var/cache/nginx							#nginx缓存相关的路径
+	/var/log/nginx								#nginx的日志记录的路径
+	service nginx reload 重新加载配置
+	/var/www/html为网站文件存放的地方, 默认只有Nginx欢迎页面, 可以通过改变Nginx配置文件的方式来修改这个位置.
+	3. /etc/nginx/sites-available
+	这个目录存储每一个网站的"server blocks", Nginx通常不会使用这些配置, 除非它们被链接到sites-enabled目录. 一般所有的server block配置都在这个目录中设置, 然后软链接到别的目录.
+	4. /etc/nginx/sites-enabled
+	这个目录存储生效的"server blocks"配置. 通常, 这个配置都是链接到sites-available目录中的配置文件.只有在 sites-enabled 目录下的配置文件才能够真正被用户访问
+	5. /etc/nginx/snippets
+	这个目录主要可以包含在其它Nginx配置文件中的配置片段, 重复的配置都可以重构为配置片段.
+	1. /var/log/nginx/access.log
+	每一个访问请求都会默认记录在这个文件中, 除非你做了其它设置.
+	2. /var/log/nginx/error.log
+	任何Nginx的错误信息都会记录到这个文件中.
+	媒体文件：用户上传的文件
+	静态文件：css,js，image等
+	开发环境：使用django内置服务器处理静态文件
+	生产环境：使用apache2/nginx服务器处理静态文件映射
+	开发环境下，是在各自的app下创建static文件夹，setting.py中 DEBUG = True，是通过使用django内置服务器访问静态文件
+	在生成环境中，集中存放静态资源有利于使用Lighttpd/Nginx托管静态资源。而生产环境一般是把静态文件放在项目根目录下的static目录（STATIC_ROOT = os.path.join(BASE_DIR, 'static')）下，python manage.py collectstatic收集所有已安装的APP的静态文件到根目录的
+5.配置
+	Nginx配置
+	1、/etc/nginx/sites-available/ 目录下新建一个配置文件，，文件名我一般就设置为域名
+	2、建立软连接到sites-enabled  ln -s /etc/nginx/sites-available/myblog.com /etc/nginx/sites-enabled/myblog.com														
+		/etc/nginx/sites-available/myblog.com内容:
+		无域名时的配置:
+			server {
+				charset utf-8;
+				listen 8001;
+				server_name 175.168.1.147;
+
+				location /static {
+					alias /home/root0/sites/myblog.com/blogproject/static;
+					#root /home/root0/sites/myblog.com/blogproject/static
+				}
+
+
+				location / {
+					proxy_set_header Host $host;
+					proxy_pass http://unix:/tmp/175.168.1.147;
+				}
+			}
+		有域名时的配置:
+			server {
+				charset utf-8;
+				listen 8001;
+				server_name www.daxigua.asia;
+			 
+				location /static {
+					alias /home/user/sites/www.daxigua.asia/blogproject/static; 
+				}
+			
+				location / {
+					proxy_set_header Host $host;
+					proxy_pass http://unix:/tmp/www.daxigua.asia.socket;
+				}
+			}		
+			
+6.启动
+	gunicorn启动django
+	(env) yangxg@localhost:~/sites/demo.zmrenwu.com/django-blog-tutorial$ gunicorn -w 4 -b 0.0.0.0:8000 blogproject.wsgi:application （要进去其作目录下运行该命令，不然启动不成功）
 
 
 
-/etc/init.d/nginx configtest 检查配置，不报错
-/etc/init.d/nginx restart 重启nginx
-sudo tree /etc/nginx
-/etc/nginx				  #nginx的配置文件主目录
-/etc/nginx/nginx.conf		#nginx的主配置文件，全局配置.
 
-/etc/nginx/conf.d		  #附加配置文件目录
-/etc/nginx/conf.d/default.conf  #nginx初始提供的默认子配置文件
-
-/var/cache/nginx							#nginx缓存相关的路径
-/var/log/nginx								#nginx的日志记录的路径
-service nginx reload 重新加载配置
-/var/www/html为网站文件存放的地方, 默认只有Nginx欢迎页面, 可以通过改变Nginx配置文件的方式来修改这个位置.
-3. /etc/nginx/sites-available
-这个目录存储每一个网站的"server blocks", Nginx通常不会使用这些配置, 除非它们被链接到sites-enabled目录. 一般所有的server block配置都在这个目录中设置, 然后软链接到别的目录.
-4. /etc/nginx/sites-enabled
-这个目录存储生效的"server blocks"配置. 通常, 这个配置都是链接到sites-available目录中的配置文件.只有在 sites-enabled 目录下的配置文件才能够真正被用户访问
-5. /etc/nginx/snippets
-这个目录主要可以包含在其它Nginx配置文件中的配置片段, 重复的配置都可以重构为配置片段.
-1. /var/log/nginx/access.log
-每一个访问请求都会默认记录在这个文件中, 除非你做了其它设置.
-2. /var/log/nginx/error.log
-任何Nginx的错误信息都会记录到这个文件中.
-
-~/sites/demo.zmrenwu.com/django-blog-tutorial$ sudo ln -s /etc/nginx/sites-available/myblog.com /etc/nginx/sites-enabled/myblog.com
-
-gunicorn启动django
-(env) yangxg@localhost:~/sites/demo.zmrenwu.com/django-blog-tutorial$ gunicorn -w 4 -b 0.0.0.0:8000 blogproject.wsgi:application （要进去其作目录下运行该命令，不然启动不成功）
-
-媒体文件：用户上传的文件
-静态文件：css,js，image等
-开发环境：使用django内置服务器处理静态文件
-生产环境：使用apache2/nginx服务器处理静态文件映射
-
-
-开发环境下，是在各自的app下创建static文件夹，setting.py中 DEBUG = True，是通过使用django内置服务器访问静态文件
-在生成环境中，集中存放静态资源有利于使用Lighttpd/Nginx托管静态资源。而生产环境一般是把静态文件放在项目根目录下的static目录（STATIC_ROOT = os.path.join(BASE_DIR, 'static')）下，python manage.py collectstatic收集所有已安装的APP的静态文件到根目录的
-STATIC_URL = '/statica/'  #模板渲染时 url静态文件路径的前缀,注意前缀家的是相对路径
+STATIC_URL = '/static/'  #模板渲染时 url静态文件路径的前缀,注意前缀家的是相对路径
 
 shift+F5 强制浏览器清空缓存，很有用哦。浏览器往往会缓存静态文件
 
@@ -325,59 +467,8 @@ sftp://root0@175.168.1.147/home/root0/sites/myblog.com/blogproject/static/static
 
 
 
-Nginx配置
-	1、/etc/nginx/sites-available/ 目录下新建一个配置文件，，文件名我一般就设置为域名
-	2、建立软连接到sites-enabled  ln -s /etc/nginx/sites-available/myblog.com /etc/nginx/sites-enabled/myblog.com							
-								
-								
-								
-server {
-    charset utf-8;
-    listen 8001;
-    server_name 175.168.1.147;
-
-    location /static {
-        alias /home/root0/sites/myblog.com/blogproject/static;
-        #root /home/root0/sites/myblog.com/blogproject/static
-    }
-
-
-    location / {
-        proxy_set_header Host $host;
-        proxy_pass http://unix:/tmp/175.168.1.147;
-    }
-}
-
-
-svn://192.168.5.12/Develop/Export/SecurityCompetitionScoreDisplay
-
-
-######启动Nginx服务
-[root@typecodes ~]# service nginx start
-######停止Nginx服务
-[root@typecodes ~]# service nginx stop
-######重启Nginx服务
-[root@typecodes ~]# service nginx restart
-######Nginx服务的状态
-[root@typecodes ~]# service nginx status
-######在Nginx服务启动的状态下，重新加载nginx.conf这个配置文件
-[root@typecodes ~]# service nginx reload #不检查配置文件是否错误
-sudo nginx -s reload #要检查配置文件是否错误，建议用这个替换
-
-
-
-1.Ubuntu下安装Nginx比较简单
-    sudo apt-get update
-    sudo apt-get install nginx
- 
-
-2.Ubuntu下卸载，稍不注意就会入坑
-	sudo service nginx stop  #先停掉nginx
-    sudo apt-get remove nginx nginx-common # 卸载删除除了配置文件以外的所有文件。
-    sudo apt-get purge nginx nginx-common # 卸载所有东东，包括删除配置文件。
-    sudo apt-get autoremove # 在上面命令结束后执行，主要是卸载删除Nginx的不再被使用的依赖包。
-    sudo apt-get remove nginx-full nginx-common #卸载删除两个主要的包。
-
+	
+	
 项目总结：
 	post_list = Post.objects.all().order_by('-created_time')
 	return render(request, 'blog/index.html', context={'post_list': post_list})
@@ -1002,9 +1093,188 @@ def hash_code(s, salt='mysite'):
     h.update(s.encode())
     return h.hexdigest()
 
+>>> from blog.models import Blog
+>>> b = Blog(name='Beatles Blog', tagline='All the latest Beatles news.')
+>>> b.save()
+相当于
+	b = Blog.objects.create(name='Beatles Blog', tagline='All the latest Beatles news.')
+
+>>> b5.name = 'New name'  #在后台，这会运行一条SQL的UPDATE语句
+>>> b5.save()
+
+保存外键和多对多字段
+	>>> entry.blog = cheese_blog   #直接给blog属性赋值。
+	>>> entry.save()  #
+	
+	>>> entry.authors.add(john, paul, george, ringo) #多对多，john, paul, george, ringo都是实例
+	
+通过模型的Manager获得QuerySet，每个模型至少具有一个Manager，默认情况下，它被称作objects
+1. 检索所有对象
+	>>> all_entries = Entry.objects.all()
+2. 过滤对象
+	Entry.objects.filter(pub_date__year=2006)
+	链式过滤
+	filter和exclude的结果依然是个QuerySet
+	QuerySets都是懒惰的
+3. 检索单一对象
+	>>> one_entry = Entry.objects.get(pk=1)
+	如果在查询时没有匹配到对象，那么get()方法将抛出DoesNotExist异常
+	如果结果超过1个，则会抛出MultipleObjectsReturned异常
+4. 字段查询
+	QuerySet方法
+		大多数情况下，需要从数据库中查找对象时，使用all()、 get()、filter() 和exclude()就行，索引、切片操作
+	字段查询
+		其基本格式是：field__lookuptype=value，注意其中是双下划线
+		>>> Entry.objects.filter(pub_date__lte='2006-01-01')
+		#　相当于：
+		SELECT * FROM blog_entry WHERE pub_date <= '2006-01-01';
+		exact：
+
+	默认类型。如果你不提供查询类型，或者关键字参数不包含一个双下划线，那么查询类型就是这个默认的exact
+	>>> Entry.objects.get(headline__exact="Cat bites dog")
+	iexact：
+
+	不区分大小写。
+	contains：
+
+	表示包含的意思！大小写敏感！
+	istartswith和iendswith
+
+	是不区分大小写的模式。
+5. 跨越关系查询
+	>>> Entry.objects.filter(blog__name='Beatles Blog') #blog是正向关联的类名的小写名，name是Blog中的字段
+	>>> Blog.objects.filter(entry__headline__contains='Lennon') #引用一个反向关联，只需要使用模型的小写名!
+6. 使用F表达式引用模型的字段
+	>>> from django.db.models import F
+	>>> Entry.objects.filter(n_comments__gt=F('n_pingbacks'))  #n_comments、n_pingbacks是Entry中的字段
+7. 主键的快捷查询方式：下面三种等效 
+	>>> Blog.objects.get(id__exact=14) # 默认进行exact筛选
+	>>> Blog.objects.get(id=14) # 
+	>>> Blog.objects.get(pk=14) # pk pk就是primary key的缩写。通常情况下，一个模型的主键为“id”
+8. 在LIKE语句中转义百分符号和下划线
+	在原生SQL语句中%符号有特殊的作用。Django帮你自动转义了百分符号和下划线，你可以和普通字符一样使用它们，如下所示：
+	>>> Entry.objects.filter(headline__contains='%')
+	# 它和下面的一样
+	# SELECT ... WHERE headline LIKE '%\%%';
+
+使用Q对象进行复杂查询
+	普通filter函数里的条件都是“and”逻辑，如果你想实现“or”逻辑怎么办？用Q查询！
+	可以使用“&”或者“|”或“~”来组合Q对象，分别表示与或非逻辑。它将返回一个新的Q对象。
+	Poll.objects.get(
+	Q(question__startswith='Who'),Q(pub_date=date(2005, 5, 2)) | Q(pub_date=date(2005, 5, 6)) #默认情况下，以逗号分隔的都表示AND关系
+	)
+	
+	当关键字参数和Q对象组合使用时，Q对象必须放在前面，如下例子：
+		Poll.objects.get(
+		Q(pub_date=date(2005, 5, 2)) | Q(pub_date=date(2005, 5, 6)),question__startswith='Who',)
+
+比较对象
+	>>> some_obj == other_obj #在后台，其实比较的是两个实例的主键的值，如果模型的主键不叫做“id”也没关系，后台总是会使用正确的主键名字进行比较
+	>>> some_obj.name == other_obj.name
+
+删除对象
+	>>> e.delete()  #返回被删除对象的总数量和一个字典
+	也可以批量删除。每个QuerySet都有一个delete()方法，它能删除该QuerySet的所有成员。例如：
+	>>> Entry.objects.filter(pub_date__year=2005).delete()
+	(5, {'webapp.Entry': 5})	
+	Entry.objects.all().delete()  #删除所有
+
+ForeignKey,ManyToManyField与OneToOneField分别在Model中定义多对一，多对多，一对一关系。
+如果不想设置反向关系，设置related_name为'+'或者以'+'结束。	
+	user = models.ForeignKey(User, related_name='+')
+
+为了上传文件，你需要确保你的<form>元素定义enctype为"multipart/form-data"：
+
+db.sqlite3 为Python3内置sqlite3模块生成的文件
+sqlite3 db.sqlite3 ".dump" >
+	
+	
 ***************安装代码审查模块************************************************
 pip install pylint
 pip install yapf
 pip install pylint_django
 ***************************************************************
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple  django==2.2 从国内镜像安装
+
+
+================linux扩展=================================
+****分组管理**切换用户****
+第一个数是所用者，组用户，其他用户
+用户分组:root、admin、user(普通用户)，admin组内用户临时sudo，user组内用户没有sudo权限
+
+useradd test -m 添加test用户，home目录下创建用户目录
+passwd test 给test用户添加密码
+adduser user sudo #将user用户添加到sudo组，sudo组能执行管理员权限，需要先创建用户
+su xxx 切换到xxx用户
+sudo -i 或 su - 切换到root
+userdel test 删除用户
+
+groups 查看当前用户是哪个组
+id 查看当前用户信息，也能看到所属组信息
+**********
+如TCP/IP协议中的服务端口，端口号的范围从0到65535
+查看端口，能看到pid 端口号 进程名
+	lsof -i
+  或netstat -anlp
+查看进程
+	ps -aux  能看到进程名、pid
+查看磁盘
+	df -h 其中/dev/sda3 是分区  -h 可视化效果更好
+  或fdisk -l 查看磁盘分区的大小
+修改目录下所有文件权限
+	chmod -R    -R 表示递归
+查看安装有哪些包
+	apt list （14.0.4以上版本）
+  或dpkg -l 
+开启端口
+	sudo ufw allow 80 允许外部访问80端口
+	sudo ufw delete allow 80 禁止外部访问80 端口
+gcc改变版本,遇到编译内核等问题可能会依赖于某个gcc版本，而ubuntu中自带的gcc版本过高或者过低，需要改变到合适的版本
+	sudo apt-get  install gcc-4.7
+	sudo rm /usr/bin/gcc（删除已有软连接）
+	sudo ln -s /usr/bin/gcc-4.7 /usr/bin/gcc
+	gcc -v
+find查找文件夹
+	find / -name uwsgi -type d 查找根目录下site-packages文件夹
+ubuntu中conda的虚拟环境安装包位置
+	sudo find / -name site-packages -type d 查找根目录下site-packages文件夹，加sudo，查找范围更广
+	/home/user/anaconda3/envs/cmdb/lib/python3.6/site-packages
+	
+whereis 
+	而且只搜索二进制文件，二进制文件可执行
+
+which
+	搜索环境变量$PATH，返回第一个搜索结果。
+	以及执行的到底是哪一个位置的命令。
+	
+linux文件
+	linux里不以文件后缀名辨别，好多文件没有后缀。系统里一切皆文件
+	用ll 命令查看是否有可执行权限
+	ssh 查看到uwsgi* ,下载到windows里，看到文件名是uwsgi，无后缀
+	
+常用的文件目录解释
+	/bin是系统的一些指令  bin是binary的缩写，二进制
+	/sbin一般是指超级用户指令
+	/usr/bin　是你在后期安装的一些软件的运行脚本
+	/usr/sbin   放置一些用户安装的系统管理的必备程式
+	/usr/local/bin目录是给用户放置自己的可执行程序的地方，推荐放在这里，不会被系统升级而覆盖同名文件。
+	/usr/local/sbin通常是用户后来安装的软件，一般是用来管理系统的，被系统管理员使用。
+	如果两个目录下有相同的可执行程序，谁优先执行受到PATH环境变量的影响，比如我的一台服务器的PATH变量为。
+	总结:/bin、/usr/bin是系统用的，/usr/local 是用户自己用的，总结也不是很准，具体用whereis去查找验证
+
+查看apt安装包的位置
+	dpkg -l|grep uwsgi 只能找到系统（本地）的uwsgi(2.0.12)
+	dpkg -L 包名 （主要包名正确，提前用dpkg -l|grep 查下）
+	如:
+		dpkg -L uwsgi 找不到，因为用dpkg -l|grep uwsgi 查到包名是uwsgi-core
+		dpkg -L uwsgi-core
+		发现安装位置很分散，主要在/usr/bin、/usr/lib/里
+
+
+	lsof -i 自己用户(普通用户)是不能查到别的用户的进程
+	ps  可以查到其他用户的
+
+
+
+
+
