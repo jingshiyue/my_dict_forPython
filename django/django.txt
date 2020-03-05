@@ -11,8 +11,10 @@
 	zzz123456/
 	daxigua.asia
 ---------------------------
-
-	
+班级  学生
+ 一    多
+ 一 对 多
+外键定义在多的一方
 	
 http://www.liujiangblog.com/course/django/89
 https://djangopackages.org/ 
