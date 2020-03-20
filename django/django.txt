@@ -1275,7 +1275,38 @@ linux文件
 
 	lsof -i 自己用户(普通用户)是不能查到别的用户的进程
 	ps  可以查到其他用户的
+r
+view  只绑定(安装默认名称，即get绑定get())，无方法(get())，无动作(list())
+rest_framework总结
+APIView(rest_framework.views) 继承View，只绑定,无方法，无动作
+ -> ViewSet 无方法处理(.get())、无动作(.list())
+ -> GenericAPIView(rest_framework.generics) 继承APIView。无动作，与mixin类一起用
+	 -> GenericViewSet 与mixin类，或显式实现动作，与GenericAPIView功能差不多，因为GenericViewSet(ViewSetMixin, generics.GenericAPIView)
+	 -> ModelViewSet 方法处理、动作 都有，通常需要至少提供querysetand serializer_class属性
 
+
+from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.urls import reverse
+from django.shortcuts import render
+from django.shortcuts import redirect
+from django.utils.http import is_safe_url
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
+from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
+from django.contrib.auth import authenticate, login, logout
+from django.conf import settings
+from django import forms
+from django.views.decorators.csrf import csrf_exempt
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+
+
+from rest_framework import mixins
+from rest_framework import generics
+from rest_framework.pagination import PageNumberPagination
+from rest_framework import viewsets
 
 
 
