@@ -1,0 +1,23 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>xxx</title>
+        <style>
+            .hide{
+                display: none;
+            }
+        </style>
+    </head>
+	
+    <body>
+        <form action="" method="POST">
+            <p>学生名称： <input type="text" name="stuName"></p>  <!--表单提交，控件要有name属性，才能被提交-->
+            <p>所属班级： <select name="classID">
+                <option value="1">班级1</option>   <!--没有value时，提交的是内容，有value提交value值-->
+                <option value="2">班级2</option>
+            </select>
+            </p>
+            <input type="submit" value="提交">
+        </form>
+	</body>
+</html>

@@ -1,0 +1,23 @@
+$.ajax({
+  type: "post",
+  async: true,
+  traditional: true,     //发送data，可以是列表，如["123","456","789"]
+  data: {
+    "records": ["123","456","789"]
+  },
+  url: "xxxxx",
+  error: function(request) {},
+  success: function(data) {}
+});
+
+
+$.ajax({
+  type: "post",
+  async: true,
+  data: {
+    "records": {"y":JSON.stringify({"x":x"","xx":"xx"})}   //发送嵌套字典，用JSON.stringify转成字符串
+  },
+  url: "xxxxx",
+  error: function(request) {},
+  success: function(data) {}
+});

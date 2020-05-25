@@ -338,7 +338,8 @@ root : r"d:\pic1\\"     \\" 不能写成\"，输出:d:\pic1\\
 root1 : r"d:\pic1" + "\\"
 root3 : "d:\pic1\\"
 root1、root3输出：d:\pic1\
-
+fN3~fyqvwx
+fN3~fyqvwx
 --
 mkdir 用于创建文件夹，而不是文件。创建文件用open(),写入内容来创建文件
 root : r"d:\pic1\\"
@@ -472,7 +473,7 @@ if searchObj:
 else:
    print "Nothing found!!"
    
-执行结果如下：   
+执行结果如下：
 searchObj.group() :  Cats are smarter than dogs
 searchObj.group(1) :   Cats and mouse
 searchObj.group(2) :  smarter
@@ -630,9 +631,9 @@ try except的调试，不能追踪问题，把try去掉，再调试
 
 ---------------------configParser----------------------------------------------------------------------------------------------------------
 import ConfigParser     #要求文件中所有的内容都是按sections和items的方式组织的
-config : ConfigParser.ConfigParser()
+config = ConfigParser.ConfigParser()
 config.read("C:\Automation\Scripts\META_INF\TestbedConfig.ini")
-meter_address_path : config.get("config","meter_addr_path")
+meter_address_path = config.get("config","meter_addr_path")
 config.get(secion_name, item_name)
 if(config.has_section(secion_name) == False):
     config.add_section(secion_name)
@@ -1230,16 +1231,17 @@ import logging (logging里先添加一个logger，再添加2个handler，一个�
 
 
 同事写的例子：（代码的效果是日志写入文件同时控制台输出）
-    import logging
-    logging.basicConfig(level:logging.DEBUG,   #log文件写入等级
-                        format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-                        filename : log_path + '\\' + log_file_name,
-                        filemode='a')
-    console : logging.StreamHandler()
-    console.setLevel(logging.INFO)     #设置控制台输出等级
-    formatter : logging.Formatter('%(asctime)s %(levelname)s %(message)s')
-    console.setFormatter(formatter)
-    logging.getLogger().addHandler(console)
+	import logging
+	logging.basicConfig(level=logging.INFO,   #log文件写入等级
+						format='[%(asctime)s %(filename)s line:%(lineno)d]%(levelname)s:  %(message)s',
+						filename=r"D:\workfile\zhongkeyuan_workspace/test.log",
+						filemode='a'
+						)
+	console = logging.StreamHandler()
+	console.setLevel(logging.INFO)     #设置控制台输出等级
+	formatter = logging.Formatter('[%(asctime)s %(filename)s line:%(lineno)d]%(levelname)s:  %(message)s')
+	console.setFormatter(formatter)
+	logging.getLogger().addHandler(console)
     logging.info("Here should not have addr!")
     logging.info("This is a invalid datagram!")
 输出：
@@ -7161,12 +7163,12 @@ def sent_data_from_serial(ser, whole_str):
             dtgm_obj : re.match(r"(\A(68)(\w{12})68(\w{2})+16)", ser_str_data)
             
 def read_from_config(secion_name, item_name):
-    config : ConfigParser.ConfigParser()
+    config = ConfigParser.ConfigParser()
     config.read(configfile)
     return config.get(secion_name, item_name)
     
 def write_to_config(secion_name, item_name, value):
-    config : ConfigParser.ConfigParser()
+    config = ConfigParser.ConfigParser()
     config.read(configfile)
     if(config.has_section(secion_name) == False):
         config.add_section(secion_name)
