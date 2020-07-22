@@ -81,4 +81,50 @@ select下拉框多选，加multiple属性， size 最多显示7个：
 　　　　<optionvalue="7">选项7</option>                                                                                                                                               
 　　</select>
 
+padding 内边距
+margin 外边距
+
+%是一个相对父元素计算得来的高度，要想使他有效，我们需要设置父元素的height;
+要特别注意的一点是，在<body>之中的元素的父元素并不仅仅只是<body>，还包括了<html>。
+所以我们要同时设置这两者的height，只设置其中一个是不行的：
+	html,body{
+		height: 100%;
+		margin: 0;
+		padding: 0;
+	}
+	
+文本级标签：p , span , a , b , i , u , em
+容器级标签：div , h系列 , li , dt ,dd	
+行内元素：除了p之外，所有的文本级标签，都是行内元素。p是个文本级标签，但是是个块级元素。
+块级元素：所有的容器级标签，都是块级元素，以及p标签。
+块级元素和行内元素的相互转换：
+	display：inline;  标签将变为行内元素
+	display：block；   标签将变为块级标签
+	
+CSS一共有三种手段，是一个元素脱离标准流文档：
+	浮动
+	绝对定位
+	固定定位
+
+float改变了span的标准流，是span行内元素不设置display:none情况下也能设置宽高
+
+2个div上下排布，不会重叠。注意不加float，加float会改变默认布局，float脱标
+	.box1{
+		width: 300px;
+		height: 300px;
+		background-color: red;
+		/* float: left; */
+	}
+	.box2{
+		width: 200px;
+		height: 200px;
+		background-color: green;
+		/* float: right; */
+	}
+    <div class="box1">box1</div>
+    <div class="box2">box2 </div>
+
+margin-left是相对前一个元素或者父级左边缘的边距
+
+
 https://www.cnblogs.com/qq78292959/archive/2013/08/05/3238752.html    url传递参数总结

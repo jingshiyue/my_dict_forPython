@@ -14,6 +14,7 @@ $.ajax({
 $.ajax({
   type: "post",
   async: true,
+  type:JSON,  //jquery里，会将接口返回的data自动转成JSON，不用JSON.parse()了
   data: {
     "records": {"y":JSON.stringify({"x":x"","xx":"xx"})}   //发送嵌套字典，用JSON.stringify转成字符串
   },
@@ -21,3 +22,14 @@ $.ajax({
   error: function(request) {},
   success: function(data) {}
 });
+
+$.ajax({
+	type: "get",
+	async: false,
+	traditional: true,     //发送data，可以是列表，如["123","456","789"]
+	url: "/queryProjs/",
+	error: function(request) {},
+	success: function(rst) {
+		data = rst
+	}
+	});
