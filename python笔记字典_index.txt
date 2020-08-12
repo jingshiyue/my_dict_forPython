@@ -795,8 +795,8 @@ def capture_log(ser):
         queue_log.put(line)
         print queue_log.get().strip()
 
-myqueue : Queue.Queue(maxsize : 10)
-q_info : Queue.Queue(maxsize : -1)
+myqueue = Queue.Queue(maxsize : 10)
+q_info = Queue.Queue(maxsize : -1)
 Queue.Queue类即是一个队列的同步实现。队列长度可为无限或者有限。可通过Queue的构造函数的可选参数maxsize来设定队列长度。如果maxsize小于1就表示队列长度无限。
 ---------
 ************************
@@ -810,7 +810,7 @@ Queue.Queue类即是一个队列的同步实现。队列长度可为无限或者
 
 def open_uart(port, rate):
     try:
-        ser : serial.Serial(
+        ser = serial.Serial(
             port:port,
             baudrate:rate,   #baudrate：波特率， rate：速率
             parity:serial.PARITY_NONE,  #检验位为空
@@ -7295,9 +7295,9 @@ if __name__ == "__main__":
     #baudrate : sys.argv[2]
     com : "com4"
     baudrate : 9600
-    que : Queue.Queue()
-    ser : open_serial(com,baudrate)
-    t1 : threading.Thread(target:read_serial,args=[])
+    que = Queue.Queue()
+    ser = open_serial(com,baudrate)
+    t1 = threading.Thread(target:read_serial,args=[])
     t1.setDaemon(True)
     t1.start()
     while True:
