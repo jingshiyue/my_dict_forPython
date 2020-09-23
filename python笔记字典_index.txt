@@ -413,14 +413,14 @@ os.system('taskkill /f /fi "IMAGENAME eq 1_cco.exe"')   taskkill 关闭程序
 import sys
 sys.argv[1]表示cmd接收的第一个参数。 比如输入notepad，则打开记事本   
 ----------------正则表达式--------------------------------------------------------------------------------------------------------------
-ref : re.compile(r"\A2323(.+)4040\Z")   #开头结尾，不能加括号括住
+ref = re.compile(r"\A2323(.+)4040\Z")   #开头结尾，不能加括号括住
 
-rst : re.search(r'[1-9]\d{5}','BIT 100081') #筛选邮编地址
+rst = re.search(r'[1-9]\d{5}','BIT 100081') #筛选邮编地址
 等价于：
-pat : re.compile(r'[1-9]\d{5}') 
-rst : pat.search('BIT 100081')
+pat = re.compile(r'[1-9]\d{5}') 
+rst = pat.search('BIT 100081')
 ########
-searchEXCE : re.compile(r"exception",re.I) #大小写不敏感
+searchEXCE = re.compile(r"exception",re.I) #大小写不敏感
 while(conent):
     if searchEXCE.search(conent):
         print searchEXCE.search(conent).group()
@@ -971,14 +971,14 @@ query_topo_timer = threading.Timer(int(query_topo_timer_interval), check_if_netw
 
 import threading
 import time
-query_topo_timer_interval_2 : 2
-start_time : time.time()
+query_topo_timer_interval_2 = 2
+start_time = time.time()
 def check_if_networking_done():
     #print threading.enumerate()
-        used_t : time.time()-start_time
-        query_topo_timer : threading.Timer(int(query_topo_timer_interval_2), check_if_networking_done)   #线程中递归调用，定时作用
+        used_t = time.time()-start_time
+        query_topo_timer = threading.Timer(int(query_topo_timer_interval_2), check_if_networking_done)   #线程中递归调用，定时作用
         query_topo_timer.start()
-        print "used_t-%s"%used_t
+        print "used_t-%s" % used_t
 check_if_networking_done()
 
 ===============
@@ -3891,22 +3891,63 @@ plt.plot(dates, lows, c='black', alpha:0.5)
 plt.fill_between(dates, highs, lows, facecolor='blue', alpha:0.1)   #填充之间
 -------------------------------------------------------------------------------------------------------------------------------
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 plt.text(start, 0, 'upgrade_start')
 plt.grid()
 fig = plt.figure(num=3, figsize=(20, 20), dpi=200)
 plt.savefig(subfolder+"\\sta_cnt.png")
---------------------------pandas模块-----------------------------------------------------------------------------------------------------
 
+--------------------------pandas模块-----------------------------------------------------------------------------------------------------
+import pandas as pd
 df['a']#取a列
 df[['a','b']]#取a、b列
 df.columns   #获取列名
-
+df.index  #获取行名
 #loc只能通过index和columns来取，不能用数字
 df.loc['one','a']#one行，a列
 df.loc['one':'two','a']#one到two行，a列
 df.loc['one':'two','a':'c']#one到two行，a到c列
 df.loc['one':'two',['a','c']]#one到two行，ac列
+df.T  倒置dataframe
+
+通过内嵌字典构造dataFrame:【行名字为内嵌字典的key】
+	dict = {
+			'21_6_65535_3': {'RecvKB': '537512', 'RecvLoss': '0', 'SendKB': '4227756', 'SendLoss': '0'}, 
+			'28_1_65535_3': {'RecvKB': '0', 'RecvLoss': '0', 'SendKB': '0', 'SendLoss': '0'}, 
+			'28_1_65535_4': {'RecvKB': '0', 'RecvLoss': '0', 'SendKB': '0', 'SendLoss': '0'}, 
+			}
+			
+	df = pd.DataFrame(dict)
+
+	df:
+
+				 21_6_65535_3 28_1_65535_3 28_1_65535_4 21_8_65535_3 26_8_65535_3  ... 28_4_65535_3 23_8_65535_3 26_6_65535_3 27_6_65535_3 26_4_65535_3
+		RecvKB         537512            0            0      3096668      3094368  ...            0          635           58       545113      8122736
+		RecvLoss            0            0            0            0            0  ...            0            0            0            0            0
+		SendKB        4227756            0            0      4370165      4394873  ...            0            0            0      4243147      9583330
+		SendLoss            0            0            0            0            0  ...            0            0            0            0            0
+
+
+通过list构造构造dataFrame:【行名字缺】
+	dict1 = {
+			'21_6_65535_3': ['537512', '0', '4227756', '0'], 
+			'28_1_65535_3': ['0', '0', '0', '0'], 
+			'28_1_65535_4': ['0', '0', '0', '0'], 
+			'21_8_65535_3': ['3096668', '0', '4370165', '0'],
+			}
+			
+	df = pd.DataFrame(dict1)	
+	
+	df:
+	
+			  21_6_65535_3 28_1_65535_3 28_1_65535_4 21_8_65535_3 26_8_65535_3  ... 28_4_65535_3 23_8_65535_3 26_6_65535_3 27_6_65535_3 26_4_65535_3
+		0       537512            0            0      3096668      3094368  ...            0          635           58       545113      8122736
+		1            0            0            0            0            0  ...            0            0            0            0            0
+		2      4227756            0            0      4370165      4394873  ...            0            0            0      4243147      9583330
+		3            0            0            0            0            0  ...            0            0            0            0            0
+				
+			
 -------------------------------------------------------------------------------------------------------------------------------
 
 
