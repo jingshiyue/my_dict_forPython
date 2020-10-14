@@ -1,0 +1,69 @@
+<html lang="zh-cn">
+    <head>
+        <meta charset="UTF-8">
+        <title>xxx</title>
+        <style>
+            .hide{
+                display: none;
+            }
+            .shadow{
+                position: fixed;
+                top: 0;
+                left:0;
+                right: 0;
+                bottom: 0;
+                background-color: black;
+                opacity: 0.4;
+                z-index: 999;
+            }
+            .modal{
+                z-index: 1000;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                height: 300px;
+                width: 400px;
+                background-color: white;
+                margin-top: -200px;
+                margin-left: -150px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>班级列表</h1>
+        <div>
+            <a href="#" onclick="showModal()">模态对话框</a>
+			仅支持原生的，与bootstrap不兼容
+        </div>
+
+		<!-- 可以多个模态框共用一个遮罩层 -->
+        <div id="shadow" class="shadow hide"></div>
+        <div id="modal" class="modal hide">    模态对话框
+            <p>
+                <input type="text" name="title" value="p元素是行元素，嵌套在p标签里的控件在同一行">  
+            </p>
+            <input type="button" value="提交" onclick="ajaxsend()">   <!--注意input的type不是submit了，ajax提交，去掉了form表单-->
+        </div>
+
+        <script>
+            function showModal(){
+                document.getElementById("shadow").classList.remove("hide");
+                document.getElementById("modal").classList.remove("hide");
+            }
+			
+			function ajaxsend(){
+                $.ajax({   //需要引入jquery插件
+                    url:"url",
+                    type:"POST",
+                    data:{"xx":"xxx"},
+                    success:function(data){   //data,请求接口成功后返回的数据
+                        console.log(data);
+						location.href = "url"; //跳转，ajax发送请求返回字符串，不会跳转，需指定跳转
+						location.reload();  //刷新当前页
+                    }
+                }) 
+            }
+			
+        </script>
+    </body>
+</html>

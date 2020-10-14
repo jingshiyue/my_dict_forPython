@@ -1,0 +1,47 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>xxx</title>
+        <style>
+            .hide{
+                display: none;
+            }
+            .shadow{
+                position: fixed;
+                top: 0;
+                left:0;
+                right: 0;
+                bottom: 0;
+                background-color: black;
+                opacity: 0.4;
+                z-index: 999;
+            }
+            .loadingModal{
+                z-index: 1000;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                height: 124px;
+                width: 124px;
+                background-image:url("C:\\Users\\Administrator\\Downloads\\5-121204193951.gif");
+                margin-top: -200px;
+                margin-left: -150px;
+            }
+        </style>
+        <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    </head>
+    <body>
+        <button onclick="showLoadingModal()">点击出现加载模态宽</button>
+
+        <div id="shadow" class="shadow hide"></div>
+        <div id="loadingModal" class="loadingModal hide">
+        </div>
+
+        <script>
+            function showLoadingModal(){
+                $("#shadow").removeClass("hide")
+                $("#loadingModal").removeClass("hide")
+            }
+        </script>
+    </body>
+</html>

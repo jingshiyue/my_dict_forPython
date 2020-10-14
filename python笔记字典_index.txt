@@ -338,7 +338,8 @@ root : r"d:\pic1\\"     \\" 不能写成\"，输出:d:\pic1\\
 root1 : r"d:\pic1" + "\\"
 root3 : "d:\pic1\\"
 root1、root3输出：d:\pic1\
-
+fN3~fyqvwx
+fN3~fyqvwx
 --
 mkdir 用于创建文件夹，而不是文件。创建文件用open(),写入内容来创建文件
 root : r"d:\pic1\\"
@@ -412,14 +413,14 @@ os.system('taskkill /f /fi "IMAGENAME eq 1_cco.exe"')   taskkill 关闭程序
 import sys
 sys.argv[1]表示cmd接收的第一个参数。 比如输入notepad，则打开记事本   
 ----------------正则表达式--------------------------------------------------------------------------------------------------------------
-ref : re.compile(r"\A2323(.+)4040\Z")   #开头结尾，不能加括号括住
+ref = re.compile(r"\A2323(.+)4040\Z")   #开头结尾，不能加括号括住
 
-rst : re.search(r'[1-9]\d{5}','BIT 100081') #筛选邮编地址
+rst = re.search(r'[1-9]\d{5}','BIT 100081') #筛选邮编地址
 等价于：
-pat : re.compile(r'[1-9]\d{5}') 
-rst : pat.search('BIT 100081')
+pat = re.compile(r'[1-9]\d{5}') 
+rst = pat.search('BIT 100081')
 ########
-searchEXCE : re.compile(r"exception",re.I) #大小写不敏感
+searchEXCE = re.compile(r"exception",re.I) #大小写不敏感
 while(conent):
     if searchEXCE.search(conent):
         print searchEXCE.search(conent).group()
@@ -472,7 +473,7 @@ if searchObj:
 else:
    print "Nothing found!!"
    
-执行结果如下：   
+执行结果如下：
 searchObj.group() :  Cats are smarter than dogs
 searchObj.group(1) :   Cats and mouse
 searchObj.group(2) :  smarter
@@ -630,9 +631,9 @@ try except的调试，不能追踪问题，把try去掉，再调试
 
 ---------------------configParser----------------------------------------------------------------------------------------------------------
 import ConfigParser     #要求文件中所有的内容都是按sections和items的方式组织的
-config : ConfigParser.ConfigParser()
+config = ConfigParser.ConfigParser()
 config.read("C:\Automation\Scripts\META_INF\TestbedConfig.ini")
-meter_address_path : config.get("config","meter_addr_path")
+meter_address_path = config.get("config","meter_addr_path")
 config.get(secion_name, item_name)
 if(config.has_section(secion_name) == False):
     config.add_section(secion_name)
@@ -794,8 +795,8 @@ def capture_log(ser):
         queue_log.put(line)
         print queue_log.get().strip()
 
-myqueue : Queue.Queue(maxsize : 10)
-q_info : Queue.Queue(maxsize : -1)
+myqueue = Queue.Queue(maxsize : 10)
+q_info = Queue.Queue(maxsize : -1)
 Queue.Queue类即是一个队列的同步实现。队列长度可为无限或者有限。可通过Queue的构造函数的可选参数maxsize来设定队列长度。如果maxsize小于1就表示队列长度无限。
 ---------
 ************************
@@ -809,7 +810,7 @@ Queue.Queue类即是一个队列的同步实现。队列长度可为无限或者
 
 def open_uart(port, rate):
     try:
-        ser : serial.Serial(
+        ser = serial.Serial(
             port:port,
             baudrate:rate,   #baudrate：波特率， rate：速率
             parity:serial.PARITY_NONE,  #检验位为空
@@ -970,14 +971,14 @@ query_topo_timer = threading.Timer(int(query_topo_timer_interval), check_if_netw
 
 import threading
 import time
-query_topo_timer_interval_2 : 2
-start_time : time.time()
+query_topo_timer_interval_2 = 2
+start_time = time.time()
 def check_if_networking_done():
     #print threading.enumerate()
-        used_t : time.time()-start_time
-        query_topo_timer : threading.Timer(int(query_topo_timer_interval_2), check_if_networking_done)   #线程中递归调用，定时作用
+        used_t = time.time()-start_time
+        query_topo_timer = threading.Timer(int(query_topo_timer_interval_2), check_if_networking_done)   #线程中递归调用，定时作用
         query_topo_timer.start()
-        print "used_t-%s"%used_t
+        print "used_t-%s" % used_t
 check_if_networking_done()
 
 ===============
@@ -1230,16 +1231,17 @@ import logging (logging里先添加一个logger，再添加2个handler，一个�
 
 
 同事写的例子：（代码的效果是日志写入文件同时控制台输出）
-    import logging
-    logging.basicConfig(level:logging.DEBUG,   #log文件写入等级
-                        format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-                        filename : log_path + '\\' + log_file_name,
-                        filemode='a')
-    console : logging.StreamHandler()
-    console.setLevel(logging.INFO)     #设置控制台输出等级
-    formatter : logging.Formatter('%(asctime)s %(levelname)s %(message)s')
-    console.setFormatter(formatter)
-    logging.getLogger().addHandler(console)
+	import logging
+	logging.basicConfig(level=logging.INFO,   #log文件写入等级
+						format='[%(asctime)s %(filename)s line:%(lineno)d]%(levelname)s:  %(message)s',
+						filename=r"D:\workfile\zhongkeyuan_workspace/test.log",
+						filemode='a'
+						)
+	console = logging.StreamHandler()
+	console.setLevel(logging.INFO)     #设置控制台输出等级
+	formatter = logging.Formatter('[%(asctime)s %(filename)s line:%(lineno)d]%(levelname)s:  %(message)s')
+	console.setFormatter(formatter)
+	logging.getLogger().addHandler(console)
     logging.info("Here should not have addr!")
     logging.info("This is a invalid datagram!")
 输出：
@@ -3889,14 +3891,63 @@ plt.plot(dates, lows, c='black', alpha:0.5)
 plt.fill_between(dates, highs, lows, facecolor='blue', alpha:0.1)   #填充之间
 -------------------------------------------------------------------------------------------------------------------------------
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 plt.text(start, 0, 'upgrade_start')
 plt.grid()
 fig = plt.figure(num=3, figsize=(20, 20), dpi=200)
 plt.savefig(subfolder+"\\sta_cnt.png")
--------------------------------------------------------------------------------------------------------------------------------
+
+--------------------------pandas模块-----------------------------------------------------------------------------------------------------
+import pandas as pd
+df['a']#取a列
+df[['a','b']]#取a、b列
+df.columns   #获取列名
+df.index  #获取行名
+#loc只能通过index和columns来取，不能用数字
+df.loc['one','a']#one行，a列
+df.loc['one':'two','a']#one到two行，a列
+df.loc['one':'two','a':'c']#one到two行，a到c列
+df.loc['one':'two',['a','c']]#one到two行，ac列
+df.T  倒置dataframe
+
+通过内嵌字典构造dataFrame:【行名字为内嵌字典的key】
+	dict = {
+			'21_6_65535_3': {'RecvKB': '537512', 'RecvLoss': '0', 'SendKB': '4227756', 'SendLoss': '0'}, 
+			'28_1_65535_3': {'RecvKB': '0', 'RecvLoss': '0', 'SendKB': '0', 'SendLoss': '0'}, 
+			'28_1_65535_4': {'RecvKB': '0', 'RecvLoss': '0', 'SendKB': '0', 'SendLoss': '0'}, 
+			}
+			
+	df = pd.DataFrame(dict)
+
+	df:
+
+				 21_6_65535_3 28_1_65535_3 28_1_65535_4 21_8_65535_3 26_8_65535_3  ... 28_4_65535_3 23_8_65535_3 26_6_65535_3 27_6_65535_3 26_4_65535_3
+		RecvKB         537512            0            0      3096668      3094368  ...            0          635           58       545113      8122736
+		RecvLoss            0            0            0            0            0  ...            0            0            0            0            0
+		SendKB        4227756            0            0      4370165      4394873  ...            0            0            0      4243147      9583330
+		SendLoss            0            0            0            0            0  ...            0            0            0            0            0
 
 
+通过list构造构造dataFrame:【行名字缺】
+	dict1 = {
+			'21_6_65535_3': ['537512', '0', '4227756', '0'], 
+			'28_1_65535_3': ['0', '0', '0', '0'], 
+			'28_1_65535_4': ['0', '0', '0', '0'], 
+			'21_8_65535_3': ['3096668', '0', '4370165', '0'],
+			}
+			
+	df = pd.DataFrame(dict1)	
+	
+	df:
+	
+			  21_6_65535_3 28_1_65535_3 28_1_65535_4 21_8_65535_3 26_8_65535_3  ... 28_4_65535_3 23_8_65535_3 26_6_65535_3 27_6_65535_3 26_4_65535_3
+		0       537512            0            0      3096668      3094368  ...            0          635           58       545113      8122736
+		1            0            0            0            0            0  ...            0            0            0            0            0
+		2      4227756            0            0      4370165      4394873  ...            0            0            0      4243147      9583330
+		3            0            0            0            0            0  ...            0            0            0            0            0
+				
+			
 -------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -7161,12 +7212,12 @@ def sent_data_from_serial(ser, whole_str):
             dtgm_obj : re.match(r"(\A(68)(\w{12})68(\w{2})+16)", ser_str_data)
             
 def read_from_config(secion_name, item_name):
-    config : ConfigParser.ConfigParser()
+    config = ConfigParser.ConfigParser()
     config.read(configfile)
     return config.get(secion_name, item_name)
     
 def write_to_config(secion_name, item_name, value):
-    config : ConfigParser.ConfigParser()
+    config = ConfigParser.ConfigParser()
     config.read(configfile)
     if(config.has_section(secion_name) == False):
         config.add_section(secion_name)
@@ -7293,9 +7344,9 @@ if __name__ == "__main__":
     #baudrate : sys.argv[2]
     com : "com4"
     baudrate : 9600
-    que : Queue.Queue()
-    ser : open_serial(com,baudrate)
-    t1 : threading.Thread(target:read_serial,args=[])
+    que = Queue.Queue()
+    ser = open_serial(com,baudrate)
+    t1 = threading.Thread(target:read_serial,args=[])
     t1.setDaemon(True)
     t1.start()
     while True:

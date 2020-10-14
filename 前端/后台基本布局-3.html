@@ -1,0 +1,161 @@
+<html lang="zh-cn">
+    <head>
+        <meta charset="UTF-8">
+        <title>xxx</title>
+        <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            .hide{
+                display: none;
+            }
+            .pg-header{
+                height: 48px;
+                min-width: 1120px;  /*div默认宽度是100%，但小于1120px时，浏览器上有滚动条 */
+                background-color:cornflowerblue;
+                line-height: 48px;   /*管理后台logo字体样式3: 设置行高，导航里1行占满高度，所以设置为height高度*/
+            }
+            .menus{
+                width: 200px; /*不写成20%，因为越来越宽，字很少时，显示不均匀 */
+                background-color: chartreuse;
+                position: absolute;  /*position与top left等定位一起作用*/
+                top: 48px; /*因为header占高度48px*/
+                bottom: 0px;
+                left: 0px;
+                bottom: 0px;
+                border-right: 3px solid white;
+            }
+            .content{
+                background-color:forestgreen;
+                min-width: 900px;
+                position: absolute;
+                left: 200px;
+                top:48px;
+                right: 0px;   /*不加right，宽度不会占满屏幕，根据内容自适应*/
+                bottom: 0px;
+                overflow: scroll;  /*高度超出，设置滚动条*/
+                z-index: 99;
+            }
+            .left{
+                float: left;
+            }
+            .right{
+                float: right;
+            }
+            .pg-header .logo{     /* pg-header下的logo，中间要有空格隔开*/
+                color: white;
+                font-size: 18px;
+                width: 200px;  /* 管理后台logo字体样式1: logo宽带与menu宽度一致*/
+                text-align: center;  /* 管理后台logo字体样式2: */
+                border-right: 1px solid white; /*logo的右边框，logo与右边导航条的分割线*/
+            }
+            .pg-header .rmenu a{
+                color: white;
+                display: inline-block;
+                padding: 0 15px;
+            }
+            .pg-header .rmenu a:hover{   /*给pg-header下的rmenu下的a标签设置hover事件:*/
+                background-color:darkcyan;
+            }
+            .pg-header .avatar{
+                padding: 0 20px;   /*头像位置左移点*/
+            }
+            .pg-header .avatar img{
+                border-radius: 50%;   /*头像设置成圆形*/
+            }
+            .pg-header .avatar .info{
+                position: absolute; width: 200px; top: 48px; right: 2px; background-color: darksalmon; z-index: 100;
+                display: none;
+                border: 1px solid:white;
+            }
+            .pg-header .avatar:hover .info{  /*avatar hover发生后，作用于.info display: block替代.pg-header .avatar .info的display: none*/
+                display: block;
+            }
+            .pg-header .avatar:hover .info a{
+                display: block; /*一个a标签占一行*/
+            }
+            .pg-body .menus a{
+                display: block;
+                padding: 10px 5px;  /*上下10  左右5*/
+                border-bottom: 2px solid white;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="pg-header">
+            <div class="logo left">管理后台logo</div>
+            <div class="avatar right" style="position: relative;">
+                头像
+                <img style="width: 40px; height: 40px;" src="F:\touxiang.jpg" alt="">
+                <div class="info">
+                    <!-- position: absolute与avatar的relative结合 内容是z-index: 99，显示在内容前 -->
+                    <a href="#">个人资料</a>
+                    <a href="#">注销</a>
+                </div>
+            </div>
+            <div class="rmenu right">
+                <a href="#">消息</a>
+                <a href="#">邮件</a>
+            </div>
+        </div>
+        <div class="pg-body">
+            <div class="menus">
+                <a href="#">子菜单一</a>
+                <a href="#">子菜单二</a>
+                <a href="#">子菜单三</a>
+                <a href="#">子菜单四</a>
+            </div>
+            <div class="content">
+                <!-- 面包屑 -->
+                <ol class="breadcrumb">   
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Library</a></li>
+                    <li class="active">Data</li>
+                </ol>
+                <p>8989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989898989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+                <p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p><p>8989</p>
+            </div>
+        </div>
+
+
+
+
+
+        <script src="https://code.jquery.com/jquery.js"></script>
+    </body>
+</html>

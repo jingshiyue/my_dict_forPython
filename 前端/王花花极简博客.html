@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>极简博客</title>
+    <!-- bootcdn 里搜索normalize.css -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.css" rel="stylesheet">
+    <style>
+        body{
+            background: #454545;
+            line-height: 1.7;
+        }
+        a, body {
+            color: #eee;
+        }
+        a {
+            text-decoration: none;
+        }
+        .sider-bar{
+            float: left;
+            width: 20%;
+        }
+        .sider-bar>*{    
+            padding: 10px 22px;
+        }
+        .main{
+            float: right;
+            width: 80%;
+            color: #454545;
+        }
+        .header .logo{
+            padding: 10px 20px;
+            font-size: 30px;
+            display: inline-block;
+            color: #eee;
+            border: 5px solid #eee;
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+        .sider-bar .nav a, .sider-bar .tag-list a{
+            display: block;
+            padding: 5px;
+            color: #888;
+            transition: color 200ms;
+        }
+        .sider-bar .nav a{
+            font-weight: 700;
+        }
+        .sider-bar .nav a:hover, .sider-bar .tag-list a:hover{
+            color: #eee;
+        }
+        .article-list{
+            margin-right: 30%;
+            background: #fff;
+            padding: 20px 30px;
+            box-shadow: 0 0 3px rgba(0, 0, 0, .2);
+        }
+        .article-list .item .title{
+            font-size: 22px;
+            font-weight: 790;
+            color: #454545;
+        }
+        .article-list .item .status{
+            font-size: 13px;
+            color: #ccc;
+        }
+        .article-list .item >* {
+            margin: 10px 0;
+        }
+        .article-list .item {
+            margin: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sider-bar">
+        <div class="header">
+            <a href="#" class="logo">王花花</a>
+            <div class="intro">花花的个人简介，花花长得很漂亮，花花今年10岁了，可惜是一条老狗儿了</div>
+        </div>
+        <div class="nav">
+            <a href="#" class="item">关于我</a>
+            <a href="#" class="item">联系我</a>
+            <a href="#" class="item">捐助我</a>
+        </div>
+        <div class="tag-list">
+            <a href="#" class="item">#亲亲我</a>
+            <a href="#" class="item">#抱抱我</a>
+            <a href="#" class="item">#夸夸我</a>
+        </div>
+    </div>
+    <div class="main">
+        <div class="article-list">
+            <div class="item">
+                <a href="#" class="title">文章标题</a>
+                <div class="status">发布于:2020-6-3 | 阅读:3500 | 标签:#第一 </div>
+                <div class="content">文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容
+                    文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容
+                </div>
+            </div>
+            <div class="item">
+                <a href="#" class="title">文章标题</a>
+                <div class="status">发布于:2020-6-3 | 阅读:3500 | 标签:#第一 </div>
+                <div class="content">文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容
+                    文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容
+                </div>
+            </div>
+            <div class="item">
+                <a href="#" class="title">文章标题</a>
+                <div class="status">发布于:2020-6-3 | 阅读:3500 | 标签:#第一 </div>
+                <div class="content">文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容
+                    文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容
+                </div>
+            </div>
+            <div class="item">
+                <a href="#" class="title">文章标题</a>
+                <div class="status">发布于:2020-6-3 | 阅读:3500 | 标签:#第一 </div>
+                <div class="content">文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容
+                    文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容
+                </div>
+            </div>
+            <div class="item">
+                <a href="#" class="title">文章标题</a>
+                <div class="status">发布于:2020-6-3 | 阅读:3500 | 标签:#第一 </div>
+                <div class="content">文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容
+                    文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容
+                </div>
+            </div>
+            <div class="item">
+                <a href="#" class="title">文章标题</a>
+                <div class="status">发布于:2020-6-3 | 阅读:3500 | 标签:#第一 </div>
+                <div class="content">文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容
+                    文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容
+                </div>
+            </div>
+
+            <div class="item"></div>
+        </div>
+    </div>
+</body>
+</html>

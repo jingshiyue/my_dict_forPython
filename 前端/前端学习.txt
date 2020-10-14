@@ -1,0 +1,130 @@
+style放在head里，script放在body里，位置最后
+form表单默认提交
+	如果要正确地被提交，每个输入字段必须设置一个 name 属性；
+	一个页面是可以有多个表单的，但是表单不允许嵌套；
+	表单中用ajax post提交，会把表单默认提交的数据，和ajax里的data，一同post到后台；
+	
+表格 
+表格可以不要head部分
+	<table class="table table-hover col-lg-6 ">
+		<thead>
+			<tr>
+				<th>head1</th>
+				<th>head2</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td >用例名:</td>
+				<td>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</td>
+			</tr>
+		</tbody>
+	</table>
+	
+嵌套在p标签里的元素在同一行显示	
+	<p>xxx: <input type="text"></p>
+	
+ajax
+	function ajaxsend(){
+	$.ajax({   //需要引入jquery插件
+		url:"url",
+		type:"POST",
+		data:{"xx":"xxx"},
+		type:JSON,   //jquery里，会将接口返回的data自动转成JSON，不用JSON.parse()了
+		success:function(data){   //data,请求接口成功后返回的数据
+			console.log(data)
+			location.href = "url"; //跳转，ajax发送请求返回字符串，不会跳转，需指定跳转
+			location.reload();  //刷新当前页
+		}
+		return False;  //阻止模式事件发生   onclick="return ajaxsend();"
+	}) 
+	}
+	
+<a>标签中加入target="_blank" 属性，会打开个新窗口
+<a href="#modal1" role="button" class="btn btn-primary btn-sm" data-toggle="modal">合同添加</a>  a标签做成按钮外形
+
+boostrap模态框
+
+
+$(this).parent().preAll()S
+
+JS加载json
+JSON.parse()   字符串->对象
+JSON.stringify()   对象->字符串
+
+<div style="height: 5000px;">占很大内容</div>   //高度5000像素，网页带滚动条显示
+<div class="shadow"></div>  //遮罩层会把占满网页窗口
+.shadow{
+	position: fixed;    //相对于窗口，
+	top: 0;
+	left:0;
+	right: 0;
+	bottom: 0;
+	background-color: black;
+	opacity: 0.4;  //透明度
+	z-index: 999;  
+}
+
+js阻止默认事件:
+
+	1、<a onclick="return func()"> </a>  //func()是js里函数，函数里要return False，return True是正常顺序
+	2、<a id> </a>   //标签里不需要return， jquery里 return就行了
+
+select下拉框多选，加multiple属性， size 最多显示7个：
+　　<select id='checkedLevel'  multiple size="7">  //
+　　　　<option value="1">选项1</option>
+　　　　<option value="2">选项2</option>
+　　　　<option value="3">选项3</option>
+　　　　<option value="4">选项4</option>
+　　　　<option value="5">选项5</option>
+　　　　<option value="6">选项6</option>
+　　　　<optionvalue="7">选项7</option>                                                                                                                                               
+　　</select>
+
+padding 内边距
+margin 外边距
+
+%是一个相对父元素计算得来的高度，要想使他有效，我们需要设置父元素的height;
+要特别注意的一点是，在<body>之中的元素的父元素并不仅仅只是<body>，还包括了<html>。
+所以我们要同时设置这两者的height，只设置其中一个是不行的：
+	html,body{
+		height: 100%;
+		margin: 0;
+		padding: 0;
+	}
+	
+文本级标签：p , span , a , b , i , u , em
+容器级标签：div , h系列 , li , dt ,dd	
+行内元素：除了p之外，所有的文本级标签，都是行内元素。p是个文本级标签，但是是个块级元素。
+块级元素：所有的容器级标签，都是块级元素，以及p标签。
+块级元素和行内元素的相互转换：
+	display：inline;  标签将变为行内元素
+	display：block；   标签将变为块级标签
+	
+CSS一共有三种手段，是一个元素脱离标准流文档：
+	浮动
+	绝对定位
+	固定定位
+
+float改变了span的标准流，是span行内元素不设置display:none情况下也能设置宽高
+
+2个div上下排布，不会重叠。注意不加float，加float会改变默认布局，float脱标
+	.box1{
+		width: 300px;
+		height: 300px;
+		background-color: red;
+		/* float: left; */
+	}
+	.box2{
+		width: 200px;
+		height: 200px;
+		background-color: green;
+		/* float: right; */
+	}
+    <div class="box1">box1</div>
+    <div class="box2">box2 </div>
+
+margin-left是相对前一个元素或者父级左边缘的边距
+
+
+https://www.cnblogs.com/qq78292959/archive/2013/08/05/3238752.html    url传递参数总结

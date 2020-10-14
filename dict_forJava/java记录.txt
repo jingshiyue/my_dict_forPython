@@ -1,0 +1,125 @@
+
+一个源文件中只能有一个public类
+一个源文件可以有多个非public类
+访问控制修饰符
+	default (即默认，什么也不写）: 在同一包内可见，不使用任何修饰符。使用对象：类、接口、变量、方法。
+	private : 在同一类内可见。使用对象：变量、方法。 注意：不能修饰类（外部类）
+	public : 对所有类可见。使用对象：类、接口、变量、方法
+	protected : 对同一包内的类和所有子类可见。使用对象：变量、方法。 注意：不能修饰类（外部类）。
+	接口里的变量都隐式声明为 public static final,而接口里的方法默认情况下访问权限为 public。
+
+类名：对于所有的类来说，类名的首字母应该大写。如果类名由若干单词组成，那么每个单词的首字母应该大写，例如 MyFirstJavaClass 。
+方法名：所有的方法名都应该以小写字母开头。如果方法名含有若干单词，则后面的每个单词首字母大写。
+源文件名：源文件名必须和类名相同。当保存文件的时候，你应该使用类名作为文件名保存（切记 Java 是大小写敏感的），文件名的后缀为 .java。（如果文件名和类名不相同则会导致编译错误）。
+主方法入口：所有的 Java 程序由 public static void main(String []args) 方法开始执行
+
+定义数组 
+	double[] myList = new double[size];  存储固定大小的 同类型 元素
+Arrays 类 java.util.Arrays 类能方便地操作数组，它提供的所有方法都是静态的。
+
+eclipse快捷键：
+	运行 Ctrl+F11 
+	调试 F11 
+	全局 单步跳过 F6 
+	全局 单步跳入 F5 
+	继续 F8
+
+
+package作用：
+    包声明应该在源文件的第一行，每个源文件只能有一个包声明，这个文件中的每个类型都应用于它。
+    如果一个源文件中没有使用包声明，那么其中的类，函数，枚举，注释等将被放在一个无名的包（unnamed package）中。
+
+类目录的绝对路径叫做 class path。设置在系统变量 CLASSPATH 中。编译器和 java 虚拟机通过将 package 名字加到 class path 后来构造 .class 文件的路径。
+    Windows 平台（DOS 命令行下）：C:\> set CLASSPATH
+    UNIX 平台（Bourne shell 下）：# echo $CLASSPATH
+    设置CLASSPATH变量:
+    Windows 平台（DOS 命令行下）： C:\> set CLASSPATH=C:\users\jack\java\classes
+    UNIX 平台（Bourne shell 下）：# CLASSPATH=/home/jack/java/classes; export CLASSPATH
+
+java 先编译成class文件，后运行class文件
+    windows cmd下编译java文件
+        C:\workspace\src\animals>javac Animal.java
+    编译完后运行
+        C:\workspace\src\animals>java Animal
+        
+java文件名与java文件里的class类名一致，都以大写字母开头，一般一个java文件里一个class
+
+
+同级目录下，代码里有package 标志，不用import导入
+
+java -cp C:\Users\Administrator\Desktop helloworld  -cp 表示classpath
+javac f:/java/8000/example.java -d .   -d . 表示编译生产class文件在. 下
+
+
+C:\workspace\src\animals>javac Animal.java -d .    package animals;
+区别: 
+C:\workspace\src\animals>javac Animal.java    package animals;
+
+当Animal.java里没有package animals时，有没有-d，都是一样结果，都是在当前目录下生成.class文件：
+    命令里没有-d：
+        C:\workspace\src\animals>javac Animal.java
+        C:\workspace\src\animals>java Animal   输出：Hello World t1
+    命令里有-d：
+        C:\workspace\src\animals>javac Animal.java -d .
+        C:\workspace\src\animals>java Animal 输出：Hello World t1
+当Animal.java里有package animals时，有没有-d，是有区别的，-d . 会在当前工作目录下生产个animals 文件夹：
+
+
+亲自试验过：Main-Class: animals.MammalInt
+    .java 可以直接调用.class文件，代码里跟调用.java文件一样
+
+javac:编译
+java：执行class文件【java Animal】或者jar文件【如：java -jar Demo.jar  】
+jar：打包 解包
+
+打包jar：
+    jar cvf panda2.jar dabao,就是cmd命令窗口中打印生成jar包的详细过程，直接在目录下生成jar包了
+    jar cf panda2.jar dabao,就是cmd命令窗口中不打印生成jar包的详细过程，直接在目录下生成jar包了
+    jar cvfM panda3.jar dabao   不生成清单文件 META-INF/MANIFEST.MF
+查看jar包 jar tf panda3.jar 
+解压，    jar xf panda3.jar
+运行jar   java -jar Demo.jar  
+
+
+************************MAVEN*************************************************
+groupid和artifactId被统称为“坐标”
+groupId一般分为多个段，这里只说两段，第一段为域，第二段为公司名称
+ArtifactID就是项目的唯一的标识符，实际对应项目的名称，就是项目根目录的名称
+groupId设置为com.zcl
+Artifact Id设置为hellomaven
+依照这个设置，你的包结构最好是com.zcl.hellomaven打头的，如果有个StudentDao，它的全路径就是com.zcl.hellomaven.dao.StudentDao
+Maven提倡使用一个共同的标准目录结构
+maven中央仓库:https://mvnrepository.com/
+pom.xml。当我们需要引入一个jar包时，在pom文件中加上<dependency></dependency>就可以从仓库中依赖到相应的jar包
+
+
+Java List 集合,可以存储任何类型的数据，也可以结合泛型来存储具体的类型对象
+分别是Collection体系和Map体系,Collection主要有三个子接口，分别为List(列表)、Set(集)、Queue(队列)。其中，List、Queue中的元素有序可重复，而Set中的元素无序不可重复；
+Map中都是以key-value的形式存在，其中key必须唯一
+arr = { 1, 2, 3, 4, 5 }; // 定义数组
+2、数组是静态的，一个数组实例具有固定的大小，一旦创建了就无法改变容量了，而且生命周期也是不能改变的，还有数组会做边界检查，如果发现有越界现象，会报RuntimeException异常错误，当然检查边界会以效率为代价。
+而集合的长度是可变的，可以动态扩展容量，可以根据需要动态改变大小，集合提供更多的成员方法，能满足更多的需求。
+3.数组的存放的类型只能是一种，并且只能是基本类型的数据（除非是Object数组可以存多种类型）,集合存放的类型可以不是一种，只可以存储对象，也可以存储基本数据类型，但必须是基本类型的包装类(不加泛型时添加的类型是Object)。
+
+1、根据类名：类名.class。
+2、根据对象：对象.getClass()。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
