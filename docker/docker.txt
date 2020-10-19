@@ -1,0 +1,159 @@
+https://rtp7tdvd.mirror.aliyuncs.com
+
+win10修改docker镜像源：
+    {
+      "registry-mirrors": [
+        "https://rtp7tdvd.mirror.aliyuncs.com"  #修改点1
+      ],
+      "insecure-registries": [],
+      "debug": true,
+      "experimental": true  #修改点2
+    }
+
+win7修改docker镜像源
+    1、docker-machine ssh
+    2、sudo vi /var/lib/boot2docker/profile
+    3、在打开的文件中，在--label provider=virtualbox的下一行添加
+     --registry-mirror https://rtp7tdvd.mirror.aliyuncs.com
+    4、exit
+    5、docker-machine restart
+
+docker pull hello-world
+docker run hello-world
+
+docker images
+docker rmi （remove image）删除镜像
+docker rm                  删除容器
+docker run -it -p 8888:8080 tomcat
+
+
+sudo apt-get remove linux-image-unsigned-4.4.0-185-generic
+
+apt-get --purge remove linux-image-4.4.0-186-generi
+
+
+    
+docker run
+    docker run --name myname -it 镜像的名字+tag（不加tag，默认是latest） 或镜像的id
+    -d: 后台运行容器，并返回容器ID，也即启动守护式容器；
+    -it： 交互终端
+    -p: 指定端口映射
+    
+docker ps 
+    docker ps  列出正在运行的容器
+    docker ps -a  查看镜像的所有容器
+    docker ps -l 列出上一次运行的容器
+
+退出容器
+    exit 容器停止并退出
+    Ctrl + P + Q 容器不停止退出
+
+启动已经停止的容器
+    docker start 容器ID 启动容器
+    docker restart 容器ID 重启容器
+docker stop 容器ID 停止容器
+docker kill 容器ID 强制停止容器
+docker rm 容器ID 删除已停止容器
+
+
+docker attach
+docker exec
+
+docker commit  提交到镜像
+
+查看系统是centos还是Ubuntu
+    cat /etc/issue
+
+
+=============docker -- gitlab===========
+不要run --hostname 10.189.90.118 ，后面修改gitllab的地址，不好动态修改，
+    后面再gitlab.rb里修改，hostname 会决定gitlab页面fork的url
+    
+window里有2次端口转发：一是宿主机->虚拟机; 二是虚拟机-> docker容器
+
+docker run -d \
+    -p 80:80 -p 443:443 -p 222:22 \
+    --name gitlab \
+    --restart always \
+    --privileged=true \
+    -v /d/gitlab/config:/etc/gitlab \
+    -v /d/gitlab/logs:/var/log/gitlab \
+    -v /d/gitlab/data:/var/opt/gitlab \
+    gitlab/gitlab-ce:11.3.6-ce.0
+    
+http://10.189.90.118/
+gitlab管理员密码
+  root  root////
+  
+  192.168.99.101
+  http://10.189.90.118/root/test.git
+  
+  ssh-keygen -t rsa -C '173302591@qq.com'
+  root////
+  
+docker run -it -v ~/ceshi:/home --privileged=true ubuntu:16.04 /bin/bash
+    加bash进入容器，不会退出
+    --privileged=true 权限，如果当前登录用户有权限，不需要加该参数
+    宿主机不需要提前创建ceshi文件夹或者嵌套文件夹，提前创建好文件夹也不影响挂载，但建议不创建文件，可以建议是否新创建了文件夹来验证挂载是否成功
+    挂载是双向的，宿主机<=>容器
+    容器停止后，宿主机也能同步进容器内
+    
+docker run -it -v ~/ceshi/inceshi:/home ubuntu:16.04 /bin/bash
+    /ceshi/inceshi 多层级文件夹映射卷，宿主机不需要提前创建ceshi/inceshi文件夹
+    
+    
+
+docker logs -f gitlab 
+docker inspect 24c8dfb17a07(容器id)
+-v $PWD/app
+
+
+docker run -it -v /c/Users/zWX980924/ceshi01:/home --privileged=true ubuntu:16.04 /bin/bash 
+    windows里只能在用户文件夹下才能挂载成功
+    
+docker exec -it tomcat01 ip addr 
+    tomcat01 是容器名
+    ip addr 是命令行，如果是/bin/bash ，会进入容器内
+    
+1、杀死运行的容器: # docker kill $(docker ps -a -q) 
+2、删除所有容器: # docker rm $(docker ps -a -q)   
+docker stop $(docker ps -aq)
+3、强制删除所有镜像: # docker rmi -f $(docker images -q)
+
+docker run -d -P --name tomcat02 tomcat
+docker run -d -P --name tomcat03 --link tomcat02 tomcat
+docker exec -it tomcat03 ping tomcat02
+cat /etc/host
+--link 就是在hosts里配置，不建议用link
+不适合docker0，
+docker0不支持域名（容器名）访问
+
+docker network ls
+
+自定义的网络
+    docker network create --driver bridge --subnet 192.168.0.0/16 --gateway 192.168.0.1 mynet
+        --driver bridge 默认类型bridge，桥接
+        subnet 子网，192.168.0.0/16 支持192.168.0.2-192.168.255.255间的ip
+    docker network inspect mynet
+    docker run -d -P --name tomcat-mynet-01 --net mynet tomcat
+        --net  不加，就是默认docker0 网络
+    docker run -d -P --name tomcat-mynet-02 --net mynet tomcat
+    docker network inspect mynet
+    docker exec -it tomcat-mynet-01 ping tomcat-mynet-02
+    docker exec -it tomcat-mynet-01 ping 192.168.0.3
+
+跨网络
+    docker network connect mynet tomcat01
+        把tomcat01 加入mynet网络
+        tomcat01 属于docker0网络
+    docker network inspect mynet
+    docker exec -it tomcat-mynet-01 ping tomcat01  能ping通tomcat01，但是不能通tomcat02
+    docker exec -it tomcat01 ping tomcat-mynet-01
+
+docker-compose up --build 重新构建
+数据卷只能映射文件夹而不能映射单一的文件
+数据卷不仅有持久保存数据的功能，还有跨容器共享文件的功能
+
+docker-compose -f production.yml build
+docker-compose -f production.yml up
+
