@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>Demo</title>
+  <!-- <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"> -->
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+  <style>
+
+/* *{margin: 0;padding:0;} */
+/* .clearfix:before, */
+/* 
+.clearfix:after {
+content:"";
+display:table;
+}
+.clearfix:after {
+clear:both;
+} */
+/* .clearfix {
+zoom:1; /* IE <8 */
+/* } */ 
+#footer{
+height: 60px;
+background: #fc6;
+width: 100%;
+}
+/*==========其他div==========*/
+#header {
+padding: 10px;
+background: lime;
+}
+#left {
+width: 18%;
+float: left;
+margin-right: 2%;
+background: orange;
+}
+#content{
+width: 50%;
+float: left;
+margin-right: 2%;
+background: green;
+}
+#right {
+width: 10%;
+float: left;
+background: yellow;
+}
+  </style>
+</head>
+
+<body>
+   <div id="header">Header Section</div>
+   <div id="page" class="clearfix">
+   　　 <div id="left">Left sidebar</div>
+   　　<div id="content" style="height:900px">Main Content</div>
+   　　<div id="right">Right Content</div>
+   </div>
+   <div style="clear: both;"></div>
+   <div id="footer">Footer Section</div>
+</body>
+<script>
+    // 窗口加载事件仅用于窗口高度取决于图像 
+    
+ $(window).bind("load", function() { 
+     var footerHeight = 0, 
+     footerTop = 0, 
+     $footer = $("#footer"); 
+     positionFooter(); 
+ 　　//定义positionFooter function 
+ 　　function positionFooter() { 
+ 　　//取到div#footer高度 
+　　footerHeight = $footer.height(); 
+　　 //div#footer离屏幕顶部的距离 
+ 　　footerTop = ($(window).scrollTop()+$(window).height()-footerHeight)+"px"; 
+
+ 　　//如果页面内容高度小于屏幕高度，div#footer将绝对定位到屏幕底部，否则div#footer保留它的正常静态定位 
+ 　　　　if ( ($(document.body).height()+footerHeight) < $(window).height()) { 
+    　　 $footer.css({ 
+        　　 position: "absolute" 
+    　　 }).stop().animate({ 
+        　　 top: footerTop 
+    　　 }); 
+　　　　 }else { 
+    　　　　 $footer.css({ 
+        　　 position: "static" 
+     　　　　}); 
+ 　　　　} 
+ 　　} 
+ $(window).scroll(positionFooter).resize(positionFooter); 
+ });
+</script>
+</html>
