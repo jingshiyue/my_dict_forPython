@@ -3913,6 +3913,7 @@ df.loc['one':'two','a':'c']#one到two行，a到c列
 df.loc['one':'two',['a','c']]#one到two行，ac列
 df.T  倒置dataframe
 df.insert(0,'E',[11,12,13,14,15]) 
+df[column].isnull().sum() == len(df[column])  #统计某一列为空的个数
 
 通过内嵌字典构造dataFrame:【行名字为内嵌字典的key】
 	dict = {
