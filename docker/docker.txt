@@ -111,6 +111,7 @@ docker inspect 24c8dfb17a07(容器id)
 docker run -it -v /c/Users/zWX980924/ceshi01:/home --privileged=true ubuntu:16.04 /bin/bash 
     windows里只能在用户文件夹下才能挂载成功
     
+docker exec -it a34aa8754a16 bash  -it 交互式 a34aa8754a16:容器id   bash: 进入shell命令
 docker exec -it tomcat01 ip addr 
     tomcat01 是容器名
     ip addr 是命令行，如果是/bin/bash ，会进入容器内
@@ -157,3 +158,18 @@ docker-compose up --build 重新构建
 docker-compose -f production.yml build
 docker-compose -f production.yml up
 
+$ docker start $(docker ps -lq)
+save 和 export区别：
+    1）save 保存镜像所有的信息-包含历史
+    2）export 只导出当前的信息
+
+镜像导入和容器导入的区别：
+1）容器导入 是将当前容器 变成一个新的镜像 export-import
+2）镜像导入 是复制的过程 save-load
+
+=======镜像导入==========
+docker save 9045 > tomcat8-apr.tar
+docker export 7ec802bdcfe3> mysql.tar  #7ec802bdcfe3 容器id
+docker load < tomcat8-apr.tar
+docker import tomcat80824.tar
+docker tag 9045 tomcat8-apr:3.0  #修改镜像名字， 9045是镜像id
