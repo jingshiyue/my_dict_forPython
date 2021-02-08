@@ -97,4 +97,3 @@ session.close()
 #     query = session.query(Food,Famous,Cook).join(Famous,Famous.food_name==Food.name).join(Cook,Cook.famous_name==Famous.famous).all()
 # 通过外键联表
 #     company_obj = session.query(Company).filter(Company.name == "Nokia").first() #filter filter_by 区别
-#  with session.begin():  上下文
