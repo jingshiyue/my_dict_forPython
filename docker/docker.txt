@@ -160,12 +160,12 @@ docker-compose -f production.yml up
 
 $ docker start $(docker ps -lq)
 save 和 export区别：
-    1）save 保存镜像所有的信息-包含历史
-    2）export 只导出当前的信息
+    1）save 保存镜像所有的信息-包含历史，可以打包容器或者镜像，一般用于打包镜像，可以打包多个文件
+    2）export 只导出当前的信息，export只针对的是容器
+    3）一般，docker save保存的是镜像（image），docker export保存的是容器（container）
+    4）save比export文件大，export不保存文件结构，export 是快照
+    
 
-镜像导入和容器导入的区别：
-1）容器导入 是将当前容器 变成一个新的镜像 export-import
-2）镜像导入 是复制的过程 save-load
 
 =======镜像导入==========
 docker save 9045 > tomcat8-apr.tar
@@ -173,3 +173,6 @@ docker export 7ec802bdcfe3> mysql.tar  #7ec802bdcfe3 容器id
 docker load < tomcat8-apr.tar
 docker import tomcat80824.tar
 docker tag 9045 tomcat8-apr:3.0  #修改镜像名字， 9045是镜像id
+
+把容器做成镜像(与export 类似，都是针对容器):
+    docker commit 当前运行的容器名 新镜像名:版本号

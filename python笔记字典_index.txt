@@ -136,7 +136,7 @@ C:\Users\Mir-Z\Desktop>python3 C:\Users\Mir-Z\Desktop\my\my_interface_test\run_t
 C:\Users\Mir-Z\Desktop   #cwd为该路径
 
 -------------------------------------------------------------------------------------------------------------------------------
------------------------------------占位符-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------占位符------------语法糖-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 print '------%s---------%d--------%s-------' % ('ME',5,u'岁了')
 tpl : "i am %(name)s age %(age)d" % {"name": "alex", "age": 18}
@@ -148,6 +148,11 @@ Out[3]: '18,kzc,18'
 hash : {'name':'hoho','age':18}
 'my name is {name},age is {age}'.format(**hash)
 'my name is hoho,age is 18'
+
+phoneL = map(lambda x:x[0],resultList)
+areaL = map(lambda x:x[1],resultList)
+phoneL = [i[0] for i in resultList]
+areaL = [i[1] for i in resultList]
 -----------------------format---------------------------------------------------------------------------------------------------------------------
 ******format转换进制（将十进制转换成其他进制）*********
 In [54]: '{:b}'.format(17)   #十进制的17转换成二进制，是10001
@@ -3785,6 +3790,8 @@ df[column].isnull().sum() == len(df[column])  #统计某一列为空的个数
 retDf = retDf.loc[:, ~(retDf==0).all(axis=0)] #去掉全为0的列
 res_pd.loc[res_pd["regUserCnt"]<res_pd[time[8:10]],'status'] = "abnormal"
 tmpDf = mergeDf.loc[mergeDf['NEname']==node]
+retDf.fillna("null",inplace=True)
+retDf.drop_duplicates(inplace=True)
 
 通过内嵌字典构造dataFrame:【行名字为内嵌字典的key】
 	dict = {
