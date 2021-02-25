@@ -3723,6 +3723,21 @@ parametrize参数化，越远的装饰器，越早遍历完
 
 pdb.set_trace()  代码中加入断点
 breakpoint()     代码中加入断点
+断点调试
+
+import pdb
+pdb.set_trace()
+s：（step）执行下一条命令
+n: next
+l: 列出当前执行代码位置
+p 变量名   来查看变量
+r：（return）执行当前运行函数到结束
+c：（continue）继续执行，直到遇到下一条断点
+a：（args）列出当前执行函数的函数
+run：重新启动debug，相当于restart
+w：（where）打印当前执行堆栈
+d：（down）执行跳转到在当前堆栈的深一层（个人没觉得有什么用处）
+u：（up）执行跳转到当前堆栈的上一层
 --------------------------------------图像可视化--数据分析----画图-----------------------------------------------------------------------------------
 import numpy as np
 import matplotlib.pyplot as plt
