@@ -1,4 +1,4 @@
-﻿----------------------------------python 内置函数---------------------------------------------------------------------------------------------
+﻿----------------------------------python 内置函数--------------------------------------------------------------------------------------------
 一、查看官方文档
 1.学习一个新的模块，其实不用去百度什么的，直接用help函数就能查看相关注释和案例内容。
     >>import requests
@@ -1371,11 +1371,11 @@ content_read : ccttname.read() #读取文件全部，也可自定义读取字节
 
 content_readline : ccttname.readline() #读取文件首行，str类型
 ____
-file1 : open("whitelist_test.txt", "rb+")
-line : file1.readline()
+file1 = open("whitelist_test.txt", "rb+")
+line = file1.readline()
 while(line):
     print line
-    line : file1.readline()    #循环读完整个文档
+    line = file1.readline()    #循环读完整个文档
 file1.close()
 ____
 f : open(r"E:\CRTLog\CCO_Serial-COM3-0412-215010.log","r")
