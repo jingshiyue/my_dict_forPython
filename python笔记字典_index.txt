@@ -3,7 +3,7 @@
 1.学习一个新的模块，其实不用去百度什么的，直接用help函数就能查看相关注释和案例内容。
     >>import requests
     >>help(requests)
-
+1
 
 ord()函数是chr()函数（对于8位的ASCII字符串）或unichr()函数（对于Unicode对象）的配对函数，它以一个字符（长度为1的字符串）作为参数，返回对应的ASCII数值，或者Unicode数值
 list1 : [1,2,3,4,5]
