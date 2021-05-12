@@ -1,0 +1,20 @@
+原仓库：http://localhost:3000/1234236/test-repo1.git
+派生仓库：http://localhost:3000/2351310751/test-repo1-235.git
+
+在派生仓库所在目录，添加远程仓库取名叫public
+$ git remote add public http://localhost:3000/1234236/test-repo1.git
+
+获取原仓库的最新代码：
+git fetch public
+
+合并代码把派生库的master分支
+Administrator@DESKTOP-8BIHUDD MINGW64 /e/Projects/test-repo1-235 (master)
+$ git merge public/master
+Updating b5cb0b6..8e7000d
+Fast-forward
+about.txt | 1 +
+1 file changed, 1 insertion(+)
+create mode 100644 about.txt
+
+推送本地到派生库的远程仓库
+git push
