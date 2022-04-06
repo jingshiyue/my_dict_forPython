@@ -97,11 +97,10 @@ docker run -it -v ~/ceshi:/home --privileged=true ubuntu:16.04 /bin/bash
     宿主机不需要提前创建ceshi文件夹或者嵌套文件夹，提前创建好文件夹也不影响挂载，但建议不创建文件，可以建议是否新创建了文件夹来验证挂载是否成功
     挂载是双向的，宿主机<=>容器
     容器停止后，宿主机也能同步进容器内
-    
-docker run -it -v ~/ceshi/inceshi:/home ubuntu:16.04 /bin/bash
-    /ceshi/inceshi 多层级文件夹映射卷，宿主机不需要提前创建ceshi/inceshi文件夹
-    
-    
+    Ctrl + P + Q 容器不停止退出
+    如果停止后，用docker start开启后不会退出
+    docker exec -it 3e10d1dc5be7 /bin/bash 再次进去容器
+
 
 docker logs -f gitlab 
 docker inspect 24c8dfb17a07(容器id)
@@ -176,3 +175,22 @@ docker tag 9045 tomcat8-apr:3.0  #修改镜像名字， 9045是镜像id
 
 把容器做成镜像(与export 类似，都是针对容器):
     docker commit 当前运行的容器名 新镜像名:版本号
+
+
+
+==========镜像制作==========
+    docker pull centos:8
+
+    docker run -d --name=java_ssh_proto --privileged centos:8 /usr/sbin/init
+    docker exec -it java_ssh_proto bash
+        yum install -y java-1.8.0-openjdk-devel openssh-clients openssh-server
+        systemctl enable sshd && systemctl start sshd
+    docker stop java_ssh_proto
+    docker commit java_ssh_proto java_ssh  # 并保存为一个名为 java_ssh 的镜像
+
+
+解决容器启动退出问题:
+    docker run -it -v ~/goaci1:/home --name=go-aci --privileged goaci1:latest /bin/bash
+    运行时用-it  然后docker start 再crtl+D不会导致容器退出
+    docker exec -it xxx /bin/bash 再次进入容器，退出用crtl+D或者exit都不会导致容器停止
+

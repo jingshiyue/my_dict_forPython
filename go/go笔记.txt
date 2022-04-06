@@ -1,9 +1,38 @@
-go build 
-go install 
+go build [包名]/[文件]  
+    如果有main函数，才会生成可执行文件
+    工作目录下生成可执行文件，如果有-o 会生成指定名称的可执行文件，没有-o，会生成默认的可执行文件， 生成的可执行文件比较大，能在没有go环境的下运行
+    
+go install  将可执行文件放置在$go/bin
 go run main.go
 go mod init xxx
+
+xx.mod
+    require "liwenzhou.com/q1mi/p2" v0.0.0
+    replace "liwenzhou.com/q1mi/p2" => "../p2"
+
 go跨平台编译:
 
+第三方包下载的路径问题
+    当GO111MODULE=on时，下载到$GOPATH/pkg/mod下,
+    如go get github.com/astaxie/beego， 就安装到$GOPATH\pkg\mod\github.com\astaxie\beego,同时其依赖包也会安装到$GOPATH\pkg\mod\github.com下
+    
+同一个包下调用不同文件
+    如main包下有a.go, b.go
+    go mod init main  //执行go run . 需要是个mudule
+    go run .  //需编译a.go 和b.go  会执行main函数，不需要a.go中import b.go的变量
+
+
+
+windows
+    set PKG_CONFIG_PATH=E:\company\project\go-aci
+linux
+    export PKG_CONFIG_PATH=/root/go-aci
+    go env -w GOPROXY=https://goproxy.cn,direct
+    
+    
+    
+开启GO11MODULE=on 后，go get 安装的包将到 go/pkg下
+go get -m [packages]会将下载的依赖包放到GOPATH/pkg/mod目录下
 
 下载个>1.14版本go
     设置代理，GOPROXY=https://goproxy.io,direct，可以打开任意文件夹，在vscode里打开
@@ -117,7 +146,25 @@ interface{}
 time.Sleep(time.Second)
 time.Sleep(time.Second*5)
 
+================指针举例=============================
+type User struct {
+    id string
+    Name string
+}
+&User{}
+user := User{id:1, Name:"xx"}
+&user或者User{id:1, Name:"xx"}
+&User{}和&user都是指针类型
 
+var z *string
+z = new(string) //指针使用前必须现初始话，赋予个地址
+*z = "xxx"
+fmt.Println(*z)
+fmt.Println(z)
+====================================================
+errors.Is(result.Error, gorm.ErrRecordNotFound)
 
-
+================测试================================
+go test -v -run TestQuery4_1 orm_test.go   运行orm_test.go文件中TestQuery4_1测试函数
+go test -v                                 运行当前工作目录下所有_test.go文件
 

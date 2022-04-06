@@ -184,7 +184,15 @@ su xxx 切换到xxx用户
 	下行加入 user ALL=(ALL:ALL) ALL
 ********************************
 
+查看端口：
+    lsof -i:9090
+    ss -naltp |grep 9090
 
+后台运行（守护进程）：
+    node_exporter 通常用来收集主机的cpu、内存、带宽、磁盘等资源的使用情况
+    nohup ./node_exporter &  
+        - nohup 永久的运行下去，当断开ssh后也能运行，nohup没有后台运行能力，所以一般要和&结合使用
+        - &     不占用终端，后台运行
 
 
 

@@ -1,0 +1,41 @@
+.a    linux里静态库
+.so   linux里动态库
+.dll  windows里动态库
+.lib  windows里静态库
+
+
+可执行文件名都为.out，不符合习惯，也不宜理解，所以一般用 -o选项 重命名输出，比如gcc test.c -o test.exe
+对于一个独立的可执行文件，一定需要一个带有main函数的源码文件
+设置头文件路径gcc -I(大写i)，库文件路径gcc -L，库名称gcc -l(小写L)
+把源文件编译成中间代码文件，在Windows下也就是 .obj 文件，UNIX下是 .o 文件
+头文件中应该只是声明，而定义应该放在C/C++文件中
+在大多数时候，由于源文件太多，编译生成的中间目标文件太多，而在链接时需要明显地指出中间目标文件名，这对于编译很不方便，所以，我们要给 中间目标文件打个包，在Windows下这种包叫“库文件”（Library File)，也就是 .lib 文件，在UNIX下，是Archive File，也就是 .a 文件。
+
+预处理 
+编译 compilation   生成二进制
+汇编 assembly      生成机器码
+链接 linking 
+
+gcc常用参数
+    https://www.runoob.com/w3cnote/gcc-parameter-detail.html
+
+
+g++编译 
+    g++ -E              预处理   这个阶段报找不到头文件错误
+        -S              编译     这个阶段产生语法错误
+        -c              汇编     这个阶段产生语法错误
+    g++ test.o -o test  链接     这个阶段产生找不到定义错误，动态库引用版本错误，test.o是生成的目标文件，二进制文件
+    ./test              运行     这个阶段会去加载动态链接库，也会产生些错误
+
+    window里链接使用lib文件，运行是用dll文件
+    linux里链接和运行都是用的so文件
+    
+linux下，源码的安装一般由3个步骤组成：配置（configure）、编译（make）、安装（make install）
+./configure的作用是检测系统配置，生成makefile文件，以便你可以用make和make install来编译和安装程序。
+./configure是源代码安装的第一步，主要的作用是对即将安装的软件进行配置，检查当前的环境是否满足要安装软件的依赖关系，但并不是所有的tar包都是源代码的包，
+
+你先ls，看有没有configure或者makefile文件。
+如果有configure，就./configure，有很多参数，看楼下的吧。如果系统环境合适，就会生成makefile，否则会报错。
+如果有makefile，就直接make，然后make install。
+
+    

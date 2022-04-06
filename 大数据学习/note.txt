@@ -1,0 +1,164 @@
+http://hadoop1:9870  hdfs
+http://hadoop2:8088  yarn
+
+
+快速启动:
+    /usr/local/bin/xsync    ->   xsync source target   同步文件的shell脚本
+    /usr/local/bin/myhadoop ->   myhadoop start/stop   启动/停止集群的shell脚本
+    jsp   查看java相关的进程
+
+
+java - linux - shell - hadoop - hive - kafka - hbase - spark - flink
+操作hdfs常用命令:
+    bin/hdfs dfs -mkdir -p /test     hdfs中创建test文件夹
+    bin/hdfs dfs -put my.txt /test   上传本地my.txt到hdfs里
+    hadoop fs 具体命令  OR  hdfs dfs 具体命令
+    两个是完全相同的。
+
+    hadoop fs -mkdir /sanguo
+    hadoop fs -put ./wuguo.txt /sanguo                本地->远程
+    hadoop fs -get /sanguo/shuguo.txt ./shuguo2.tx    远程->本地
+    hadoop fs -ls /sanguo
+    hadoop fs -cat /sanguo/shuguo.txt
+    hadoop fs -cp /sanguo/shuguo.txt /jinguo          远程1->远程2
+    hadoop fs -mv /sanguo/wuguo.txt /jinguo           远程1->远程2
+    hadoop fs -tail /jinguo/shuguo.txt
+    hadoop fs -rm /sanguo/shuguo.txt
+    hadoop fs -rm -r /sanguo                          递归删除
+    hadoop fs -du  -h /jinguo                         统计
+    hadoop fs  -chmod 666  /sanguo/shuguo.txt
+    hadoop fs  -chown  atguigu:atguigu   /sanguo/shuguo.txt
+    
+    hadoop jar  wordCount.jar com.atguigu.mapreduce.wordcount.WordCountDriver /input /output    执行前无需事先创建output文件夹
+    
+    
+hadoop docker环境搭建
+    docker pull centos:8
+    docker run -d centos:8 /usr/sbin/init
+    docker run -d --name=java_ssh_proto --privileged centos:8 /usr/sbin/init
+    docker exec -it java_ssh_proto bash
+    yum install -y java-1.8.0-openjdk-devel openssh-clients openssh-server
+    systemctl enable sshd && systemctl start sshd
+    docker stop java_ssh_proto
+    docker commit java_ssh_proto java_ssh
+    
+    # docker run -d --name=hadoop_single --privileged java_ssh /usr/sbin/init
+    docker run -d --name=hadoop_single -v ~/ceshi:/home --privileged java_ssh /usr/sbin/init
+    
+    docker exec -it hadoop_single bash
+    /software/hadoop-3.2.2
+
+    配置java，删掉以前的java  rpm -qa|grep java    rpm -e  java-
+        tar -zxvf jdk-8u212-linux-x64.tar.gz -C /software 
+        JAVA_HOME=/software/jdk1.8.0_212
+        CLASS_PATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+        CLASS_PATH=.:$JAVA_HOME/jre/lib/ext:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+        PATH=$PATH:$JAVA_HOME/bin
+        export JAVA_HOME CLASS_PATH PATH
+        
+        java -version 检查
+    yum install -y passwd sudo  # passwd命名能用
+
+
+    https://www.runoob.com/w3cnote/hadoop-tutorial.html
+
+    docker 启动容器遇到问题： cgroups: cannot find cgroup mount destination: unknown.
+    环境搭建项目部署
+        解决办法：
+            1、执行docker-machine ssh 进入Linux虚拟机。
+            2、执行 sudo mkdir /sys/fs/cgroup/systemd
+            3、执行 sudo mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd
+            4、再次启动容器，如下图：
+
+虚拟机克隆
+    被克隆机器是否需要关闭状态？
+    1、右键->管理->克隆->  
+        完整克隆 - 选择路径 
+    2、root用户进入克隆机里配置ip，因为克隆的，物理地址和ip都跟模板一样
+        vim /etc/udev/rules.d/70-persistent-ipoib.rules
+    
+    
+    
+vmware软件设置网络
+    菜单栏编辑->虚拟网络编辑器  选择对应的网卡，需要根据当前是桥接还是NAT选择网卡。
+    
+    
+centos最小化安装， 选择mini， 右侧什么软件都没选
+
+
+linux添加环境变量
+vim ~/.bashrc
+export LD_LIBRARY_PATH=/root/zcl/ShenTong/bin
+export PATH=/root/zcl/ShenTong/bin:/root/zcl/pythons/python37/bin:$PATH
+
+nohup python server.py  &
+
+ps -ef|grep 
+netstat -lnp|grep 端口号
+https://www.w3cschool.cn/hadoop/hadoop_enviornment_setup.html
+
+alternatives管理软件多版本(也要额外添加java的环境变量，与其他操作是分开的)
+    alternatives --install /usr/bin/java java /opt/jdk1.8.0_212/bin/java 1 
+    alternatives --install /usr/bin/javac javac /opt/jdk1.8.0_212/bin/javac 1 
+    alternatives --install /usr/bin/jar jar /opt/jdk1.8.0_212/bin/jar 1 
+    alternatives --config java
+
+Centos7下配置IP与host域名映射
+    1、 hostname或uname –n，均可以查看到当前主机的主机名
+    2、 先在/etc/hostname 配置想要的域名 默认localhost.localdomain, /etc/hostname 配置本机域名
+    3、 vim /etc/sysconfig/network-scripts/ifcfg-ens33（文件名可能不一样），
+        加入
+            IPADDR=192.168.114.151
+            NETMASK=255.255.255.0
+            GATEWAY=192.168.114.2
+        修改IP后，service network restart 重启网络服务不管用，只针对修改的ifcfg-ens33有效
+    4、 在/etc/hosts 配置ip和域名映射 192.168.114.152 ha1，/etc/hosts 配置其他计算机的域名(其他计算机的映射关系)
+
+配置本机主机名，域名:
+    centos /etc/hostname
+    Ubuntu /etc/sysconfig/network
+/etc/hosts 存放的是域名与ip的对应关系
+
+
+虚拟机克隆，克隆完重启系统前，把mac重新生成下
+    名字旁右键设置->网络适配器->高级-[MAC地址]生成
+
+
+配置DNS
+    当出行 ping: www.baidu.com: Name or service not known时，
+    vim /etc/sysconfig/network-scripts/ifcfg-ens33
+        加入DNS1=8.8.8.8
+            DNS2=114.114.114.114
+    service network restart
+    
+centos7配置固定ip
+    vim /etc/sysconfig/network-scripts/ifcfg-ens33
+        DEVICE="ens33"
+        BOOTPROTO="static"
+        ONBOOT="yes"
+        HWADDR=00:50:56:34:36:82
+        IPADDR=192.168.114.141
+        GATEWAY=192.168.114.2
+        DNS1=8.8.8.8
+        DNS2=114.114.114.114
+
+
+防火墙
+    启动防火墙：systemctl start firewalld
+    关闭防火墙：systemctl stop firewalld， 好像只是临时，重启系统后又会开启
+    
+    使用firewall-cmd配置端口
+        查看防火墙状态：firewall-cmd --state
+        重新加载配置：firewall-cmd --reload
+        查看开放的端口：firewall-cmd --list-ports
+        开启防火墙端口：firewall-cmd --zone=public --add-port=50007/tcp --permanent
+        关闭防火墙端口：firewall-cmd --zone=public --remove-port=50007/tcp --permanent
+    注意：添加端口后，必须用命令firewall-cmd --reload重新加载一遍才会生效
+    systemctl disable firewalld.service  禁止firewall开机启动
+    
+IDEA搭建scala项目
+    IDEA中安装scala版本
+    1、创建普通Scala 项目 - IDEA
+    2、sbt是scala的御用打包管理工具，SBT-based Scala project (recommended)
+    3、通过Maven 创建 Scala 项目
+    
