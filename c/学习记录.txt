@@ -16,6 +16,11 @@
 汇编 assembly      生成机器码
 链接 linking 
 
+C语言本来就是跨平台的，不过是“源码级”跨平台。本来就是存在针对linux、windows的不同的编译器。所以有C语言“一次编写，到处编译”，Java是“一次编译，到处运行”的说法。
+
+gcc                     编译c
+gcc-c++(又叫做g++)      编译c++
+
 gcc常用参数
     https://www.runoob.com/w3cnote/gcc-parameter-detail.html
 
@@ -38,4 +43,18 @@ linux下，源码的安装一般由3个步骤组成：配置（configure）、�
 如果有configure，就./configure，有很多参数，看楼下的吧。如果系统环境合适，就会生成makefile，否则会报错。
 如果有makefile，就直接make，然后make install。
 
+
+MSVC，就是微软（MS）的VC运行库。
+VC全名是Microsoft Visual C++是微软出的一个集成的c,c++开发环境
+VS全名是Microsoft Visual Studio目前已经出到2017了，是很大的一个开发环境，包含很多高级语言的开发环境，VC、VB等，VC只是VS其中的一个开发环境。
+vc版本与vs版本对应关系如下所示：
+    Visual Studio 6 ： vc6 
+    Visual Studio 2003 ： vc7 
+    Visual Studio 2005 ： vc8 
+    Visual Studio 2008 ： vc9 
+    Visual Studio 2010 ： vc10 
+    Visual Studio 2012 ： vc11 
+    Visual Studio 2013 ： vc12 
+    Visual Studio 2015 ： vc14 
+    Visual Studio 2017 ： vc15
     
