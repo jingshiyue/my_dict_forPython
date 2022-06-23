@@ -3851,9 +3851,42 @@ retDf.drop_duplicates(inplace=True)
 		2      4227756            0            0      4370165      4394873  ...            0            0            0      4243147      9583330
 		3            0            0            0            0            0  ...            0            0            0            0            0
 
--------------------------------------------------------------------------------------------------------------------------------
+------------------------命令行参数-------getopt----argparse--------------------------------------------------------------------------------------------
+在dos界面中书输入的选项的写法要求
+    对于短格式，"-"号后面要紧跟一个选项字母。如果还有此选项的附加参数，可以用空格分开，也可以不分开。
+    对于长格式，"--"号后面要跟一个单词。如果还有些选项的附加参数，后面要紧跟"="，再加上参数。"="号前后不能有空格
 
+import getopt,sys
+try:
+    opts, args = getopt.getopt(argv[1:], "hi:o:", ["help", "input_file=", "output_file="])
+except getopt.GetoptError as e:
+    print(e.msg)
+    print(e.opt)
+    sys.exit(2)
+for opt, arg in opts:
+    if opt in ("-h", "--help"):
+        print('script_2.py -i <input_file> -o <output_file>')
+        print('or: test_arg.py --input_file=<input_file> --output_file=<output_file>')
+        sys.exit()
+    elif opt in ("-i", "--input_file"):
+        input_file = arg
+    elif opt in ("-o", "--output_file"):
+        output_file = arg
+            
+"hi:o:"： 短格式, 用:表示是否有附加参数
+["help", "input_file=", "output_file="] 长格式，用=表示是否有附加参数
 
+------------------------------
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-t", "--timer_name", help="timer name")
+parser.add_argument("-p", "--project", help="project name")
+args = parser.parse_args()
+print("-t:%s" % args.timer_name)
+print('-p:%s' % args.project)
+
+python args.py -t 1 --project=2 # -t 短格式  --project 长格式
 -------------------------------------------------------------------------------------------------------------------------------
 
 
