@@ -1,0 +1,474 @@
+#!/usr/bin/env python3
+# -*- coding:utf-8 -*-
+import paramiko
+import os
+import logging
+import pwd
+import socket
+import json
+import subprocess
+
+import time
+import threading
+import multiprocessing
+import subprocess
+import sys
+sys.path.append(sys.path[0] + "/../lib") # 加入paramiko
+
+from multiprocessing.dummy import Pool as ThreadPool
+
+
+class parallelTool:
+    '''
+    Class for multi-parallel controling one-hosts
+    '''
+    DEFAULT_PARALLEL_NUM = 12
+
+    def __init__(self):
+        '''
+        Constructor
+        '''
+
+    @staticmethod
+    def getCpuCount(parallelJobs=0):
+        """
+        function: get cpu set of current board
+                  cat /proc/cpuinfo |grep processor
+        input: parallelJobs
+        output: cpuSet
+        """
+        if (parallelJobs != 0):
+            return parallelJobs
+        # do this function to get the parallel number
+        cpuSet = multiprocessing.cpu_count()
+        if (cpuSet > 1):
+            return cpuSet
+        else:
+            return parallelTool.DEFAULT_PARALLEL_NUM
+
+    @staticmethod
+    def parallelExecute(func, paraList, parallelJobs=0):
+        """
+        function: Execution of python functions through multiple processes
+        input: func, list, parallelJobs
+        output: list
+        """
+        jobs = parallelTool.getCpuCount(parallelJobs)
+        if (jobs > len(paraList)):
+            jobs = len(paraList)
+        pool = ThreadPool(jobs)
+        results = pool.map(func, paraList)
+        pool.close()
+        pool.join()
+        return results
+
+
+class CommandThread(threading.Thread):
+    """
+    The class is used to execute command in thread
+    """
+
+    def __init__(self, cmd):
+        '''
+        Constructor
+        '''
+        threading.Thread.__init__(self)
+        self.command = cmd
+        self.cmdStauts = 0
+        self.cmdOutput = ""
+
+    def run(self):
+        """
+        function: Run command
+        input : NA
+        output: NA
+        """
+        (self.cmdStauts, self.cmdOutput) = subprocess.getstatusoutput(
+            self.command)
+
+
+class dcfInstall():
+    def __init__(self):
+        self.ipList = []
+        self.hostnameDic = {}
+        self.localIp = ''
+        self.userInfoDic = {}
+
+        # self.passwdList = ["123456","omm123456"]
+        self.passwdDic = {}
+        self.localHostname = socket.gethostname()
+        self.getInfoFromJson("configure.json")
+        self.initLog()
+
+
+    def initLog(self):
+        logging.basicConfig(level=logging.INFO,
+                            format='[%(asctime)s %(filename)s line:%(lineno)d]%(levelname)s:  %(message)s',
+                            filename="install.log",
+                            filemode='a'
+                            )
+        console = logging.StreamHandler()
+        console.setLevel(logging.INFO)
+        formatter = logging.Formatter('[%(asctime)s %(filename)s line:%(lineno)d]%(levelname)s:  %(message)s')
+        console.setFormatter(formatter)
+        logging.getLogger().addHandler(console)
+        # logging.info("Here should not have addr!")
+        # logging.info("This is a invalid datagram!")
+
+
+    def updateKnow_hostsFile(self, result):
+        """
+        function: keyscan all hosts and update known_hosts file
+        input : result
+        output: NA
+        """
+        self.logOut(8, 0)
+        hostnameList = []
+        hostnameList.extend(self.hostList)
+        for (key, value) in result.items():
+            hostnameList.append(value)
+        for hostname in hostnameList:
+            cmd = 'ssh-keyscan -t rsa %s >> %s ' % (hostname,
+                                                    self.known_hosts_fname)
+            cmd += "&& chmod %s %s" % (DefaultValue.KEY_FILE_MODE,
+                                        self.known_hosts_fname)
+            (status, output) = subprocess.getstatusoutput(cmd)
+            if (status != 0):
+                raise Exception(ErrorCode.GAUSS_514["GAUSS_51400"] % cmd
+                                + " Error:\n%s" % output)
+        (status, output) = self.checkAuthentication(self.localHost)
+        if not status:
+            raise Exception(
+                ErrorCode.GAUSS_511["GAUSS_51100"] % self.localHost)
+        self.logOut(9, 1)
+
+
+    def verifyPasswd(self, ssh, user, pswd=None):
+        try:
+            ssh.connect(username=user, password=pswd)
+            return True
+        except Exception:
+            ssh.close()
+            return False
+
+
+
+    def tryParamikoConnect(self, hostname, client, user, pswd=None, silence=False):
+        """
+        function: try paramiko connect
+        input : hostname, client, pswd, silence
+        output: True/False
+        """
+        try:
+            client.connect(hostname, username=user, password=pswd, allow_agent=False,
+                           look_for_keys=False)
+            return True
+        except paramiko.AuthenticationException as e:
+            if not silence:
+                logging.info("Incorrect password. Node: %s." % hostname
+                                  + " Error:\n%s" % str(e))
+            client.close()
+            return False
+        except Exception as e:
+            if not silence:
+                logging.info('[SSHException %s] %s' % (hostname, str(e)))
+            client.close()
+            raise Exception(str(e))
+
+
+    def execCmdSshClinet(self, hostname, user, cmd):
+        # 需要做互信才能连接
+        p = None
+        cin = cout = cerr = None
+        try:
+            # ssh Remote Connection other node
+            p = paramiko.SSHClient()
+            p.load_system_host_keys()
+            ok = self.tryParamikoConnect(hostname, p, user, self.passwdDic[user][0],
+                                            silence=True)
+            if not ok:
+                for pswd in self.passwdDic[user][1:]:
+                    ok = self.tryParamikoConnect(hostname, p, user, pswd,
+                                                    silence=True)
+                    if ok:
+                        break
+            if not ok:
+                return
+            (cin, cout, cerr) = p.exec_command(cmd)
+            resOut = cout.read().decode('utf-8').strip("\n")
+            resErr = cout.read().decode('utf-8').strip("\n")
+            cin.close()
+            return resOut,resErr
+        finally:
+            if cin:
+                cin.close()
+            if cout:
+                cout.close()
+            if cerr:
+                cerr.close()
+            if p:
+                p.close()
+
+
+    def readTransChannel(self, transport, ignoreError=True):
+        if ignoreError:
+            check_result = ""
+        else:
+            check_result = transport.recv_stderr(9999).decode()
+            
+        while True:
+            channel_read = transport.recv(9999).decode()
+            if (len(channel_read) != 0):
+                check_result += str(channel_read)
+            else:
+                break
+        return check_result
+
+
+    def createSshTransChannel(self, ip, user, passwdList=None):
+        # 不需要做互信就能远程连接
+        ssh = None
+        try:
+            ssh = paramiko.Transport((ip, 22))
+        except Exception as e:
+            logging.info("Incorrect IP address: %s.\n" %ip)
+            raise Exception("Incorrect IP address: %s.\n" %ip)
+        pswd = self.userInfoDic[ip][user]
+        isPasswdOK = self.verifyPasswd(ssh, user, pswd)
+        if not isPasswdOK:
+            if ssh:
+                ssh.close()
+            raise Exception("Incorrect password. %s, %s" % (ip, pswd))
+        check_channel = ssh.open_session()
+        return ssh,check_channel
+
+
+    def getHostNameAll(self):
+        # Serial request all nodes' hostname
+        for ip in self.ipList:
+            try:
+                ssh,check_channel = self.createSshTransChannel(ip, "root")
+                check_channel.exec_command("hostname")
+                result = self.readTransChannel(check_channel)
+            except Exception as e:
+                raise Exception(str(e))
+            ssh.close()
+            hostname = result.strip("\n")
+            self.hostnameDic.setdefault(ip, hostname)
+
+        for k, v in self.hostnameDic.items():
+            if v == self.localHostname:
+                self.localIp = k
+
+
+    def syncInstallPkg(self, ip):
+        parentDir = self.cwd + "/.."
+        cmd = "rsync -a %s %s@%s:%s" % (parentDir, self.user, ip, self.cwd[:-7])
+        logging.info(cmd)
+        (status, output) = subprocess.getstatusoutput(cmd)
+        logging.info(status)
+        if status != 0:
+            raise Exception("%s :sync installation package failed" % ip)
+        logging.info("%s :sync installation package successfully " % ip)
+        return {"syncInstallPkg-"+ip: "Successfully"}
+
+
+    def syncInstallPkgALL(self):
+        ips = self.ipList
+        ips.remove(self.localIp)
+                
+        res = parallelTool.parallelExecute(self.syncInstallPkg, ips)
+        logging.info(res)
+
+
+    def execSubprocess(self, cmd):
+        (status, output) = subprocess.getstatusoutput(cmd)
+        # logging.info("Exec: %s: " %s cmd)
+        if status != 0:
+            raise Exception("Fail Exec: %s" % cmd)
+        return output
+
+    def readFile(self, file):
+        with open(file, 'r') as f:
+            return f.read()
+
+
+    def createGroupAndUser(self, ip, group, user):
+        try:
+            ssh,check_channel = self.createSshTransChannel(ip, "root")
+
+            check_channel.exec_command("groupadd %s" % group)
+            result = self.readTransChannel(check_channel)
+            if result:
+                logging.info("%s: groupadd %s failed" % (ip,group))
+                raise Exception("%s: groupadd %s failed" % (ip,group))
+            check_channel = ssh.open_session()
+            check_channel.exec_command("useradd -g %s %s" % (group,user))
+            result = self.readTransChannel(check_channel)
+            if result:
+                logging.info("%s: useradd -g %s %s failed" % (ip,group,user))
+                raise Exception("%s: useradd -g %s %s failed" % (ip,group,user))
+
+            ommPswd = self.userInfoDic[ip][user]
+
+            check_channel = ssh.open_session()
+            check_channel.exec_command("echo %s | passwd --stdin %s" % (ommPswd,user))
+            result = self.readTransChannel(check_channel)
+            logging.info(result)
+            if "successfully" not in result:
+                logging.info("%s: passwd %s failed" % (ip,user))
+                raise Exception("%s: passwd %s failed" % (ip,user))
+        except Exception as e:
+            raise Exception(str(e))
+        ssh.close()
+        logging.info("createGroupAndUser-"+ip+":success")
+        return "createGroupAndUser-"+ip+":success"
+
+
+    def createGroupAndUserALL(self,group):
+        for k, v in self.userInfoDic.items():
+            self.createGroupAndUser(k, group, self.commonUser)
+
+
+    def creatSshTrust(self, user):
+        homeDir = os.path.expanduser("~" + user)
+        logging.info({"homeDir": homeDir})
+        id_rsa = os.path.join(homeDir, '.ssh','id_rsa')
+        id_rsa_pub = os.path.join(homeDir, '.ssh','id_rsa.pub')
+        authorized_keys = os.path.join(homeDir, '.ssh','authorized_keys')
+        known_hosts = os.path.join(homeDir, '.ssh','known_hosts')
+        # 生成公钥
+        if not os.path.exists(id_rsa_pub):
+            cmd = 'ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa < /dev/null && chmod 600 %s/.ssh/id_rsa %s/.ssh/id_rsa.pub' % (homeDir,homeDir)
+            try:
+                ssh,check_channel = self.createSshTransChannel(self.localIp, user)
+                check_channel.exec_command(cmd)
+                ssh.close()
+            except Exception as e:
+                raise Exception(str(e))
+            finally:
+                if ssh:
+                    ssh.close()
+        # 将公钥内容复制进authorized_keys
+        cmd = "cat %s >> %s" % (id_rsa_pub, authorized_keys)
+        # output = subprocess.getstatusoutput(cmd)
+        try:
+            ssh,check_channel = self.createSshTransChannel(self.localIp, user)
+            check_channel.exec_command(cmd)
+            logging.info(cmd)
+            # 更新known_hosts
+            ipList = []
+            for k, v in self.hostnameDic.items():
+                ipList.append(v)
+            for ip in self.ipList+ipList:
+                cmd = 'ssh-keyscan -t rsa %s >> %s/.ssh/known_hosts && chmod 600 %s/.ssh/known_hosts' % (ip, homeDir, homeDir)
+                logging.info(cmd)
+                # output = subprocess.getstatusoutput(cmd)
+                check_channel = ssh.open_session()
+                check_channel.exec_command(cmd)
+            ssh.close()
+        except Exception as e:
+            raise Exception(str(e))
+        finally:
+            if ssh:
+                ssh.close()
+        time.sleep(3)
+        while not os.path.exists(known_hosts):
+            time.sleep(3)
+        id_rsa_content = self.readFile(id_rsa)
+        id_rsa_pub_content = self.readFile(id_rsa_pub)
+        authorized_keys_content = self.readFile(authorized_keys)
+        known_hosts_content = self.readFile(known_hosts)
+        # 登录远程分发known_hosts到远程
+        for ip in self.ipList:
+            if ip == self.localIp:
+                continue
+            try:
+                ssh,check_channel = self.createSshTransChannel(ip, user)
+
+                cmd = "mkdir -p .ssh; chmod 700 .ssh; \
+                        touch .ssh/authorized_keys; touch .ssh/known_hosts; \
+                        chmod 600 .ssh/auth* .ssh/id* .ssh/known_hosts;"
+                check_channel.exec_command(cmd)
+
+                check_channel = ssh.open_session()
+                check_channel.exec_command("echo '%s' >> .ssh/id_rsa" % id_rsa_content)
+                check_channel = ssh.open_session()
+                check_channel.exec_command("echo '%s' >> .ssh/id_rsa.pub" % id_rsa_pub_content)
+                check_channel = ssh.open_session()
+                check_channel.exec_command("echo '%s' >> .ssh/authorized_keys" % authorized_keys_content)
+                check_channel = ssh.open_session()
+                check_channel.exec_command("echo '%s' >> .ssh/known_hosts" % known_hosts_content)
+                ssh.close()
+            except Exception as e:
+                raise Exception(str(e))
+
+
+    def getInfoFromJson(self, file):
+        """
+        function: get current user's ip and passwd from json file
+        file: json file
+        output: ip,user,password
+        """
+        jsonDic = json.load(open(file, 'r', encoding="utf-8"))
+        for k, v in jsonDic.items():
+            if "_IPs" in k and "root" not in k:
+                self.commonUser = k.strip("_IPs")
+
+        rootIpList = jsonDic.get("root"+"_IPs","").split(",")
+        rootPasswdList = jsonDic.get("root"+"_Passwords","").split(",")
+        commonPasswdList = jsonDic.get(self.commonUser+"_Passwords","").split(",")
+        for i in range(len(rootIpList)):
+            _dic = {"root":rootPasswdList[i],self.commonUser:commonPasswdList[i]}
+            self.userInfoDic.setdefault(rootIpList[i], _dic)
+        self.passwdDic.setdefault("root", rootPasswdList)
+        self.passwdDic.setdefault(self.commonUser, commonPasswdList)
+        self.ipList = rootIpList
+
+
+    def writeHosts(self, ip):
+        hostnameStr = ""
+        try:
+            ssh,check_channel = self.createSshTransChannel(ip, "root")
+            check_channel.exec_command("cat /etc/hosts | grep 'Gauss.* IP Hosts Mapping'")
+            result = self.readTransChannel(check_channel)
+            alreadyHasIp = []
+            for res in result.split('\n'):
+                alreadyHasIp.append(res.split(" ")[0])
+            for k, v in self.hostnameDic.items():
+                if k not in alreadyHasIp:
+                    hostnameStr += k + " " + v + '   # Gauss OM IP Hosts Mapping\n'
+            check_channel = ssh.open_session()
+            check_channel.exec_command(r"echo '%s' >> /etc/hosts" % hostnameStr)
+            logging.info("echo '%s' >> /etc/hosts" % "hostnameStr")
+            ssh.close()
+        except Exception as e:
+            raise Exception((str(e)))
+        return 'writeHosts-%s: successfully' % ip
+
+    def writeHostsALL(self):
+        res = parallelTool.parallelExecute(self.writeHosts, self.ipList)
+        logging.info(res)
+
+
+    def run(self):
+        if os.getuid() != 0:
+            raise Exception("请先切换到root下执行安装脚本 ！")
+
+        self.getHostNameAll()
+        # out,err = self.execCmdSshClinet("192.168.114.142","root","whoami")
+        self.getInfoFromJson("configure.json")
+        # 需要添加/etc/hosts 
+        # self.writeHostsALL()
+        # 创建普通用户和dbgrp, 普通用户根据从json中获取
+        self.createGroupAndUserALL("dbgrp")
+        # 互信
+        # self.creatSshTrust("root")
+        # self.creatSshTrust(self.commonUser)
+
+
+
+
+if __name__ == '__main__':
+    dcf = dcfInstall()
+    dcf.run()

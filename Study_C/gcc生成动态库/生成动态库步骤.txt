@@ -1,0 +1,22 @@
+动态链接库有执行权限，静态库没有执行权限
+生成动态链接库是直接使用 gcc 命令并且需要添加 -fPIC（-fpic） 以及 -shared 参数。
+-fPIC或-FPIC 参数的作用，使得gcc生成的代码与位置无关，也就是使用相对位置
+-share参数的作用，是告诉编译器生成一个动态链接库
+
+C:\Ruby27-x64\lib\ruby\gems\2.7.0\gems\ruby-staci-2.2.9\ext\oci8
+C:\Ruby27-x64\lib\ruby\gems\2.7.0\gems\ruby-staci-2.2.9\ext\oci8\Makefile
+
+C:\Ruby27-x64\lib\ruby\gems\2.7.0\gems\ruby-staci-2.2.9\ext\oci8\apiwrap.c
+C:\Ruby27-x64\lib\ruby\gems\2.7.0\gems\ruby-oci8-2.2.9\ext\oci8\apiwrap.c
+
+@ gcc -shared -o stacilib_270.so oci8lib.o env.o error.o oci8.o ocihandle.o connection_pool.o stmt.o bind.o metadata.o attr.o lob.o oradate.o ocinumber.o ocidatetime.o object.o apiwrap.o encoding.o oranumber_util.o thread_util.o util.o win32.o plthook_win32.o hook_funcs.o -L. -L/C/Ruby27-x64/lib -L. -pipe -s -fstack-protector-strong -pipe -s -fstack-protector-strong -Wl,--enable-auto-image-base,--enable-auto-import stacilib_270-x64-mingw32.def -m64 -lx64-msvcrt-ruby270 -LD:/ShenTong/bin -lACI -lshell32 -lws2_32 -liphlpapi -limagehlp -lshlwapi
+
+
+
+gcc -shared -o stacilib_270.so oci8lib.o env.o error.o oci8.o ocihandle.o connection_pool.o stmt.o bind.o metadata.o attr.o lob.o oradate.o ocinumber.o ocidatetime.o object.o apiwrap.o encoding.o oranumber_util.o thread_util.o util.o win32.o plthook_win32.o hook_funcs.o -L. stacilib_270-x64-mingw32.def -lACI -lshell32 -lws2_32 -liphlpapi -limagehlp -lshlwapi
+
+
+gcc -shared -o stacilib_270.so apiwrap.o -L./ -lACI
+
+gcc -c -fpic apiwrap.c -IC:/Ruby27-x64\include\ruby-2.7.0 -IC:\Ruby27-x64\include\ruby-2.7.0\x64-mingw32 -ID:\ShenTong\aci\include -I../
+gcc -shared -o test.so apiwrap.o -LD:\ShenTong\bin -lACI

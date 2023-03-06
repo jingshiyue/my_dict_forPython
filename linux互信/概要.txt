@@ -1,0 +1,2 @@
+ssh-keygen -t rsa
+ssh-keyscan -t rsa xxx.ip

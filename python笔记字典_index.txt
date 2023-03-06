@@ -255,6 +255,23 @@ int(string_num, n)： string_num：进制的字符串表示   n：表示string_n
 字节串转字符串:
 字节码解码为字符串: bytes(b'\x31\x32\x61\x62').decode('ascii') ==> 12ab 字节串转16进制表示,夹带ascii: str(bytes(b'\x01\x0212'))[2:-1] ==> \x01\x0212字节串转16进制表示,固定两个字符表示: str(binascii.b2a_hex(b'\x01\x0212'))[2:-1] ==> 01023132字节串转16进制数组: [hex(x) for x in bytes(b'\x01\x0212')] ==> ['0x1', '0x2', '0x31', '0x32'] 
 
+----------------------------------------python2-编码-解码-encode-decode--------------------------------------------------------------------
+python2 编码解码三种情况:
+	1、unicode -encode-> str(字节流)
+	2、str(字节流) -decode-> unicode
+	3、若str(字节流)调用encode，会隐式调用decode，会默认先按系统默认编码方式decode成unicode，再encode。忽视了中间默认的decode往往导致报错
+	unicode相当于明文，其他相当于密文，转换都通过明文转换
+
+windows cmd chcp查看终端默认编码，windows默认gbk
+当调用print函数将内容格式化输出到终端时，会将unicode转换为终端编码输出。
+例子:
+    # coding:utf-8
+
+    s = "我要学Python"  # str(字节流)
+    print(1, s)  # 打印乱码
+    print(s.decode("utf-8").encode("gbk"))   # 编码,主动encode，windows里终端默认gbk
+    print(s.decode("utf-8"))   # 解码，print函数自动encode
+
 ----------------------------------------时间---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 当地时间：
 
@@ -1172,6 +1189,56 @@ py3里，只有 unicode编码格式 的字节串才能叫作str。
 如果你事先知道，比如gbk，就可以用 bytes.decode('gbk')将bytes解码为unicode字符。
 如果很不幸，你有一堆bytes，不知道它们的编码（例如 网站服务器返回的响应体），
 这时候，你就需要chardet 来测试它们的编码。
+
+
+subprocess_stdout_enable = True
+subprocess_stdout_encoding = "gb2312"
+
+
+
+def multi_output_print(line, file=None, output=None, gbk=False, _print=False):
+    global subprocess_output
+    global subprocess_stdout_enable
+    if file:
+        f = open(file, 'a')
+    if subprocess_stdout_enable:
+        global subprocess_stdout_encoding
+        try:
+            line = line.decode(subprocess_stdout_encoding).encode(sys.getfilesystemencoding())
+            if _print:
+                print(line)
+            if gbk:
+                f.write(line.decode('gb2312').encode('UTF-8')+'\n')
+            else:
+                f.write(line+'\n')
+            return
+        except:
+            if subprocess_stdout_encoding == "gb2312":
+                subprocess_stdout_encoding = "UTF8"
+            else:
+                subprocess_stdout_encoding = "gb2312"
+        try:
+            line = line.decode(subprocess_stdout_encoding).encode(sys.getfilesystemencoding())  #utf8 解码
+            if _print:
+                print(line)
+            if gbk:
+                f.write(line.decode('gb2312').encode('UTF-8')+'\n')
+            else:
+                f.write(line+'\n')
+        except:
+            if _print:
+                try:
+                    print(str(line))
+                except:
+                    pass
+            f.write(str(line)+'\n')
+
+        finally:
+            f.close()
+
+
+
+
 ************************
 string ->（encode） bytes
 bytes->（decode） string
@@ -7513,7 +7580,18 @@ def send_cmdlist_to_cco(cmdlist, error_queue):
             time.sleep(0.25)
             if(cmd_index >= max_concurrently_cnt - 1):   #当大于并发数，就clear，进入wait
                 ready_to_send_event.clear()
---------------------------------------------------------------------------------------------------
+-----------------------------optparse-----命令行参数------------------------------
+import optparse
+
+usage="python %prog -u/--user <target user> -p/--password <target password>"
+parser=optparse.OptionParser(usage) ## 写入上面定义的帮助信息
+parser.add_option('-u', '--user',dest='User',type='string',help='target user', default='root')
+parser.add_option('-p','--password',dest='Pwd',type='string',help='target password')
+options, args=parser.parse_args()
+print('options为', options)
+print("用户名为", options.User)
+print("密码为", options.Pwd)
+print('args为', args)
 
 
 
