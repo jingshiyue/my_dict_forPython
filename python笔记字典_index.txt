@@ -1434,14 +1434,12 @@ rem 启动应用程序
 start cmd /c  "title %title%&%path%\%title%.exe  -Xmx128m -Xms64m -XX:MetaspaceSize=512m -XX:MaxMetaspaceSize=512m -Djna.library.path=lib -Dfile.encoding=UTF-8 -XX:+PrintGCDetails -XX:NativeMemoryTracking=detail -XX:+HeapDumpOnOutOfMemoryError -jar %jarname%"
 
 ---------------------线程--进程--subprocess------------------------------------------------------------------------------------------------------
-打开一个程序就是打开一个进程，如果同一个程序中处理多任务，就用线程，线程比进程开销要小得多 
-subprocess通过子进程来执行外部指令，并通过input/output/error管道，获取子进程的执行的返回信息。
-subprocess.call()：执行命令，并返回执行状态，其中shell参数为False时，命令需要通过列表的方式传入，当shell为True时，可直接传入命令
-output : check_output(r'start python C:\Automation\Scripts\Reading_meter\cctt_simulate.py', shell:True)
-title analysis test results_for_cli #cmd的窗口标题
-TASKKILL /F /IM python.exe /T   杀死进程
-# /f是强制终止 /im   image name的缩写，图像名。你要终止进程要让命令知道你要终止哪个进程啊，image name能区分进程，或者进程的PID能区分进程，就是说根据你的提供的是进程名或者是进程PID来决定是写/im或/pid。/t 你一定听说过结束进程树吧，t 就是tree的缩写
-
+p = subprocess.Popen('python 111.py' ,stdout=subprocess.PIPE) 
+out = p.stdout.read()
+p = subprocess.Popen('python 222.py')  Popen可以读出孙子进程的输出
+----------
+(status, out) = subprocess.getstatusoutput('python 111.py')  getstatusoutput只能读出子进程输出，不能读出孙子进程输出
+(status, out) = subprocess.getstatusoutput('python 222.py')
 
 -------------------------------------------------------------------------------------------------------------------------------
 content_read : ccttname.read() #读取文件全部，也可自定义读取字节大小的内容
